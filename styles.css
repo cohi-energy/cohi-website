@@ -576,79 +576,20 @@ body {
 /* Compliance Section */
 .compliance {
     padding: 6rem 0;
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
 }
 
-/* Why Compliance Matters Section */
-.compliance-why-section {
-    margin: 4rem 0;
+/* Compliance Subsections */
+.compliance-subsection {
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid var(--border);
 }
 
-.why-title {
-    font-size: 2rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--text-primary);
-}
-
-.compliance-why-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.why-card {
-    padding: 2.5rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.why-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-light);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-}
-
-.why-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
-    background: rgba(168, 85, 247, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    color: var(--accent-purple);
-}
-
-.why-card h4 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.why-card p {
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.why-stat {
-    padding: 0.75rem 1.5rem;
-    background: var(--gradient-primary);
-    color: white;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.125rem;
-    display: inline-block;
-    margin-top: 0.5rem;
+.compliance-subsection:first-of-type {
+    margin-top: 4rem;
+    padding-top: 0;
+    border-top: none;
 }
 
 .compliance-services-grid {
@@ -730,19 +671,6 @@ body {
     margin-bottom: 0.25rem;
 }
 
-.compliance-regulations {
-    margin-top: 4rem;
-    padding-top: 4rem;
-    border-top: 1px solid var(--border);
-}
-
-.regulations-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    text-align: center;
-    color: var(--text-primary);
-}
 
 .regulations-list {
     max-width: 1000px;
@@ -791,12 +719,6 @@ body {
     line-height: 1.2;
 }
 
-/* Components of Compliance Section */
-.components-section {
-    margin-top: 4rem;
-    padding-top: 4rem;
-    border-top: 1px solid var(--border);
-}
 
 .components-list {
     display: flex;
@@ -1498,14 +1420,6 @@ textarea {
         gap: 1.5rem;
     }
 
-    .compliance-why-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .why-card {
-        padding: 2rem;
-    }
 
     .regulations-list {
         gap: 1.5rem;
