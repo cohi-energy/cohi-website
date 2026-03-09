@@ -1,9 +1,13 @@
-// Configuration file - This file is gitignored
-// Copy config.example.js to config.js and fill in your values
+// Configuration file - Local development values only
+// Replace placeholders locally or use GitHub Actions secrets for production deployment
 
 // Google Apps Script Web App URL (required for form submissions)
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6xTgNPpejP6x955tdCxHyoU6QrDWkX46ubhhZPL7t1fFB3Ui_jTOojVPl30wWix4x/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQbvy9bbjPVhBnFwisCZ0So_Q1q83A9Ocqn9vM3PsTrf8aWLzuqzEjiEei1V2t3av6/exec';
+
 
 // Reddit Pixel ID (optional - for ad conversion tracking)
-const REDDIT_PIXEL_ID = 'a2_i2p2iw6fy3ri';
+const REDDIT_PIXEL_ID = '__REDDIT_PIXEL_ID__';
 
+// PostHog Analytics
+const POSTHOG_API_KEY = '__POSTHOG_API_KEY__';
+const POSTHOG_HOST = '__POSTHOG_HOST__';

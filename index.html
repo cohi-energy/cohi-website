@@ -3,359 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cohi - Finding energy waste. Delivering savings.</title>
+    <title>Cohi | Intelligent Energy Guidance for Buildings and Individuals</title>
+    <meta name="description" content="Cohi helps individuals and property managers lower utility costs, optimize retrofits, and stay compliant with California energy benchmarking requirements.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Configuration (loads secrets from config.js - not in repo) -->
-    <script src="config.js"></script>
-    
-    <!-- Reddit Pixel Tracking -->
-    <script src="reddit-pixel.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- PostHog Analytics (cross-subdomain tracking) -->
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="stylesheet" href="styles.css?v=services-rebuild-165">
+
+    <script src="config.js"></script>
+    <script src="reddit-pixel.js"></script>
     <script src="posthog.js"></script>
-    
-    <script>
-        // Prevent Chrome's default smooth scroll for hash navigation
-        // This must run immediately, before the page renders
-        (function() {
-            if (window.location.hash) {
-                const hash = window.location.hash;
-                // Scroll to top first to cancel any default scroll behavior
-                window.scrollTo(0, 0);
-                
-                // Then scroll to target instantly once DOM is ready
-                function jumpToHash() {
-                    const target = document.querySelector(hash);
-                    if (target) {
-                        const headerOffset = 80;
-                        const elementPosition = target.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                        // Use instant scroll (no smooth behavior)
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'auto'
-                        });
-                    }
-                }
-                
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', jumpToHash);
-                } else {
-                    // Use requestAnimationFrame to ensure layout is complete
-                    requestAnimationFrame(function() {
-                        requestAnimationFrame(jumpToHash);
-                    });
-                }
-            }
-        })();
-    </script>
 </head>
 <body>
+    <header class="site-header">
+        <div class="nav-shell">
+            <a href="#home" class="brand" aria-label="Cohi home">
+                <span class="brand-lockup">
+                    <img src="assets/branding/logo_white.svg" alt="Cohi" class="logo-img" id="logo-image">
+                    <span class="logo-text" id="logo-text">
+                        <span class="logo-wordmark-main">COHI</span>
+                        <span class="logo-wordmark-sub">ENERGY</span>
+                    </span>
+                </span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#impact-band">Impact</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <a href="#contact" class="nav-cta" onclick="trackCTAClick && trackCTAClick('contact_form', 'sticky_nav')">Get Started</a>
+        </div>
+    </header>
+
     <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-background">
-                <div class="gradient-orb orb-1"></div>
-                <div class="gradient-orb orb-2"></div>
-                <div class="gradient-orb orb-3"></div>
+        <section class="hero" id="home">
+            <div class="hero-media" aria-hidden="true">
+                <video
+                    id="hero-video"
+                    class="hero-video"
+                    autoplay
+                    muted
+                    playsinline
+                    preload="metadata"
+                >
+                    <source src="assets/video/clip-2.mp4" type="video/mp4">
+                </video>
             </div>
-            <div class="social-media-top">
-                <a href="https://www.facebook.com/cohi.energy" target="_blank" rel="noopener noreferrer" class="social-link social-link-top" aria-label="Facebook">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                </a>
-                <a href="https://www.instagram.com/cohi.energy/" target="_blank" rel="noopener noreferrer" class="social-link social-link-top" aria-label="Instagram">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                </a>
-            </div>
-            <div class="container">
-                <div class="hero-logo">
-                    <img src="logo.svg" alt="Cohi Logo" class="logo-img" id="logo-image">
-                    <span class="logo-text" id="logo-text" style="display: none;">COHI</span>
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <h1 class="hero-title-single-line">Energy savings<br>made just for you.</h1>
+                <p class="hero-copy">We reduce your energy bill.<br>And if you are concerned about compliance, we'll take care of it for you too.</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary" onclick="trackCTAClick && trackCTAClick('contact_form', 'hero_primary')">Book a Consultation</a>
+                    <a href="#services" class="btn btn-secondary" onclick="trackCTAClick && trackCTAClick('services', 'hero_secondary')">View Services</a>
                 </div>
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        Finding energy waste.<br>
-                        <span class="gradient-text">Delivering savings.</span>
-                    </h1>
-                    <p class="hero-description">
-                        We analyze energy data from residential and commercial buildings to identify inefficiencies and waste. Our insights support both utility cost reductions and compliance with local and state energy benchmarking requirements.
-                    </p>
-                    <div class="hero-cta">
-                        <a href="#contact" class="btn btn-primary">
-                            Get Started
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
+                <div class="hero-panels" aria-label="Service snapshot">
+                    <article class="glass-card">
+                        <p class="panel-label">Approach</p>
+                        <p class="panel-value">We start with your goals and listen to the story your data tells us. Then we bring them together into a solution that gets you where you want to go.</p>
+                    </article>
+                    <article class="glass-card">
+                        <p class="panel-label">Coverage</p>
+                        <p class="panel-value">All residential and commercial buildings in the San Francisco Bay Area.<br>Coming soon to the rest of California.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section class="features">
+        <section class="impact-band" id="impact-band">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">How It Works</h2>
+                    <p class="eyebrow">Impact</p>
+                    <h2>What Cohi does at a glance</h2>
                 </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon-wrapper">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <div class="impact-grid" aria-label="Cohi impact highlights">
+                    <article class="impact-card impact-card-cost">
+                        <div class="impact-card-scene">
+                            <svg viewBox="0 0 420 250" role="presentation" aria-hidden="true">
+                                <rect x="28" y="26" width="364" height="196" rx="26" class="impact-panel"></rect>
+                                <g class="impact-chart-grid">
+                                    <line x1="72" y1="64" x2="352" y2="64"></line>
+                                    <line x1="72" y1="104" x2="352" y2="104"></line>
+                                    <line x1="72" y1="144" x2="352" y2="144"></line>
+                                    <line x1="72" y1="184" x2="352" y2="184"></line>
+                                </g>
+                                <g class="impact-cost-bars">
+                                    <rect x="86" y="96" width="30" height="88" rx="12" class="impact-cost-bar impact-cost-bar-red red-1"></rect>
+                                    <rect x="132" y="80" width="30" height="104" rx="12" class="impact-cost-bar impact-cost-bar-red red-2"></rect>
+                                    <rect x="178" y="90" width="30" height="94" rx="12" class="impact-cost-bar impact-cost-bar-red red-3"></rect>
+                                    <rect x="236" y="132" width="30" height="52" rx="12" class="impact-cost-bar impact-cost-bar-green green-1"></rect>
+                                    <rect x="282" y="146" width="30" height="38" rx="12" class="impact-cost-bar impact-cost-bar-green green-2"></rect>
+                                </g>
+                                <g class="impact-cost-tools">
+                                    <g class="impact-cost-calculator">
+                                        <rect x="228" y="70" width="54" height="72" rx="12"></rect>
+                                        <rect x="238" y="82" width="34" height="12" rx="4" class="impact-cost-calc-screen"></rect>
+                                        <rect x="238" y="102" width="10" height="10" rx="3" class="impact-cost-calc-key"></rect>
+                                        <rect x="250" y="102" width="10" height="10" rx="3" class="impact-cost-calc-key"></rect>
+                                        <rect x="262" y="102" width="10" height="10" rx="3" class="impact-cost-calc-key"></rect>
+                                        <rect x="238" y="116" width="10" height="10" rx="3" class="impact-cost-calc-key"></rect>
+                                        <rect x="250" y="116" width="10" height="10" rx="3" class="impact-cost-calc-key"></rect>
+                                        <rect x="262" y="116" width="10" height="10" rx="3" class="impact-cost-calc-key"></rect>
+                                    </g>
+                                    <g class="impact-cost-calc-values">
+                                        <text x="244" y="91" class="impact-cost-calc-text calc-value-1">381</text>
+                                        <text x="244" y="91" class="impact-cost-calc-text calc-value-2">244</text>
+                                    </g>
+                                    <g class="impact-cost-wrench">
+                                        <path d="M281 124 L295 110 C292 104 294 96 300 91 C305 87 312 86 318 88 L312 94 L319 101 L326 95 C328 101 326 108 321 113 C316 118 308 120 302 117 L288 131 C285 134 280 134 277 131 L275 129 C272 126 272 121 275 118 L281 112" class="impact-cost-wrench-body"></path>
+                                        <circle cx="279" cy="128" r="4.5" class="impact-cost-wrench-hole"></circle>
+                                    </g>
+                                    <g class="impact-cost-nut">
+                                        <polygon points="334,102 342,96 350,102 350,112 342,118 334,112"></polygon>
+                                        <circle cx="342" cy="107" r="4"></circle>
+                                    </g>
+                                </g>
+                                <path d="M72 96 C106 90 132 80 147 80 C162 80 176 88 193 90 C210 94 226 116 251 132" class="impact-cost-line impact-cost-line-red"></path>
+                                <path d="M251 132 C270 140 286 148 297 146 C314 144 332 138 352 128" class="impact-cost-line impact-cost-line-green"></path>
+                                <circle cx="352" cy="128" r="6" class="impact-cost-dot"></circle>
                             </svg>
                         </div>
-                        <h3>Compliance Made Simple</h3>
-                        <p>Stay compliant with local and state energy benchmarking requirements. We manage the entire process end to end, so you can focus on running your business without worrying about deadlines or paperwork.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon-wrapper">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2V6M12 18V22M6 12H2M22 12H18M19.07 19.07L16.24 16.24M19.07 4.93L16.24 7.76M4.93 19.07L7.76 16.24M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                        <div class="impact-card-body">
+                            <h3>Reducing energy cost</h3>
+                            <p>Whether your rate plan is wrong or your usage is too high, we will get you back on track.</p>
+                        </div>
+                    </article>
+
+                    <article class="impact-card impact-card-waste">
+                        <div class="impact-card-scene">
+                            <svg viewBox="0 0 420 250" role="presentation" aria-hidden="true">
+                                <rect x="28" y="26" width="364" height="196" rx="26" class="impact-panel"></rect>
+                                <g class="impact-waste-bulb-compare">
+                                    <g class="impact-waste-bulb-old-unit">
+                                        <ellipse cx="118" cy="112" rx="22" ry="28" class="impact-waste-edison-glow"></ellipse>
+                                        <path d="M118 78 C95 78 80 95 80 118 C80 135 89 146 102 152 L134 152 C147 146 156 135 156 118 C156 95 141 78 118 78 Z" class="impact-waste-edison-glass"></path>
+                                        <path d="M106 108 C110 100 126 100 130 108 M108 120 C112 124 124 124 128 120 M110 106 L110 125 M126 106 L126 125" class="impact-waste-edison-filament"></path>
+                                        <rect x="104" y="146" width="28" height="18" rx="6" class="impact-waste-edison-base"></rect>
+                                        <g class="impact-waste-mark impact-waste-mark-cross old-mark">
+                                            <circle cx="86" cy="70" r="15"></circle>
+                                            <path d="M79 63 L93 77 M93 63 L79 77"></path>
+                                        </g>
+                                    </g>
+                                    <g class="impact-waste-bulb-led-unit">
+                                        <ellipse cx="300" cy="112" rx="24" ry="30" class="impact-waste-led-compare-glow"></ellipse>
+                                        <ellipse cx="300" cy="112" rx="42" ry="42" class="impact-waste-led-compare-halo"></ellipse>
+                                        <path d="M300 78 C278 78 264 92 264 112 C264 128 273 138 286 146 L314 146 C327 138 336 128 336 112 C336 92 322 78 300 78 Z" class="impact-waste-led-compare-glass"></path>
+                                        <rect x="286" y="144" width="28" height="18" rx="6" class="impact-waste-led-compare-base"></rect>
+                                        <rect x="290" y="98" width="20" height="28" rx="10" class="impact-waste-led-compare-core"></rect>
+                                        <g class="impact-waste-led-compare-rays">
+                                            <rect x="298" y="48" width="4" height="18" rx="2"></rect>
+                                            <rect x="298" y="158" width="4" height="18" rx="2"></rect>
+                                            <rect x="346" y="110" width="18" height="4" rx="2"></rect>
+                                            <rect x="236" y="110" width="18" height="4" rx="2"></rect>
+                                            <rect x="336" y="72" width="4" height="18" rx="2" transform="rotate(45 338 81)"></rect>
+                                            <rect x="336" y="144" width="4" height="18" rx="2" transform="rotate(-45 338 153)"></rect>
+                                            <rect x="260" y="72" width="4" height="18" rx="2" transform="rotate(-45 262 81)"></rect>
+                                            <rect x="260" y="144" width="4" height="18" rx="2" transform="rotate(45 262 153)"></rect>
+                                        </g>
+                                        <g class="impact-waste-mark impact-waste-mark-check led-mark">
+                                            <circle cx="334" cy="70" r="15"></circle>
+                                            <path d="M327 71 L333 77 L342 66"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g class="impact-waste-heater-compare">
+                                    <g class="impact-waste-old-heater-compare">
+                                        <rect x="84" y="90" width="64" height="86" rx="22" class="impact-waste-old-heater-shell"></rect>
+                                        <path d="M116 90 L116 56" class="impact-waste-old-heater-pipe"></path>
+                                        <rect x="100" y="108" width="32" height="34" rx="12" class="impact-waste-old-heater-fireplate"></rect>
+                                        <path d="M116 112 C108 122 110 134 116 139 C122 134 124 122 116 112 Z" class="impact-waste-old-heater-fire"></path>
+                                        <rect x="104" y="148" width="24" height="8" rx="4" class="impact-waste-old-heater-base"></rect>
+                                        <g class="impact-waste-mark impact-waste-mark-cross old-heater-mark">
+                                            <circle cx="82" cy="72" r="15"></circle>
+                                            <path d="M75 65 L89 79 M89 65 L75 79"></path>
+                                        </g>
+                                        <g class="impact-waste-smoke smoke-1">
+                                            <circle cx="106" cy="50" r="10"></circle>
+                                            <circle cx="116" cy="44" r="12"></circle>
+                                            <circle cx="128" cy="50" r="9"></circle>
+                                        </g>
+                                        <g class="impact-waste-smoke smoke-2">
+                                            <circle cx="108" cy="34" r="8"></circle>
+                                            <circle cx="118" cy="28" r="10"></circle>
+                                            <circle cx="130" cy="34" r="7"></circle>
+                                        </g>
+                                        <g class="impact-waste-leak">
+                                            <path d="M118 176 C122 182 124 188 118 196 C112 188 114 182 118 176 Z" class="impact-waste-leak-drop"></path>
+                                        </g>
+                                    </g>
+                                    <g class="impact-waste-new-heater-compare">
+                                        <ellipse cx="300" cy="92" rx="34" ry="12" class="impact-waste-new-heater-top"></ellipse>
+                                        <rect x="266" y="92" width="68" height="84" rx="24" class="impact-waste-new-heater-shell"></rect>
+                                        <ellipse cx="300" cy="176" rx="34" ry="12" class="impact-waste-new-heater-bottom"></ellipse>
+                                        <path d="M276 116 C286 108 296 108 306 116 C316 124 322 124 328 116" class="impact-waste-new-heater-water-path"></path>
+                                        <path d="M276 134 C286 126 296 126 306 134 C316 142 322 142 328 134" class="impact-waste-new-heater-water-path delay-2"></path>
+                                        <polygon points="300,110 289,128 301,128 293,146 311,122 299,122" class="impact-waste-new-heater-bolt"></polygon>
+                                        <g class="impact-waste-mark impact-waste-mark-check new-heater-mark">
+                                            <circle cx="338" cy="72" r="15"></circle>
+                                            <path d="M331 73 L337 79 L346 68"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g class="impact-waste-tree-end">
+                                    <g class="impact-waste-tree">
+                                        <rect x="144" y="150" width="14" height="36" rx="7"></rect>
+                                        <circle cx="151" cy="130" r="22"></circle>
+                                        <circle cx="129" cy="144" r="18"></circle>
+                                        <circle cx="173" cy="144" r="18"></circle>
+                                    </g>
+                                    <g class="impact-waste-smiley">
+                                        <circle cx="272" cy="144" r="21"></circle>
+                                        <circle cx="265" cy="137" r="2.75"></circle>
+                                        <circle cx="279" cy="137" r="2.75"></circle>
+                                        <path d="M263 151 C268 158 276 158 281 151"></path>
+                                    </g>
+                                </g>
                             </svg>
                         </div>
-                        <h3>Measurable Savings</h3>
-                        <p>Cut energy bills without changing how you live or work. Our data-driven analysis finds you opportunities to save on energy costs. We track your savings with clear and simple metrics so you can see the impact on your bottom line.</p>
-                    </div>
+                        <div class="impact-card-body">
+                            <h3>Reducing energy waste</h3>
+                            <p>Equipment loses efficiency over time, and what was once the gold standard may be far from today&apos;s benchmark.</p>
+                        </div>
+                    </article>
+
+                    <article class="impact-card impact-card-compliance">
+                        <div class="impact-card-scene">
+                            <svg viewBox="0 0 420 250" role="presentation" aria-hidden="true">
+                                <rect x="28" y="26" width="364" height="196" rx="26" class="impact-panel"></rect>
+                                <g class="impact-compliance-doc">
+                                    <rect x="90" y="56" width="170" height="128" rx="22"></rect>
+                                    <text x="175" y="88" text-anchor="middle" class="impact-compliance-title">Compliance</text>
+                                    <g class="impact-compliance-row row-1">
+                                        <rect x="118" y="104" width="18" height="18" rx="5"></rect>
+                                        <path d="M122 113 L128 119 L138 107"></path>
+                                        <text x="148" y="118">SF EBO</text>
+                                    </g>
+                                    <g class="impact-compliance-row row-2">
+                                        <rect x="118" y="128" width="18" height="18" rx="5"></rect>
+                                        <path d="M122 137 L128 143 L138 131"></path>
+                                        <text x="148" y="142">AB 802</text>
+                                    </g>
+                                    <g class="impact-compliance-row row-3">
+                                        <rect x="118" y="152" width="18" height="18" rx="5"></rect>
+                                        <path d="M122 161 L128 167 L138 155"></path>
+                                        <text x="148" y="166">All Electric</text>
+                                    </g>
+                                </g>
+                                <g class="impact-compliance-badge">
+                                    <path d="M312 76 L334 84 L334 104 C334 118 325 129 312 136 C299 129 290 118 290 104 L290 84 Z"></path>
+                                </g>
+                                <g class="impact-compliance-threat">
+                                    <rect x="278" y="98" width="96" height="46" rx="23"></rect>
+                                    <text x="326" y="115" text-anchor="middle">FINES</text>
+                                    <text x="326" y="130" text-anchor="middle" class="impact-compliance-threat-dollars">$$$</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="impact-card-body">
+                            <h3>Compliance</h3>
+                            <p>We will help resolve older violations and make sure you are prepared for tomorrow&apos;s compliance requirements.</p>
+                        </div>
+                    </article>
+
+                    <article class="impact-card impact-card-savings">
+                        <div class="impact-card-scene">
+                            <svg viewBox="0 0 420 250" role="presentation" aria-hidden="true">
+                                <rect x="28" y="26" width="364" height="196" rx="26" class="impact-panel"></rect>
+                                <g class="impact-chart-grid">
+                                    <line x1="72" y1="64" x2="352" y2="64"></line>
+                                    <line x1="72" y1="104" x2="352" y2="104"></line>
+                                    <line x1="72" y1="144" x2="352" y2="144"></line>
+                                    <line x1="72" y1="184" x2="352" y2="184"></line>
+                                </g>
+                                <g class="impact-savings-coins">
+                                    <g class="impact-savings-stack stack-1">
+                                        <ellipse cx="114" cy="176" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="114" cy="167" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="114" cy="158" rx="22" ry="7"></ellipse>
+                                    </g>
+                                    <g class="impact-savings-stack stack-2">
+                                        <ellipse cx="176" cy="176" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="176" cy="167" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="176" cy="158" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="176" cy="149" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="176" cy="140" rx="22" ry="7"></ellipse>
+                                    </g>
+                                    <g class="impact-savings-stack stack-3">
+                                        <ellipse cx="246" cy="176" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="246" cy="167" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="246" cy="158" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="246" cy="149" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="246" cy="140" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="246" cy="131" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="246" cy="122" rx="22" ry="7"></ellipse>
+                                    </g>
+                                    <g class="impact-savings-stack stack-4">
+                                        <ellipse cx="316" cy="176" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="167" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="158" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="149" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="140" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="131" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="122" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="113" rx="22" ry="7"></ellipse>
+                                        <ellipse cx="316" cy="104" rx="22" ry="7"></ellipse>
+                                    </g>
+                                </g>
+                                <path d="M84 184 L114 166 L176 148 L246 120 L316 92 L344 72" class="impact-savings-line"></path>
+                            </svg>
+                        </div>
+                        <div class="impact-card-body">
+                            <h3>Savings</h3>
+                            <p>Something as small as $20 a month can pay for your favorite subscription.</p>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section class="about" id="about">
-            <div class="container">
-                <div class="about-body">
-                    <div class="about-text">
-                        <h2 class="section-title">Transform Insights into Savings</h2>
-                        <p>We turn energy data into practical insights that benefit everyone. Our recommendations focus on real usage patterns to deliver measurable savings and reduce waste; making your buildings cheaper to operate and better for the environment.</p>
-                    </div>
-                    <div class="about-insights">
-                        <article class="insight-card">
-                            <div class="insight-meta">
-                                <span class="insight-region">United States</span>
-                                <span class="insight-source">EPA ENERGY STAR</span>
-                            </div>
-                            <div class="insight-value">30%</div>
-                            <h3 class="insight-title">Commercial energy is wasted</h3>
-                            <p class="insight-description">Typical U.S. offices, schools, and retail buildings discard nearly a third of the energy they buy because of poor scheduling, drifting setpoints, and unmaintained equipment.</p>
-                        </article>
-                        <article class="insight-card">
-                            <div class="insight-meta">
-                                <span class="insight-region">California</span>
-                                <span class="insight-source">NRDC · PG&E</span>
-                            </div>
-                            <div class="insight-value">23%</div>
-                            <h3 class="insight-title">“Off” devices still drawing load</h3>
-                            <p class="insight-description">Fieldwork across Bay Area homes found almost one-quarter of residential electricity is spent on idle electronics, chargers, and always-on appliances.</p>
-                        </article>
-                        <article class="insight-card">
-                            <div class="insight-meta">
-                                <span class="insight-region">Nationwide</span>
-                                <span class="insight-source">U.S. DOE</span>
-                            </div>
-                            <div class="insight-value">20%</div>
-                            <h3 class="insight-title">HVAC energy lost in ducts</h3>
-                            <p class="insight-description">Leaky or unbalanced ductwork typically lets one-fifth of heating and cooling energy escape before it reaches the rooms people occupy.</p>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Compliance Services Section -->
-        <section class="compliance" id="compliance">
+        <section class="services" id="services">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Energy Compliance Services</h2>
-                    <p class="section-subtitle">We ensure you meet regulatory requirements while maximizing energy savings and reducing costs. We combine advanced analytics with deep regulatory expertise to deliver comprehensive compliance solutions that not only keep you on the right side of regulations but also identify opportunities to cut energy waste and lower your operating expenses.</p>
-                </div>
-                
-                <div class="compliance-subsection">
-                    <div class="section-header">
-                        <h3 class="subsection-title">Why Energy Compliance Matters</h3>
-                    </div>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2V6M12 18V22M6 12H2M22 12H18M19.07 19.07L16.24 16.24M19.07 4.93L16.24 7.76M4.93 19.07L7.76 16.24M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
-                                </svg>
-                            </div>
-                            <h3>Build Awareness & Understanding</h3>
-                            <p>Energy benchmarking provides building owners with critical insights into their energy consumption patterns. Buildings that benchmark their energy use identify an average of <strong>30%</strong> more efficiency opportunities compared to those that don't track their performance, enabling data-driven decisions that reduce waste and costs.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
-                                </svg>
-                            </div>
-                            <h3>Reduce Energy Bills</h3>
-                            <p>Buildings that consistently benchmark and act on their data see measurable financial benefits. ENERGY STAR certified buildings use an average of <strong>35%</strong> less energy and generate <strong>35%</strong> fewer greenhouse gas emissions than typical buildings.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h3>Protect the Environment</h3>
-                            <p>Energy benchmarking is a critical tool in the fight against climate change. Buildings account for approximately <strong>37%</strong> of total U.S. energy consumption (including electrical system losses). By tracking and reducing energy use, we can significantly cut carbon emissions and contribute to a more sustainable future.</p>
-                        </div>
-                    </div>
+                    <p class="eyebrow">Services</p>
                 </div>
 
-                <div class="compliance-subsection">
-                    <div class="section-header">
-                        <h3 class="subsection-title">San Francisco & California Compliance Requirements</h3>
-                    </div>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h3>San Francisco Existing Buildings Ordinance (EBO)</h3>
-                            <ul>
-                                <li>Applies to non-residential buildings with <strong>10,000 sq ft or more</strong> of heated/cooled space</li>
-                                <li>Applies to multifamily residential buildings w/ <strong>50,000 sq ft or more</strong> of conditioned space</li>
-                                <li>Annual energy benchmarking due <strong>May 1st</strong></li>
-                                <li>Energy audits required every <strong>5 years</strong></li>
-                            </ul>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h3>California Energy Commission (CEC) AB 802</h3>
-                            <ul>
-                                <li>Applies to commercial and multifamily buildings over <strong>50,000 sq ft</strong></li>
-                                <li>Annual energy benchmarking due <strong>June 1st</strong></li>
-                            </ul>
+                <div id="services-fresh" class="services-fresh">
+                    <div class="services-fresh-home">
+                        <h2 class="services-fresh-title">So tell us about you</h2>
+                        <div class="services-fresh-actions">
+                            <button type="button" class="services-fresh-trigger" data-fresh-group="resident">I am a Resident</button>
+                            <button type="button" class="services-fresh-trigger" data-fresh-group="manager">I am a Property Manager</button>
                         </div>
                     </div>
-                </div>
 
-                <div class="compliance-subsection">
-                        <div class="section-header">
-                            <h3 class="subsection-title">Components of Compliance</h3>
+                    <div id="services-fresh-panel" class="services-fresh-panel" hidden>
+                        <div class="services-fresh-panel-head">
+                            <h3 id="services-fresh-label" class="services-fresh-panel-title"></h3>
+                            <button type="button" id="services-fresh-close" class="services-fresh-close" aria-label="Close services panel">×</button>
                         </div>
-                        <div class="features-grid">
-                            <div class="feature-card">
-                                <div class="feature-icon-wrapper">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 3V21H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M7 16L12 11L16 15L21 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                                <h3>Energy Benchmarking</h3>
-                                <ul>
-                                    <li>Complete energy benchmarking services for CEC AB 802 and San Francisco EBO compliance</li>
-                                    <li>We collect utility data, calculate EUI (Energy Use Intensity), and submit reports on time to avoid penalties</li>
-                                    <li><strong>San Francisco EBO Deadline:</strong> May 1st annually</li>
-                                </ul>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon-wrapper">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                                <h3>Energy Audits</h3>
-                                <ul>
-                                    <li>Comprehensive energy assessments that identify waste and inefficiencies</li>
-                                    <li>Our audits go beyond compliance to deliver actionable recommendations that reduce costs and improve building performance</li>
-                                    <li><strong>SF EBO Requirement:</strong> Every 5 years for non-residential buildings</li>
-                                    <li>ASHRAE (American Society of Heating, Refrigerating and Air-Conditioning Engineers) Level I & II assessments available</li>
-                                </ul>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon-wrapper">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                                <h3>ENERGY STAR® Certification</h3>
-                                <ul>
-                                    <li>Help your high-performing building achieve ENERGY STAR® certification</li>
-                                    <li>We guide you through the process, verify performance data, and ensure your building meets EPA's strict standards for national recognition</li>
-                                    <li>Buildings that maintain ENERGY STAR® certification for 3 of the 5 years prior to the audit due date qualify for exemption from mandatory energy audits in San Francisco</li>
-                                </ul>
+                        <div id="services-fresh-grid" class="services-fresh-grid"></div>
+                    </div>
+
+                    <div id="services-fresh-notice" class="services-fresh-notice" hidden>
+                        <div class="services-fresh-notice-card" role="dialog" aria-modal="false" aria-labelledby="services-fresh-notice-title">
+                            <p class="services-fresh-notice-kicker">Property Manager Notice</p>
+                            <h3 id="services-fresh-notice-title" class="services-fresh-notice-title">Did you receive a notice of violation from the San Francisco Environment Department?</h3>
+                            <p class="services-fresh-notice-copy">If you have not submitted past years&apos; energy benchmarking, and your 2025 benchmarking is due May 1, we can help you.</p>
+                            <div class="services-fresh-notice-actions">
+                                <button type="button" id="services-fresh-notice-help" class="services-fresh-notice-primary">I would like help with energy Benchmarking</button>
+                                <button type="button" id="services-fresh-notice-dismiss" class="services-fresh-notice-secondary">Not at the moment</button>
                             </div>
                         </div>
                     </div>
 
+                    <div id="services-fresh-modal" class="services-fresh-modal" hidden>
+                        <div class="services-fresh-modal-card" role="dialog" aria-modal="false" aria-label="Service details">
+                            <div class="services-fresh-modal-head">
+                                <div>
+                                    <p id="services-fresh-modal-label" class="services-fresh-modal-label"></p>
+                                    <h3 id="services-fresh-modal-title" class="services-fresh-modal-title"></h3>
+                                </div>
+                                <button type="button" id="services-fresh-modal-close" class="services-fresh-modal-close" aria-label="Close service details">×</button>
+                            </div>
+                            <p id="services-fresh-modal-copy" class="services-fresh-modal-copy"></p>
+                            <div id="services-fresh-modal-points" class="services-fresh-modal-points"></div>
+                            <p id="services-fresh-modal-footer" class="services-fresh-modal-footer"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-
-        <!-- Contact Section -->
         <section class="contact" id="contact">
-            <div class="container">
-                <div class="contact-wrapper">
-                    <div class="contact-header">
-                        <h2 class="section-title">Get in Touch</h2>
-                    </div>
-                    <form id="contact-form" class="contact-form" method="POST">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" placeholder="Tell us about your compliance and efficiency needs" style="resize: none;"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <span>Send Message</span>
-                            <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </form>
-                    <div id="form-message" class="form-message"></div>
+            <div class="container contact-layout">
+                <div class="section-header left">
+                    <h2>Get in touch<br>over a phone call<br>or<br>  a coffee.</h2>
                 </div>
+
+                <form id="contact-form" class="contact-form" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your full name" autocomplete="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(415) 555-0123" autocomplete="tel" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="building_address">Address</label>
+                        <input type="text" id="building_address" name="building_address" placeholder="123 Main St, San Francisco, CA" autocomplete="street-address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message (Optional)</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Share your goals or current challenges"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Reach Out</span>
+                    </button>
+                </form>
+                <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
             </div>
         </section>
     </main>
 
-    <!-- Footer with Contact Info -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-contact">
-                <a href="mailto:contact@cohi.energy" class="footer-link">contact@cohi.energy</a>
-                <span class="footer-separator">•</span>
-                <a href="tel:+14153790018" class="footer-link">(415) 379-0018</a>
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div class="footer-brand-group">
+                <p class="footer-brand">
+                    <span class="brand-lockup footer-brand-lockup">
+                        <img src="assets/branding/logo_white.svg" alt="" class="logo-img footer-logo-img" aria-hidden="true">
+                        <span><span class="logo-wordmark-main">COHI</span><span class="logo-wordmark-sub">ENERGY</span></span>
+                    </span>
+                </p>
+                <p class="footer-copy">Intelligent energy guidance for individuals and property portfolios.</p>
+            </div>
+            <div class="footer-contact" aria-label="Contact details">
+                <a href="mailto:contact@cohi.energy">contact@cohi.energy</a>
+                <a href="tel:+14153790018">(415) 379-0018</a>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=services-rebuild-165"></script>
 </body>
 </html>

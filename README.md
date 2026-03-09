@@ -1,6 +1,6 @@
 # Cohi Landing Page
 
-A modern, dark-mode landing page for Cohi - finding energy waste and delivering savings.
+A conversion-focused landing page for COHI, tailored to San Francisco multifamily residential audiences (HOAs, condo associations, and apartment operators) that need utility savings and benchmarking compliance support.
 
 ## Setup
 
@@ -36,7 +36,7 @@ Form submissions are saved directly to Google Sheets via Google Apps Script.
 1. **Create a Google Sheet**
    - Go to [Google Sheets](https://sheets.google.com)
    - Create a new spreadsheet
-   - Add headers in row 1: `Timestamp`, `Name`, `Email`, `Phone`, `Message`, `Source`
+   - Add headers in row 1: `Timestamp`, `Name`, `Email`, `Building Address`, `Message`, `Source`
 
 2. **Create Google Apps Script**
    - In your Google Sheet, click **Extensions** → **Apps Script**
@@ -51,7 +51,7 @@ function doPost(e) {
       data.timestamp || new Date().toISOString(),
       data.name || '',
       data.email || '',
-      data.phone || '',
+      data.building_address || '',
       data.message || '',
       data.source || 'website_contact_form'
     ]);
@@ -189,7 +189,7 @@ cohi-website/
 ├── config.template.js   # Config template with placeholders (committed)
 ├── config.js            # Generated config with secrets (gitignored)
 ├── dev.sh               # Local development script
-├── logo.svg             # Logo file
+├── assets/branding/     # Brand logos (logo_white.svg, logo_grey.svg)
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml   # GitHub Actions deployment workflow
@@ -198,4 +198,12 @@ cohi-website/
 
 ## Contact Form
 
-The contact form saves submissions to Google Sheets. The phone field is optional. Form validation ensures all required fields (name, email, message) are filled before submission.
+The contact form saves submissions to Google Sheets.
+
+Required fields:
+- Name
+- Email
+- Building address
+
+Optional field:
+- Message
