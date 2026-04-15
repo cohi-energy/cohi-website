@@ -2,6 +2,14 @@
 
 A conversion-focused landing page for COHI, tailored to San Francisco multifamily residential audiences (HOAs, condo associations, and apartment operators) that need utility savings and benchmarking compliance support.
 
+## Repository Ownership
+
+This site is authored in `util-bill-app/website` and mirrored to `cohi-capital/cohi-website` for GitHub Pages deployment.
+
+- **Source of truth:** `util-bill-app/website`
+- **Deploy target:** `cohi-website/master`
+- **Policy:** Direct edits in `cohi-website` are emergency-only and should be pulled back into `util-bill-app` with `git subtree`
+
 ## Setup
 
 ### Configuration
@@ -25,7 +33,7 @@ This handles everything automatically. If you need to manually configure, edit `
 
 #### For Production (GitHub Pages):
 
-Secrets are injected at build time via GitHub Actions. See [Deploying to GitHub Pages](#deploying-to-github-pages) below.
+Secrets are injected at build time in the standalone `cohi-website` repository after the subtree sync completes. See [Deploying to GitHub Pages](#deploying-to-github-pages) below.
 
 ### Google Sheets Integration
 
@@ -147,10 +155,19 @@ If you prefer manual setup:
 
 Deployment is automated via GitHub Actions. The workflow injects secrets at build time, keeping API keys secure.
 
+### Source of Truth
+
+Day-to-day website changes should be made in `util-bill-app/website`, not directly in `cohi-website`.
+
+1. Edit files under `util-bill-app/website`
+2. Merge those changes to `util-bill-app/main`
+3. Let `.github/workflows/sync-website-subtree.yml` mirror the subtree to `cohi-website/master`
+4. Let the standalone `cohi-website` GitHub Pages workflow deploy the updated site
+
 ### Initial Setup (One-time)
 
 1. **Add GitHub Secrets**
-   - Go to your repository on GitHub
+   - Go to the `cohi-website` repository on GitHub
    - Click **Settings** → **Secrets and variables** → **Actions**
    - Add the following secrets:
      - `GOOGLE_APPS_SCRIPT_URL` - Your Google Apps Script Web App URL
@@ -159,19 +176,49 @@ Deployment is automated via GitHub Actions. The workflow injects secrets at buil
      - `POSTHOG_HOST` - PostHog host URL (`https://us.i.posthog.com`)
 
 2. **Enable GitHub Pages with Actions**
-   - Go to **Settings** → **Pages**
+   - In `cohi-website`, go to **Settings** → **Pages**
    - Under **Source**, select **GitHub Actions**
+
+3. **Add subtree sync secret**
+   - In `util-bill-app`, go to **Settings** → **Secrets and variables** → **Actions**
+   - Add `SUBREPO_PAT` with push access to `cohi-capital/cohi-website`
 
 ### Deploying
 
-Push to the `master` branch to trigger automatic deployment:
+Normal deployments flow through `util-bill-app`:
+
 ```bash
+git add website
+git commit -m "Update marketing site"
+git push origin main
+```
+
+The sync workflow will push `website/` to `cohi-website/master`, and the standalone repository will then deploy to GitHub Pages.
+
+### Emergency Recovery
+
+If someone makes an emergency fix directly in `cohi-website`, pull it back into `util-bill-app` immediately:
+
+```bash
+git remote add cohi-website https://github.com/cohi-capital/cohi-website.git
+git fetch cohi-website master
+git subtree pull --prefix=website cohi-website master --squash
+```
+
+### Emergency Direct Deploys
+
+Direct pushes to `cohi-website/master` still trigger Pages deployment, but they should be treated as exceptions:
+
+```bash
+# Run in the standalone cohi-website repository
 git add .
-git commit -m "Your commit message"
+git commit -m "Emergency website fix"
 git push origin master
 ```
 
-The GitHub Action will:
+After any emergency direct deploy, sync the fix back into `util-bill-app/website` so the canonical source does not drift.
+
+The `cohi-website` GitHub Action will:
 1. Generate `config.js` from secrets
 2. Deploy to GitHub Pages
 
@@ -180,19 +227,19 @@ Your site will be live at: `https://cohi.energy` (or your configured domain)
 ## File Structure
 
 ```
-cohi-website/
+util-bill-app/website/
 ├── index.html           # Main HTML file
 ├── styles.css           # Stylesheet
 ├── script.js            # JavaScript for form handling and navigation
 ├── reddit-pixel.js      # Reddit Pixel tracking code
 ├── posthog.js           # PostHog analytics tracking
 ├── config.template.js   # Config template with placeholders (committed)
-├── config.js            # Generated config with secrets (gitignored)
+├── config.js            # Local generated config with secrets (gitignored)
 ├── dev.sh               # Local development script
 ├── assets/branding/     # Brand logos (logo_white.svg, logo_grey.svg)
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml   # GitHub Actions deployment workflow
+│       └── deploy.yml   # Workflow mirrored to cohi-website for GitHub Pages deploys
 └── README.md            # This file
 ```
 
