@@ -128,6 +128,8 @@ Ensure both domains are in the Authorized Domains list:
 
 ## Viewing Locally
 
+All day-to-day website development now happens from `util-bill-app/website`.
+
 ### Quick Start (Recommended)
 ```bash
 ./dev.sh
@@ -136,7 +138,32 @@ Ensure both domains are in the Authorized Domains list:
 This script will:
 1. Create `config.js` from template if it doesn't exist
 2. Prompt you to fill in credentials if needed
-3. Start a local server on http://localhost:8000
+3. Start a local server on `http://localhost:${PORT:-8000}`
+
+If `8000` is already in use:
+
+```bash
+PORT=8001 ./dev.sh
+```
+
+### Editing Workflow
+
+This site is plain HTML, CSS, and JavaScript. There is no Vite-style hot module reloading for `website/`.
+
+- Edit files in `website/`
+- Save your changes
+- Refresh the browser to see the update immediately
+- Keep `config.js` local and uncommitted
+
+### Optional Live Reload
+
+If you want automatic browser refresh while editing, run:
+
+```bash
+npx browser-sync start --server --files "*.html,*.css,*.js,assets/**/*" --startPath index.html --port 8001 --no-open
+```
+
+This is optional and separate from `./dev.sh`.
 
 ### Manual Setup
 If you prefer manual setup:

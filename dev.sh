@@ -10,6 +10,8 @@ NC='\033[0m' # No Color
 
 echo "🚀 Starting Cohi website local development..."
 
+PORT="${PORT:-8000}"
+
 # Check if config.js exists, if not create from template
 if [ ! -f "config.js" ]; then
     if [ -f "config.template.js" ]; then
@@ -38,17 +40,17 @@ if grep -q "__GOOGLE_APPS_SCRIPT_URL__\|__POSTHOG_API_KEY__\|phc_xxxxx" config.j
 fi
 
 # Start local server
-echo -e "${GREEN}Starting local server on http://localhost:8000${NC}"
+echo -e "${GREEN}Starting local server on http://localhost:${PORT}${NC}"
 echo "Press Ctrl+C to stop"
 echo ""
 
 # Try Python 3 first, then Python 2, then Node.js
 if command -v python3 &> /dev/null; then
-    python3 -m http.server 8000
+    python3 -m http.server "${PORT}"
 elif command -v python &> /dev/null; then
-    python -m SimpleHTTPServer 8000
+    python -m SimpleHTTPServer "${PORT}"
 elif command -v npx &> /dev/null; then
-    npx http-server -p 8000
+    npx http-server -p "${PORT}"
 else
     echo -e "${RED}Error: No suitable server found. Please install Python or Node.js.${NC}"
     exit 1
