@@ -191,6 +191,8 @@ Day-to-day website changes should be made in `util-bill-app/website`, not direct
 3. Let `.github/workflows/sync-website-subtree.yml` mirror the subtree to `cohi-website/master`
 4. Let the standalone `cohi-website` GitHub Pages workflow deploy the updated site
 
+If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `util-bill-app` and still has write access to `cohi-capital/cohi-website`.
+
 ### Initial Setup (One-time)
 
 1. **Add GitHub Secrets**
