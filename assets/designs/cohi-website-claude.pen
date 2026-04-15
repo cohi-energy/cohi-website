@@ -1,0 +1,1976 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "yL935",
+      "x": 0,
+      "y": 0,
+      "name": "Cohi Redesign",
+      "width": 1440,
+      "fill": "#EDECEA",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "zrhdZ",
+          "name": "Nav",
+          "width": "fill_container",
+          "height": 76,
+          "fill": "#2a4f43",
+          "padding": [
+            0,
+            80
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "HPwZm",
+              "name": "Brand",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "I4jhT",
+                  "name": "LogoDot",
+                  "fill": "#ff6a34",
+                  "width": 10,
+                  "height": 10
+                },
+                {
+                  "type": "text",
+                  "id": "7Fqih",
+                  "name": "navLogo",
+                  "fill": "#FFFFFF",
+                  "content": "COHIENERGY",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "700",
+                  "letterSpacing": 3
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "akwFa",
+              "name": "navSpacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "QV4IS",
+              "name": "NavLinks",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FUBHj",
+                  "name": "navHome",
+                  "fill": "#ffffffc7",
+                  "content": "Home",
+                  "fontFamily": "Inter",
+                  "fontSize": 14
+                },
+                {
+                  "type": "text",
+                  "id": "3iSTs",
+                  "name": "navServices",
+                  "fill": "#ffffffc7",
+                  "content": "Services",
+                  "fontFamily": "Inter",
+                  "fontSize": 14
+                },
+                {
+                  "type": "text",
+                  "id": "OSt9i",
+                  "name": "navWhy",
+                  "fill": "#ffffffc7",
+                  "content": "Why Cohi",
+                  "fontFamily": "Inter",
+                  "fontSize": 14
+                },
+                {
+                  "type": "text",
+                  "id": "K9U7N",
+                  "name": "navContact",
+                  "fill": "#ffffffc7",
+                  "content": "Contact",
+                  "fontFamily": "Inter",
+                  "fontSize": 14
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SUjJy",
+              "name": "NavCTA",
+              "fill": "#ff6a34",
+              "cornerRadius": 100,
+              "padding": [
+                10,
+                22
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cXe3E",
+                  "name": "navCtaLabel",
+                  "fill": "#FFFFFF",
+                  "content": "Get Started",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vLPy6",
+          "name": "Hero",
+          "metadata": {
+            "type": "unsplash",
+            "username": "mattmoloney",
+            "link": "https://unsplash.com/@mattmoloney",
+            "author": "Matthew Moloney"
+          },
+          "width": "fill_container",
+          "height": 860,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "https://images.unsplash.com/photo-1764344793554-12da6166d940?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzMwMDk2MDR8&ixlib=rb-4.1.0&q=80&w=1080",
+            "mode": "fill"
+          },
+          "layout": "vertical",
+          "padding": [
+            0,
+            0,
+            100,
+            0
+          ],
+          "justifyContent": "end",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZkPju",
+              "name": "HeroInner",
+              "width": 1160,
+              "layout": "vertical",
+              "gap": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o9IEX",
+                  "name": "HeroEyebrow",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "7SEYG",
+                      "name": "heroDot",
+                      "fill": "#ff6a34",
+                      "width": 6,
+                      "height": 6
+                    },
+                    {
+                      "type": "text",
+                      "id": "W27by",
+                      "name": "heroEyebrowTxt",
+                      "fill": "#ffffff99",
+                      "content": "ENERGY INTELLIGENCE",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 2.5
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "HpUOi",
+                  "name": "HeroH1",
+                  "fill": "#FFFFFF",
+                  "content": "Energy savings\nmade just for you.",
+                  "lineHeight": 1.05,
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 76,
+                  "fontWeight": "800",
+                  "letterSpacing": -2
+                },
+                {
+                  "type": "text",
+                  "id": "LUsM4",
+                  "name": "HeroSub",
+                  "fill": "#ffffffb8",
+                  "content": "We reduce your cost of energy and help you remain compliant.\nTailored guidance for residents and property managers in California.",
+                  "lineHeight": 1.65,
+                  "fontFamily": "Inter",
+                  "fontSize": 19
+                },
+                {
+                  "type": "frame",
+                  "id": "YjNGs",
+                  "name": "HeroCTAs",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CuppK",
+                      "name": "BtnBook",
+                      "fill": "#ff6a34",
+                      "cornerRadius": 100,
+                      "padding": [
+                        16,
+                        32
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "eFdS3",
+                          "name": "btnPrimaryTxt",
+                          "fill": "#FFFFFF",
+                          "content": "Book a Consultation",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NjBYb",
+                      "name": "BtnServices",
+                      "fill": "#00000000",
+                      "cornerRadius": 100,
+                      "padding": [
+                        15,
+                        31
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "8Z10U",
+                          "name": "btnSecondaryTxt",
+                          "fill": "#ffffffe0",
+                          "content": "View Services",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.2
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aLuw9",
+                  "name": "HeroCards",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "naY4y",
+                      "name": "CardApproach",
+                      "width": "fill_container",
+                      "fill": "#ffffff1a",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        24,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "EQ72n",
+                          "name": "cardApproachLabel",
+                          "fill": "#ff6a34",
+                          "content": "APPROACH",
+                          "fontFamily": "Inter",
+                          "fontSize": 10,
+                          "fontWeight": "700",
+                          "letterSpacing": 2
+                        },
+                        {
+                          "type": "text",
+                          "id": "a8iQt",
+                          "name": "cardApproachVal",
+                          "fill": "#ffffffe0",
+                          "content": "Solutions based on your energy data —\nnot a template.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 15
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "8ZCQY",
+                      "name": "CardCoverage",
+                      "width": "fill_container",
+                      "fill": "#ffffff1a",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        24,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "b2mbU",
+                          "name": "cardCoverageLabel",
+                          "fill": "#ff6a34",
+                          "content": "COVERAGE",
+                          "fontFamily": "Inter",
+                          "fontSize": 10,
+                          "fontWeight": "700",
+                          "letterSpacing": 2
+                        },
+                        {
+                          "type": "text",
+                          "id": "M08wF",
+                          "name": "cardCoverageVal",
+                          "fill": "#ffffffe0",
+                          "content": "All residential buildings in California.\nCommercial coming soon.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 15
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1djKi",
+          "name": "StatStrip",
+          "width": "fill_container",
+          "fill": "#2f6658",
+          "padding": [
+            40,
+            140
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "XqBML",
+              "name": "Stat1",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cqNJU",
+                  "name": "stat1Num",
+                  "fill": "#FFFFFF",
+                  "content": "30%",
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 36,
+                  "fontWeight": "800",
+                  "letterSpacing": -1.5
+                },
+                {
+                  "type": "text",
+                  "id": "ZsG8M",
+                  "name": "stat1Label",
+                  "fill": "#ffffffa6",
+                  "content": "Average energy cost reduction",
+                  "fontFamily": "Inter",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "cEeMY",
+              "name": "statDiv1",
+              "fill": "#ffffff33",
+              "width": 1,
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "b3Rl4",
+              "name": "Stat2",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gurEr",
+                  "name": "stat2Num",
+                  "fill": "#FFFFFF",
+                  "content": "AB 802",
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 36,
+                  "fontWeight": "800",
+                  "letterSpacing": -1.5
+                },
+                {
+                  "type": "text",
+                  "id": "arFSG",
+                  "name": "stat2Label",
+                  "fill": "#ffffffa6",
+                  "content": "California compliance expertise",
+                  "fontFamily": "Inter",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "GYqho",
+              "name": "statDiv2",
+              "fill": "#ffffff33",
+              "width": 1,
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "wTNP5",
+              "name": "Stat3",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1R0lx",
+                  "name": "stat3Num",
+                  "fill": "#FFFFFF",
+                  "content": "SF EBO",
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 36,
+                  "fontWeight": "800",
+                  "letterSpacing": -1.5
+                },
+                {
+                  "type": "text",
+                  "id": "V1vsT",
+                  "name": "stat3Label",
+                  "fill": "#ffffffa6",
+                  "content": "San Francisco benchmarking certified",
+                  "fontFamily": "Inter",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "pr5aL",
+              "name": "statDiv3",
+              "fill": "#ffffff33",
+              "width": 1,
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "hqPLP",
+              "name": "Stat4",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "dTjRX",
+                  "name": "stat4Num",
+                  "fill": "#FFFFFF",
+                  "content": "1:1",
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 36,
+                  "fontWeight": "800",
+                  "letterSpacing": -1.5
+                },
+                {
+                  "type": "text",
+                  "id": "YfYyP",
+                  "name": "stat4Label",
+                  "fill": "#ffffffa6",
+                  "content": "Dedicated advisor per client",
+                  "fontFamily": "Inter",
+                  "fontSize": 13
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "H2wQK",
+          "name": "Impact",
+          "width": "fill_container",
+          "fill": "#EDECEA",
+          "layout": "vertical",
+          "gap": 64,
+          "padding": [
+            100,
+            140
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "964rV",
+              "name": "ImpactHeader",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yR72D",
+                  "name": "impactEyebrow",
+                  "fill": "#2f6658",
+                  "content": "IMPACT",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 2.5
+                },
+                {
+                  "type": "text",
+                  "id": "1feVq",
+                  "name": "impactH2",
+                  "fill": "#1f2522",
+                  "content": "What Cohi does at a glance",
+                  "lineHeight": 1.1,
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 48,
+                  "fontWeight": "800",
+                  "letterSpacing": -1.5
+                },
+                {
+                  "type": "text",
+                  "id": "f2oSx",
+                  "name": "impactSub",
+                  "fill": "#4a5551",
+                  "content": "Four ways we create real, measurable value for our clients.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Inter",
+                  "fontSize": 18
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Oktsd",
+              "name": "ImpactGrid",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "96jVn",
+                  "name": "ImpactCard1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "k7hVt",
+                      "name": "Card1Img",
+                      "width": "fill_container",
+                      "height": 180,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "../images/generated/generated-1773009686606.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fdLkT",
+                      "name": "Card1Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        24,
+                        28,
+                        28,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "bj0ER",
+                          "name": "card1Title",
+                          "fill": "#1f2522",
+                          "content": "Reducing energy cost",
+                          "fontFamily": "Plus Jakarta Sans",
+                          "fontSize": 20,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "R7O0F",
+                          "name": "card1Desc",
+                          "fill": "#4a5551",
+                          "content": "Track spend with a falling cost curve and clearer decisions behind it.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 15
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Wfqmr",
+                  "name": "ImpactCard2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ptenv",
+                      "name": "Card2Img",
+                      "width": "fill_container",
+                      "height": 180,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "../images/generated/generated-1773009702841.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xI72D",
+                      "name": "Card2Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        24,
+                        28,
+                        28,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "15pSF",
+                          "name": "card2Title",
+                          "fill": "#1f2522",
+                          "content": "Reducing energy waste",
+                          "fontFamily": "Plus Jakarta Sans",
+                          "fontSize": 20,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "2tx8Y",
+                          "name": "card2Desc",
+                          "fill": "#4a5551",
+                          "content": "Old equipment phases out, efficient systems step in, and the whole property performs cleaner.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 15
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JXhYH",
+                  "name": "ImpactCard3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MJwIW",
+                      "name": "Card3Img",
+                      "width": "fill_container",
+                      "height": 180,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "../images/generated/generated-1773009754916.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VRYcN",
+                      "name": "Card3Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        24,
+                        28,
+                        28,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "eCUJl",
+                          "name": "card3Title",
+                          "fill": "#1f2522",
+                          "content": "Compliance",
+                          "fontFamily": "Plus Jakarta Sans",
+                          "fontSize": 20,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "MtoCl",
+                          "name": "card3Desc",
+                          "fill": "#4a5551",
+                          "content": "Clear documentation, completed checks, and a stronger buffer against enforcement risk.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 15
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7WU8Y",
+                  "name": "ImpactCard4",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tXRxj",
+                      "name": "Card4Img",
+                      "width": "fill_container",
+                      "height": 180,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "../images/generated/generated-1773009770825.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "894Ym",
+                      "name": "Card4Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        24,
+                        28,
+                        28,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "c5739",
+                          "name": "card4Title",
+                          "fill": "#1f2522",
+                          "content": "Savings",
+                          "fontFamily": "Plus Jakarta Sans",
+                          "fontSize": 20,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "6Rusf",
+                          "name": "card4Desc",
+                          "fill": "#4a5551",
+                          "content": "Show savings momentum with a rising value curve and stronger financial return.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 15
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jSbId",
+          "name": "Services",
+          "width": "fill_container",
+          "fill": "#2a4f43",
+          "layout": "vertical",
+          "gap": 64,
+          "padding": [
+            100,
+            140
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "qH8Tr",
+              "name": "SvcHeader",
+              "width": "fill_container",
+              "gap": 40,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "1DAhu",
+                  "name": "SvcLeft",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OuCBt",
+                      "name": "svcEyebrow",
+                      "fill": "#ffffff80",
+                      "content": "SERVICES",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 2.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "KNqcA",
+                      "name": "svcH2",
+                      "fill": "#FFFFFF",
+                      "content": "Tailored For\nThe Individual",
+                      "lineHeight": 1.08,
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 52,
+                      "fontWeight": "800",
+                      "letterSpacing": -1.5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Wjkma",
+                  "name": "SvcRight",
+                  "width": 480,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "eNy3u",
+                      "name": "svcDesc",
+                      "fill": "#ffffffb8",
+                      "content": "We want to know you — your building, your goals, your situation.\nSelect who you are to explore what Cohi offers.",
+                      "lineHeight": 1.65,
+                      "fontFamily": "Inter",
+                      "fontSize": 17
+                    },
+                    {
+                      "type": "frame",
+                      "id": "o9lA9",
+                      "name": "SvcButtons",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "lYxXO",
+                          "name": "BtnResident",
+                          "fill": "#ffffff1f",
+                          "cornerRadius": 100,
+                          "padding": [
+                            14,
+                            28
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "G65RR",
+                              "name": "btnResidentTxt",
+                              "fill": "#FFFFFF",
+                              "content": "I am a Resident",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "0rIGE",
+                          "name": "BtnManager",
+                          "fill": "#ff6a34",
+                          "cornerRadius": 100,
+                          "padding": [
+                            14,
+                            28
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JL0MP",
+                              "name": "btnManagerTxt",
+                              "fill": "#FFFFFF",
+                              "content": "I am a Property Manager",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Dtkpz",
+              "name": "SvcCards",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ERh02",
+                  "name": "SvcCard1",
+                  "width": "fill_container",
+                  "fill": "#ffffff12",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "egEWP",
+                      "name": "Svc1Icon",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "#ff6a3433",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "8fYr7",
+                          "name": "svc1IconTxt",
+                          "content": "⚡",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "4oQVC",
+                      "name": "svc1Title",
+                      "fill": "#FFFFFF",
+                      "content": "Energy Benchmarking",
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 20,
+                      "fontWeight": "700",
+                      "letterSpacing": -0.4
+                    },
+                    {
+                      "type": "text",
+                      "id": "1DAED",
+                      "name": "svc1Desc",
+                      "fill": "#ffffffad",
+                      "content": "SF EBO & AB 802 compliance. We handle the full\nsubmission process so you avoid fines and stay\non schedule.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1IowC",
+                  "name": "SvcCard2",
+                  "width": "fill_container",
+                  "fill": "#ffffff12",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "2SAOJ",
+                      "name": "Svc2Icon",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "#ff6a3433",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DyLIP",
+                          "name": "svc2IconTxt",
+                          "content": "🏠",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "SVcZU",
+                      "name": "svc2Title",
+                      "fill": "#FFFFFF",
+                      "content": "Retrofit Planning",
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 20,
+                      "fontWeight": "700",
+                      "letterSpacing": -0.4
+                    },
+                    {
+                      "type": "text",
+                      "id": "4q2Op",
+                      "name": "svc2Desc",
+                      "fill": "#ffffffad",
+                      "content": "Prioritized upgrade roadmaps based on your building\ndata. HVAC, insulation, appliances — we surface\nthe highest-ROI moves.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fgcHd",
+                  "name": "SvcCard3",
+                  "width": "fill_container",
+                  "fill": "#ffffff12",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XDaCD",
+                      "name": "Svc3Icon",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "#ff6a3433",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MBahT",
+                          "name": "svc3IconTxt",
+                          "content": "💡",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "5iL8X",
+                      "name": "svc3Title",
+                      "fill": "#FFFFFF",
+                      "content": "Utility Bill Optimization",
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 20,
+                      "fontWeight": "700",
+                      "letterSpacing": -0.4
+                    },
+                    {
+                      "type": "text",
+                      "id": "AydgU",
+                      "name": "svc3Desc",
+                      "fill": "#ffffffad",
+                      "content": "We analyze your current rates, usage patterns, and\navailable programs to find immediate savings —\nno equipment needed.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tDIrM",
+          "name": "Distinction",
+          "width": "fill_container",
+          "fill": "#EDECEA",
+          "gap": 80,
+          "padding": [
+            100,
+            140
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "4ZqG5",
+              "name": "DistLeft",
+              "width": 560,
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yvHbg",
+                  "name": "distEyebrow",
+                  "fill": "#2f6658",
+                  "content": "DISTINCTION",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 2.5
+                },
+                {
+                  "type": "text",
+                  "id": "RfJxG",
+                  "name": "distH2",
+                  "fill": "#1f2522",
+                  "content": "Your requirements\ndrive the strategy.",
+                  "lineHeight": 1.1,
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 48,
+                  "fontWeight": "800",
+                  "letterSpacing": -1.5
+                },
+                {
+                  "type": "text",
+                  "id": "5hMux",
+                  "name": "distBody",
+                  "fill": "#4a5551",
+                  "content": "We do not force a template. Whether the need is benchmarking\nreadiness, retrofit planning, or utility bill relief, we adapt scope\nand reporting to the reality of your building and stakeholders.",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Inter",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "L7SU8",
+                  "name": "DistImg",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "aliahmadidesign",
+                    "link": "https://unsplash.com/@aliahmadidesign",
+                    "author": "Ali Ahmadi"
+                  },
+                  "width": "fill_container",
+                  "height": 300,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1657388453370-c5381696f74c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzMwMDk4NDB8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": 20
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TN8NF",
+              "name": "DistRight",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oJa0j",
+                  "name": "DistPoint1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "1TTXB",
+                      "name": "distP1Num",
+                      "fill": "#2f6658",
+                      "content": "01",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "ggYa1",
+                      "name": "distP1Text",
+                      "fill": "#1f2522",
+                      "content": "Requirement-first diagnostics for each client profile",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "letterSpacing": -0.3
+                    },
+                    {
+                      "type": "text",
+                      "id": "lIX94",
+                      "name": "distP1Sub",
+                      "fill": "#4a5551",
+                      "content": "We start by understanding your specific situation before recommending any course of action.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "6SFcV",
+                  "name": "DistPoint2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dueoJ",
+                      "name": "distP2Num",
+                      "fill": "#2f6658",
+                      "content": "02",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "SlrJT",
+                      "name": "distP2Text",
+                      "fill": "#1f2522",
+                      "content": "Building-specific benchmarking guidance that protects your reputation",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "letterSpacing": -0.3
+                    },
+                    {
+                      "type": "text",
+                      "id": "Zk9yb",
+                      "name": "distP2Sub",
+                      "fill": "#4a5551",
+                      "content": "Accurate submissions, on time — so your property record stays clean.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qQLaS",
+                  "name": "DistPoint3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "id0I7",
+                      "name": "distP3Num",
+                      "fill": "#2f6658",
+                      "content": "03",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "Ah8B3",
+                      "name": "distP3Text",
+                      "fill": "#1f2522",
+                      "content": "Clear implementation priorities with direct financial impact",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "letterSpacing": -0.3
+                    },
+                    {
+                      "type": "text",
+                      "id": "6V2WN",
+                      "name": "distP3Sub",
+                      "fill": "#4a5551",
+                      "content": "You always know what to do next and why it matters financially.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PmF7f",
+          "name": "Contact",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "gap": 80,
+          "padding": [
+            100,
+            140
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Xi687",
+              "name": "CTALeft",
+              "width": 480,
+              "layout": "vertical",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZkQmE",
+                  "name": "ctaEyebrow",
+                  "fill": "#2f6658",
+                  "content": "GET STARTED",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 2.5
+                },
+                {
+                  "type": "text",
+                  "id": "OI5px",
+                  "name": "ctaH2",
+                  "fill": "#1f2522",
+                  "content": "Tell us what you need\nand we will map the next step.",
+                  "lineHeight": 1.1,
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 36,
+                  "fontWeight": "800",
+                  "letterSpacing": -1
+                },
+                {
+                  "type": "text",
+                  "id": "kwPrY",
+                  "name": "ctaBody",
+                  "fill": "#4a5551",
+                  "content": "Use the form and Cohi will respond with a focused,\npractical plan tailored to your building and goals.",
+                  "lineHeight": 1.65,
+                  "fontFamily": "Inter",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "nuUPu",
+                  "name": "CTATrust",
+                  "width": "fill_container",
+                  "fill": "#F4F2EE",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 28,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ApiON",
+                      "name": "ctaTrustRow1",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "TYIrO",
+                          "name": "ctaTrustDot1",
+                          "fill": "#2f6658",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "QrexV",
+                          "name": "ctaTrustTxt1",
+                          "fill": "#1f2522",
+                          "content": "Responds within one business day",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BOx1K",
+                      "name": "ctaTrustRow2",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "ADgP2",
+                          "name": "ctaTrustDot2",
+                          "fill": "#2f6658",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "lKOct",
+                          "name": "ctaTrustTxt2",
+                          "fill": "#1f2522",
+                          "content": "Personalized plan, not a template",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bii1j",
+                      "name": "ctaTrustRow3",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "OSUdt",
+                          "name": "ctaTrustDot3",
+                          "fill": "#2f6658",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "dTriZ",
+                          "name": "ctaTrustTxt3",
+                          "fill": "#1f2522",
+                          "content": "No commitment required for consultation",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4vf2b",
+              "name": "FormRight",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "3F1s9",
+                  "name": "Field1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "atHEk",
+                      "name": "label1",
+                      "fill": "#1f2522",
+                      "content": "Name",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zvRbN",
+                      "name": "input1",
+                      "width": "fill_container",
+                      "height": 52,
+                      "fill": "#F7F6F3",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        18
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iWSJ7",
+                          "name": "input1Txt",
+                          "fill": "#9B9890",
+                          "content": "Your full name",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "0PNdg",
+                  "name": "Field2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8hjKy",
+                      "name": "label2",
+                      "fill": "#1f2522",
+                      "content": "Email",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VtftH",
+                      "name": "input2",
+                      "width": "fill_container",
+                      "height": 52,
+                      "fill": "#F7F6F3",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        18
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oFaZa",
+                          "name": "input2Txt",
+                          "fill": "#9B9890",
+                          "content": "name@example.com",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lz0ei",
+                  "name": "Field3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZB4kj",
+                      "name": "label3",
+                      "fill": "#1f2522",
+                      "content": "Building Address",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EUgMo",
+                      "name": "input3",
+                      "width": "fill_container",
+                      "height": 52,
+                      "fill": "#F7F6F3",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        18
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "0T5iV",
+                          "name": "input3Txt",
+                          "fill": "#9B9890",
+                          "content": "123 Main St, San Francisco, CA",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EJDwQ",
+                  "name": "Field4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lr1K2",
+                      "name": "label4",
+                      "fill": "#1f2522",
+                      "content": "Message (Optional)",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tVmko",
+                      "name": "input4",
+                      "width": "fill_container",
+                      "height": 120,
+                      "fill": "#F7F6F3",
+                      "cornerRadius": 12,
+                      "padding": 18,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OOAgR",
+                          "name": "input4Txt",
+                          "fill": "#9B9890",
+                          "content": "Share your goals or current challenges",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rNobm",
+                  "name": "SubmitBtn",
+                  "width": "fill_container",
+                  "fill": "#2f6658",
+                  "cornerRadius": 100,
+                  "padding": [
+                    18,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8DNSl",
+                      "name": "submitTxt",
+                      "fill": "#FFFFFF",
+                      "content": "Request Consultation",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UB3Qw",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#1a3028",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "G671H",
+              "name": "FooterTop",
+              "width": "fill_container",
+              "gap": 80,
+              "padding": [
+                80,
+                140,
+                64,
+                140
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mmBEc",
+                  "name": "FooterBrand",
+                  "width": 340,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "7b4cs",
+                      "name": "FooterBrandRow",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "DVRN6",
+                          "name": "footerDot",
+                          "fill": "#ff6a34",
+                          "width": 10,
+                          "height": 10
+                        },
+                        {
+                          "type": "text",
+                          "id": "wKFtd",
+                          "name": "footerLogo",
+                          "fill": "#FFFFFF",
+                          "content": "COHIENERGY",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "700",
+                          "letterSpacing": 3
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "ddE1O",
+                      "name": "footerTagline",
+                      "fill": "#ffffff8c",
+                      "content": "Intelligent energy guidance for individuals\nand property portfolios.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1zAhP",
+                  "name": "footerSpacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "gMIOJ",
+                  "name": "FooterLinks",
+                  "gap": 80,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "N10tG",
+                      "name": "FooterCol1",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DmbIk",
+                          "name": "footerCol1Head",
+                          "fill": "#ffffff73",
+                          "content": "Company",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 1.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "eqDus",
+                          "name": "footerL1a",
+                          "fill": "#ffffffb3",
+                          "content": "About",
+                          "lineHeight": 2,
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        },
+                        {
+                          "type": "text",
+                          "id": "Fq3rA",
+                          "name": "footerL1b",
+                          "fill": "#ffffffb3",
+                          "content": "Services",
+                          "lineHeight": 2,
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        },
+                        {
+                          "type": "text",
+                          "id": "CvmFk",
+                          "name": "footerL1c",
+                          "fill": "#ffffffb3",
+                          "content": "Why Cohi",
+                          "lineHeight": 2,
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nBSML",
+                      "name": "FooterCol2",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "6fl1b",
+                          "name": "footerCol2Head",
+                          "fill": "#ffffff73",
+                          "content": "Contact",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 1.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "8Txsn",
+                          "name": "footerL2a",
+                          "fill": "#ffffffb3",
+                          "content": "contact@cohi.energy",
+                          "lineHeight": 2,
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        },
+                        {
+                          "type": "text",
+                          "id": "yjN5q",
+                          "name": "footerL2b",
+                          "fill": "#ffffffb3",
+                          "content": "(415) 379-0018",
+                          "lineHeight": 2,
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        },
+                        {
+                          "type": "text",
+                          "id": "lT06k",
+                          "name": "footerL2c",
+                          "fill": "#ff6a34",
+                          "content": "Book a Consultation",
+                          "lineHeight": 2,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Jwlsg",
+              "name": "FooterBar",
+              "width": "fill_container",
+              "padding": [
+                24,
+                140
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Fzhcq",
+                  "name": "footerCopy",
+                  "fill": "#ffffff59",
+                  "content": "© 2025 Cohi Energy. All rights reserved.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13
+                },
+                {
+                  "type": "frame",
+                  "id": "7h0nW",
+                  "name": "footerBarSpacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "MUJw1",
+                  "name": "footerPolicy",
+                  "fill": "#ffffff59",
+                  "content": "Privacy Policy · Terms of Service",
+                  "fontFamily": "Inter",
+                  "fontSize": 13
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

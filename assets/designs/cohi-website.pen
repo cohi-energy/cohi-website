@@ -1,0 +1,1248 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "p3c9d",
+      "x": 0,
+      "y": 0,
+      "name": "COHI Website v1",
+      "width": 1440,
+      "fill": "$color-bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Hzqoe",
+          "name": "Sticky Nav Area",
+          "width": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            24,
+            40,
+            0,
+            40
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "BwMWY",
+              "name": "Frosted Nav",
+              "width": "fill_container",
+              "fill": "$color-glass",
+              "cornerRadius": 24,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#FFFFFF7A"
+              },
+              "effect": [
+                {
+                  "type": "background_blur",
+                  "radius": 24
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#1F25231A",
+                  "offset": {
+                    "x": 0,
+                    "y": 8
+                  },
+                  "blur": 24
+                }
+              ],
+              "padding": [
+                18,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "0QnKd",
+                  "name": "brandRow",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Qarrw",
+                      "name": "logoNode",
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "../branding/logo_white.svg",
+                        "mode": "fit"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "lpkrn",
+                      "name": "brandText",
+                      "fill": "$color-text",
+                      "content": "Cohi",
+                      "fontFamily": "$font-logo",
+                      "fontSize": 28,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "y8xxk",
+                  "name": "navLinks",
+                  "fill": "$color-text",
+                  "content": "HOME   STORY   SERVICES   WHY Cohi   CONTACT",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 14,
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "frame",
+                  "id": "HvxpV",
+                  "name": "navCta",
+                  "fill": "$color-text",
+                  "cornerRadius": 999,
+                  "padding": [
+                    12,
+                    18
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "phvl3",
+                      "name": "navCtaText",
+                      "fill": "#ECECEC",
+                      "content": "Get Started",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KJljh",
+          "name": "Hero",
+          "width": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            44,
+            80,
+            64,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "cg093",
+              "name": "heroSplit",
+              "width": "fill_container",
+              "gap": 44,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "e7ksJ",
+                  "name": "heroText",
+                  "width": 620,
+                  "layout": "vertical",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "5WJlm",
+                      "name": "heroTitle",
+                      "fill": "$color-text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Energy savings made just for you.",
+                      "lineHeight": 1.05,
+                      "fontFamily": "$font-headline",
+                      "fontSize": 62,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "mUj3T",
+                      "name": "heroCopy",
+                      "fill": "#4D5755",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "We reduce your cost of energy and help you remain compliant.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "$font-body",
+                      "fontSize": 22
+                    },
+                    {
+                      "type": "frame",
+                      "id": "17g3C",
+                      "name": "heroActions",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "khaMQ",
+                          "name": "heroPrimaryBtn",
+                          "fill": "$color-accent",
+                          "cornerRadius": 14,
+                          "padding": [
+                            14,
+                            22
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qPGc3",
+                              "name": "heroPrimaryBtnText",
+                              "fill": "#FFFFFF",
+                              "content": "Book a Consultation",
+                              "fontFamily": "$font-body",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "5NNE6",
+                          "name": "heroSecondaryBtn",
+                          "fill": "$color-text",
+                          "cornerRadius": 14,
+                          "padding": [
+                            14,
+                            22
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uyhuH",
+                              "name": "heroSecondaryBtnText",
+                              "fill": "#ECECEC",
+                              "content": "View Services",
+                              "fontFamily": "$font-body",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3u8GP",
+                      "name": "heroPanels",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "U4kqo",
+                          "name": "approachCard",
+                          "width": "fill_container",
+                          "fill": "#FFFFFFA8",
+                          "cornerRadius": 16,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#FFFFFF85"
+                          },
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": [
+                            16,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BefLp",
+                              "name": "approachLabel",
+                              "fill": "#51605C",
+                              "content": "Approach",
+                              "fontFamily": "Space Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "bJX7l",
+                              "name": "approachValue",
+                              "fill": "#25312E",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "We provide you solutions based on your energy needs back by your data.",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vX3F5",
+                          "name": "coverageCard",
+                          "width": "fill_container",
+                          "fill": "#FFFFFFA8",
+                          "cornerRadius": 16,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#FFFFFF85"
+                          },
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": [
+                            16,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "K2g7c",
+                              "name": "coverageLabel",
+                              "fill": "#51605C",
+                              "content": "Coverage",
+                              "fontFamily": "Space Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "JagpL",
+                              "name": "coverageValue",
+                              "fill": "#25312E",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "All Residential Buildings.\nCommercial coming soon.",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "hQipu",
+                  "name": "heroImageWrap",
+                  "width": 616,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "S02aG",
+                      "name": "Hero Video Slot - Clip 2",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "cedricletsch",
+                        "link": "https://unsplash.com/@cedricletsch",
+                        "author": "Cedric Letsch"
+                      },
+                      "width": "fill_container",
+                      "height": 640,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1576764225594-96ad970efffa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzI5MTUxMzJ8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "zk9M7",
+                      "name": "heroImageNote",
+                      "fill": "#44514D",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Hero video spec: use Clip 2.mp4, loop first 5 seconds, playback 0.8x (CTA unchanged).",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mgoKz",
+          "name": "Story",
+          "width": "fill_container",
+          "fill": "#DCE5E2",
+          "layout": "vertical",
+          "padding": [
+            72,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "liVPW",
+              "name": "storyStack",
+              "width": 920,
+              "layout": "vertical",
+              "gap": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UVDYV",
+                  "name": "storyEyebrow",
+                  "fill": "#2F665A",
+                  "content": "OUR STORY",
+                  "fontFamily": "Space Mono",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "text",
+                  "id": "Slg1O",
+                  "name": "storyTitle",
+                  "fill": "#1F2523",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Grounded expertise without jargon.",
+                  "lineHeight": 1.08,
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 46,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "anlaL",
+                  "name": "storyP1",
+                  "fill": "#46514E",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Cohi was built around one principle: strong energy strategy should feel understandable and useful, not overwhelming. We bring a modern, refined approach that balances confidence with clarity so clients can make better decisions without friction.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "655ia",
+                  "name": "storyP2",
+                  "fill": "#46514E",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Every building and every client context is different. Our work starts with listening, then translating data into actions that are practical, measurable, and aligned with real-world constraints.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "foFrJ",
+          "name": "Services",
+          "width": "fill_container",
+          "fill": "$color-bg",
+          "layout": "vertical",
+          "gap": 34,
+          "padding": [
+            78,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Uxxll",
+              "name": "servicesStack",
+              "width": 980,
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "jOCpe",
+                  "name": "servicesEyebrow",
+                  "fill": "#2F665A",
+                  "content": "SERVICES",
+                  "fontFamily": "Space Mono",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "text",
+                  "id": "6Nx2B",
+                  "name": "servicesTitle",
+                  "fill": "#1F2523",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Two service tracks designed for different decision makers.",
+                  "lineHeight": 1.1,
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 44,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yaxxB",
+              "name": "serviceGrid",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "twjun",
+                  "name": "individualCard",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFBE",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D3DDD9"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    28,
+                    26
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hrIAk",
+                      "name": "individualTitle",
+                      "fill": "#1F2523",
+                      "content": "For Individuals",
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 32,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xDjMx",
+                      "name": "individualList",
+                      "fill": "#3E4A47",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "- Bill rate analysis and reduction opportunities\n- Usage analysis with practical recommendations\n- California energy incentive eligibility support\n- Retrofitting guidance for lower ongoing utility spend",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aHGUh",
+                  "name": "propertyCard",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFBE",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D3DDD9"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    28,
+                    26
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7nIRc",
+                      "name": "propertyTitle",
+                      "fill": "#1F2523",
+                      "content": "For Property Managers",
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 32,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ejW1G",
+                      "name": "propertyList",
+                      "fill": "#3E4A47",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "- HOA common-space bill rate analysis\n- Retrofit optimization for measurable energy savings\n- Ordinance-aware planning and compliance support\n- Energy benchmarking for buildings over 50k sq ft",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PIi63",
+          "name": "Distinction",
+          "width": "fill_container",
+          "fill": "#E7DFB1",
+          "layout": "vertical",
+          "padding": [
+            78,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "A991j",
+              "name": "distGrid",
+              "width": "fill_container",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "4SzqH",
+                  "name": "distLeft",
+                  "width": 700,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lWxj2",
+                      "name": "distEyebrow",
+                      "fill": "#2F665A",
+                      "content": "DISTINCTION",
+                      "fontFamily": "Space Mono",
+                      "fontSize": 14,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "PAM0R",
+                      "name": "distTitle",
+                      "fill": "#1F2523",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Your requirements drive the strategy.",
+                      "lineHeight": 1.1,
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 44,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fuf42",
+                      "name": "distBody",
+                      "fill": "#3F4946",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "We do not force a template. Whether the need is benchmarking readiness, retrofit planning, or utility bill relief, we adapt scope and reporting to the reality of your building and stakeholders.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 21,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JwR0A",
+                  "name": "distRight",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": [
+                    6,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VWzac",
+                      "name": "pointOne",
+                      "width": "fill_container",
+                      "fill": "#FFFFFFA6",
+                      "cornerRadius": 14,
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DOBhE",
+                          "name": "pointOneText",
+                          "fill": "#24312E",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Requirement-first diagnostics for each client profile",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 19,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ycpes",
+                      "name": "pointTwo",
+                      "width": "fill_container",
+                      "fill": "#FFFFFFA6",
+                      "cornerRadius": 14,
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "3Qr2w",
+                          "name": "pointTwoText",
+                          "fill": "#24312E",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Building-specific benchmarking guidance that protects your reputation",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 19,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JnUGo",
+                      "name": "pointThree",
+                      "width": "fill_container",
+                      "fill": "#FFFFFFA6",
+                      "cornerRadius": 14,
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "32D1F",
+                          "name": "pointThreeText",
+                          "fill": "#24312E",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Clear implementation priorities with direct financial impact",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 19,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "6dm1j",
+          "name": "CTA Contact",
+          "width": "fill_container",
+          "fill": "#DCE5E2",
+          "layout": "vertical",
+          "padding": [
+            84,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "5kzML",
+              "name": "contactGrid",
+              "width": "fill_container",
+              "gap": 36,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "v5xIk",
+                  "name": "contactLeft",
+                  "width": 560,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ao6i5",
+                      "name": "ctaEyebrow",
+                      "fill": "#2F665A",
+                      "content": "CTA",
+                      "fontFamily": "Space Mono",
+                      "fontSize": 14,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "8ofN6",
+                      "name": "ctaTitle",
+                      "fill": "#1F2523",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Tell us what you need and we will map the next step.",
+                      "lineHeight": 1.1,
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 44,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Qkm5D",
+                      "name": "ctaBody",
+                      "fill": "#46514E",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Use the form below and Cohi will respond with a focused, practical plan.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "W7o5a",
+                  "name": "contactForm",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFB2",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#FFFFFF99"
+                  },
+                  "effect": {
+                    "type": "background_blur",
+                    "radius": 20
+                  },
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FgWAS",
+                      "name": "fieldName",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p4blB",
+                          "name": "nameLabel",
+                          "fill": "#1F2523",
+                          "content": "Name",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ixRWy",
+                          "name": "nameInput",
+                          "width": "fill_container",
+                          "fill": "#ECECEC",
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D0D8D5"
+                          },
+                          "padding": [
+                            16,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uOQ5k",
+                              "name": "namePlaceholder",
+                              "fill": "#66706D",
+                              "content": "Your full name",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "8K3MG",
+                      "name": "fieldEmail",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YCgRm",
+                          "name": "emailLabel",
+                          "fill": "#1F2523",
+                          "content": "Email",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DqTID",
+                          "name": "emailInput",
+                          "width": "fill_container",
+                          "fill": "#ECECEC",
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D0D8D5"
+                          },
+                          "padding": [
+                            16,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "YuJv6",
+                              "name": "emailPlaceholder",
+                              "fill": "#66706D",
+                              "content": "name@example.com",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "5W5Dx",
+                      "name": "fieldAddress",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "46qSq",
+                          "name": "addressLabel",
+                          "fill": "#1F2523",
+                          "content": "Building Address",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "0JWFC",
+                          "name": "addressInput",
+                          "width": "fill_container",
+                          "fill": "#ECECEC",
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D0D8D5"
+                          },
+                          "padding": [
+                            16,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tza8z",
+                              "name": "addressPlaceholder",
+                              "fill": "#66706D",
+                              "content": "123 Main St, San Francisco, CA",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WMW2m",
+                      "name": "fieldMessage",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "be0G4",
+                          "name": "messageLabel",
+                          "fill": "#1F2523",
+                          "content": "Message (Optional)",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UsVb9",
+                          "name": "messageInput",
+                          "width": "fill_container",
+                          "fill": "#ECECEC",
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D0D8D5"
+                          },
+                          "padding": [
+                            16,
+                            14
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "KV0FR",
+                              "name": "messagePlaceholder",
+                              "fill": "#66706D",
+                              "content": "Share your goals or current challenges",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KIiJV",
+                      "name": "submitBtn",
+                      "width": "fill_container",
+                      "fill": "#1F2523",
+                      "cornerRadius": 12,
+                      "padding": [
+                        16,
+                        20
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wKbMQ",
+                          "name": "submitText",
+                          "fill": "#ECECEC",
+                          "content": "Request Consultation",
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zuWPz",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#1F2523",
+          "layout": "vertical",
+          "padding": [
+            42,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "uSOGA",
+              "name": "footerLayout",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "77xCd",
+                  "name": "footerBrandCol",
+                  "width": 660,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "A7rbh",
+                      "name": "footerBrand",
+                      "fill": "#ECECEC",
+                      "content": "Cohi",
+                      "fontFamily": "Poppins",
+                      "fontSize": 34,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "D30jS",
+                      "name": "footerCopy",
+                      "fill": "#CDD4D2",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Intelligent energy guidance for individuals and property portfolios.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZgU3P",
+                  "name": "footerContact",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RwMq8",
+                      "name": "footerEmail",
+                      "fill": "#E7DFB1",
+                      "content": "contact@cohi.energy",
+                      "fontFamily": "Space Mono",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ioFg5",
+                      "name": "footerPhone",
+                      "fill": "#E7DFB1",
+                      "content": "(415) 379-0018",
+                      "fontFamily": "Space Mono",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "line",
+              "id": "BqDeq",
+              "name": "footerRule",
+              "width": "fill_container",
+              "height": 1,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#44514D"
+              }
+            },
+            {
+              "type": "text",
+              "id": "JO9xl",
+              "name": "footerMeta",
+              "fill": "#A5B1AD",
+              "content": "Designed for clarity, compliance, and measurable utility savings.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "color-accent": {
+      "type": "color",
+      "value": "#FF6A33"
+    },
+    "color-bg": {
+      "type": "color",
+      "value": "#ECECEC"
+    },
+    "color-glass": {
+      "type": "color",
+      "value": "#FFFFFF99"
+    },
+    "color-muted-yellow": {
+      "type": "color",
+      "value": "#E7DFB1"
+    },
+    "color-primary": {
+      "type": "color",
+      "value": "#2F665A"
+    },
+    "color-secondary": {
+      "type": "color",
+      "value": "#C1CDCB"
+    },
+    "color-text": {
+      "type": "color",
+      "value": "#1F2523"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Inter"
+    },
+    "font-headline": {
+      "type": "string",
+      "value": "Plus Jakarta Sans"
+    },
+    "font-logo": {
+      "type": "string",
+      "value": "Poppins"
+    },
+    "font-mono": {
+      "type": "string",
+      "value": "Space Mono"
+    }
+  }
+}
