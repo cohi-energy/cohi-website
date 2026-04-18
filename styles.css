@@ -4,27 +4,6 @@
     box-sizing: border-box;
 }
 
-:root {
-    --bg: #ecebe8;
-    --surface: #f7f7f4;
-    --surface-strong: #ffffff;
-    --primary: #2f6658;
-    --secondary: #c1cdcc;
-    --accent: #ff6a34;
-    --pastel-yellow: #f2edc1;
-    --text: #1f2522;
-    --text-soft: #4a5551;
-    --border: #d0d6d4;
-    --glass: rgba(248, 248, 246, 0.62);
-    --shadow-soft: 0 14px 36px rgba(19, 28, 24, 0.11);
-    --container: 1160px;
-    --radius: 16px;
-    --font-display: 'Poppins', system-ui, sans-serif;
-    --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
-    --font-data: 'Geist Mono', monospace;
-}
-
 html {
     scroll-behavior: smooth;
 }

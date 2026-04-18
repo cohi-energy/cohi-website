@@ -10,19 +10,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+    <link rel="stylesheet" href="assets/brand/brand.css">
     <link rel="stylesheet" href="styles.css?v=services-rebuild-165">
 
     <script src="config.js"></script>
     <script src="reddit-pixel.js"></script>
     <script src="posthog.js"></script>
+    <script src="navigation.js"></script>
 </head>
 <body>
     <header class="site-header">
         <div class="nav-shell">
             <a href="#home" class="brand" aria-label="Cohi home">
                 <span class="brand-lockup">
-                    <img src="assets/branding/logo_white.svg" alt="Cohi" class="logo-img" id="logo-image">
+                    <img src="assets/brand/logo-light.svg" alt="Cohi" class="logo-img" id="logo-image">
                     <span class="logo-text" id="logo-text">
                         <span class="logo-wordmark-main">COHI</span>
                         <span class="logo-wordmark-sub">ENERGY</span>
@@ -34,7 +36,7 @@
                 <a href="#services">Services</a>
                 <a href="#contact">Contact</a>
             </nav>
-            <a href="#contact" class="nav-cta" onclick="trackCTAClick && trackCTAClick('contact_form', 'sticky_nav')">Get Started</a>
+            <a href="https://app.cohi.energy/" data-app-link data-app-path="/" class="nav-cta" onclick="trackCTAClick && trackCTAClick('app', 'sticky_nav')">Reduce your bill</a>
         </div>
     </header>
 
@@ -424,13 +426,14 @@
             <div class="footer-brand-group">
                 <p class="footer-brand">
                     <span class="brand-lockup footer-brand-lockup">
-                        <img src="assets/branding/logo_white.svg" alt="" class="logo-img footer-logo-img" aria-hidden="true">
+                        <img src="assets/brand/logo-light.svg" alt="" class="logo-img footer-logo-img" aria-hidden="true">
                         <span><span class="logo-wordmark-main">COHI</span><span class="logo-wordmark-sub">ENERGY</span></span>
                     </span>
                 </p>
                 <p class="footer-copy">Intelligent energy guidance for individuals and property portfolios.</p>
             </div>
             <div class="footer-contact" aria-label="Contact details">
+                <a href="https://app.cohi.energy/" data-app-link data-app-path="/" onclick="trackCTAClick && trackCTAClick('app', 'footer')">App</a>
                 <a href="mailto:contact@cohi.energy">contact@cohi.energy</a>
                 <a href="tel:+14153790018">(415) 379-0018</a>
             </div>

@@ -12,6 +12,9 @@ echo "🚀 Starting Cohi website local development..."
 
 PORT="${PORT:-8000}"
 
+echo "Syncing shared brand assets..."
+(cd .. && npm run brand:sync)
+
 # Check if config.js exists, if not create from template
 if [ ! -f "config.js" ]; then
     if [ -f "config.template.js" ]; then

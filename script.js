@@ -1,5 +1,8 @@
 (function logoFallback() {
-    const logoExtensions = ['svg', 'png', 'jpg', 'jpeg'];
+    const logoSources = [
+        'assets/brand/logo-light.svg',
+        'assets/brand/logo-dark.svg',
+    ];
     let currentAttempt = 0;
 
     function tryNextLogo() {
@@ -10,8 +13,8 @@
             return;
         }
 
-        if (currentAttempt < logoExtensions.length) {
-            logoImg.src = `logo.${logoExtensions[currentAttempt]}`;
+        if (currentAttempt < logoSources.length) {
+            logoImg.src = logoSources[currentAttempt];
             currentAttempt += 1;
             return;
         }

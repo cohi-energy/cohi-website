@@ -10,3 +10,6 @@ const REDDIT_PIXEL_ID = '__REDDIT_PIXEL_ID__';
 // PostHog Analytics (for user tracking across cohi.energy and app.cohi.energy)
 const POSTHOG_API_KEY = '__POSTHOG_API_KEY__';
 const POSTHOG_HOST = '__POSTHOG_HOST__';
+
+// Optional local override for the app origin, e.g. http://127.0.0.1:5174
+const APP_BASE_URL = '';
