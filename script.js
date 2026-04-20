@@ -1,40 +1,22 @@
-(function logoFallback() {
-    const logoSources = [
-        'assets/brand/logo-light.svg',
-        'assets/brand/logo-dark.svg',
-    ];
-    let currentAttempt = 0;
+(function setupLogoScrollSwap() {
+    const LOGO_LIGHT = 'assets/brand/logo-light.svg';
+    const LOGO_DARK = 'assets/brand/logo-dark.svg';
 
-    function tryNextLogo() {
-        const logoImg = document.getElementById('logo-image');
-        const logoText = document.getElementById('logo-text');
-
-        if (!logoImg) {
-            return;
-        }
-
-        if (currentAttempt < logoSources.length) {
-            logoImg.src = logoSources[currentAttempt];
-            currentAttempt += 1;
-            return;
-        }
-
-        logoImg.style.display = 'none';
-        if (logoText) {
-            logoText.style.display = 'inline-block';
+    function syncLogo(header) {
+        const logo = document.getElementById('logo-image');
+        if (!logo) return;
+        const next = header.classList.contains('is-scrolled') ? LOGO_DARK : LOGO_LIGHT;
+        if (!logo.src.endsWith(next)) {
+            logo.src = next;
         }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        const logoImg = document.getElementById('logo-image');
-        if (!logoImg) {
-            return;
-        }
-
-        logoImg.onerror = tryNextLogo;
-        if (!logoImg.src || (logoImg.complete && logoImg.naturalHeight === 0)) {
-            tryNextLogo();
-        }
+        const header = document.querySelector('.site-header');
+        if (!header) return;
+        syncLogo(header);
+        const observer = new MutationObserver(() => syncLogo(header));
+        observer.observe(header, { attributes: true, attributeFilter: ['class'] });
     });
 })();
 
