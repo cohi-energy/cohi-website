@@ -39,6 +39,25 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
+}
+
+/* Halftone 10px grain — body level, same as the app. One source of texture. */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--grain-halftone-10);
+    background-size: 10px 10px;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
 }
 
 img {
@@ -178,45 +197,79 @@ h3 {
     outline: none;
 }
 
+/* Nav CTA — primary button recipe (matches .brand-button-primary in the app) */
 .nav-cta {
     text-decoration: none;
     font-family: var(--font-data);
     font-size: 0.8rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--text-inverted);
-    background: var(--primary);
-    border: 1px solid color-mix(in srgb, var(--primary) 52%, transparent);
+    color: #fff;
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary) 35%, var(--primary-hover) 100%);
+    border: 0;
     border-radius: var(--radius-pill);
     padding: 0.58rem 1rem;
     margin-left: 0;
     position: relative;
     z-index: 2;
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 22%, transparent),
-        var(--shadow-inset);
-    transition: background-color var(--transition-fast),
-        border-color var(--transition-fast), box-shadow var(--transition-base),
-        transform var(--transition-base);
+    box-shadow:
+        var(--button-shadow-teal),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.25);
+    transform: translateY(0);
+    transition:
+        transform 180ms var(--easing-base),
+        box-shadow 220ms var(--easing-base),
+        background 200ms ease,
+        filter 200ms ease;
 }
 
 .nav-cta:hover,
 .nav-cta:focus-visible {
-    background: var(--primary-hover);
-    border-color: color-mix(in srgb, var(--primary) 72%, transparent);
-    box-shadow: 0 14px 32px color-mix(in srgb, var(--primary) 34%, transparent),
-        var(--shadow-inset);
     transform: translateY(-1px);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--primary) 92%, #fff), var(--primary));
+    filter: saturate(1.08);
+    box-shadow:
+        var(--button-shadow-teal-hover),
+        0 0 0 0.5px rgba(20, 30, 25, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.38),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.32);
     outline: none;
 }
-
-.site-header.is-scrolled {
-    background: color-mix(in srgb, var(--surface) 58%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
+.nav-cta:focus-visible {
     box-shadow:
-        0 10px 30px rgba(18, 29, 24, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        var(--button-shadow-teal-hover),
+        0 0 0 3px rgba(14, 129, 112, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.38),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.32);
+}
+.nav-cta:active {
+    transform: translateY(0) scale(0.97);
+    filter: saturate(1);
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary) 35%, var(--primary-hover) 100%);
+    box-shadow:
+        var(--button-shadow-teal),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.25);
+}
+
+/* Header sticks completely invisible while over the video hero — no bg, no blur,
+   no shadow. Once off the video, it materialises as T2 Frost (same recipe as
+   .brand-menu in the app): cool tint · blur 30 · saturate 140 · T2 shadow +
+   cool accent · whisper hairline. */
+.site-header.is-scrolled {
+    background: var(--frost-glass);
+    border-bottom: 0;
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    box-shadow:
+        var(--elevation-t2),
+        0 8px 18px var(--cool-shadow),
+        var(--elevation-hairline),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        inset 0 0 32px rgba(200, 224, 240, 0.10);
 }
 
 .site-header.is-scrolled .logo-text,
@@ -327,6 +380,12 @@ h3 {
     margin-bottom: 4rem;
 }
 
+/* =============================================================
+   Buttons — unified with app brand-button-* recipes.
+   Same shared elevation + animations · only fill differs.
+   On the dark marketing hero, secondary uses a white-tinted frost
+   that still reads on dark (the same Frost T1 recipe).
+   ============================================================= */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -335,16 +394,20 @@ h3 {
     text-decoration: none;
     padding: 0.86rem 1.35rem;
     border-radius: var(--radius-pill);
-    border: 1px solid transparent;
+    border: 0;
     font-family: var(--font-heading);
     font-size: 0.98rem;
     font-weight: 600;
     letter-spacing: -0.005em;
     line-height: 1;
     cursor: pointer;
-    transition: background-color var(--transition-fast),
-        border-color var(--transition-fast), color var(--transition-fast),
-        box-shadow var(--transition-base), transform var(--transition-base);
+    transform: translateY(0);
+    transition:
+        transform 180ms var(--easing-base),
+        box-shadow 220ms var(--easing-base),
+        background 200ms ease,
+        background-color 200ms ease,
+        filter 200ms ease;
 }
 
 .btn:disabled,
@@ -354,43 +417,86 @@ h3 {
     transform: none !important;
 }
 
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* Primary · teal gradient · teal-tinted shadow */
 .btn-primary {
-    color: var(--text-inverted);
-    background: var(--primary);
-    border-color: color-mix(in srgb, var(--primary) 60%, transparent);
-    box-shadow: 0 12px 28px color-mix(in srgb, var(--primary) 26%, transparent),
-        var(--shadow-inset);
+    color: #fff;
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary) 35%, var(--primary-hover) 100%);
+    box-shadow:
+        var(--button-shadow-teal),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.25);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
-    background: var(--primary-hover);
-    border-color: color-mix(in srgb, var(--primary) 78%, transparent);
-    box-shadow: 0 14px 32px color-mix(in srgb, var(--primary) 36%, transparent),
-        var(--shadow-inset);
     transform: translateY(-1px);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--primary) 92%, #fff), var(--primary));
+    filter: saturate(1.08);
+    box-shadow:
+        var(--button-shadow-teal-hover),
+        0 0 0 0.5px rgba(20, 30, 25, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.38),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.32);
     outline: none;
 }
-
+.btn-primary:focus-visible {
+    box-shadow:
+        var(--button-shadow-teal-hover),
+        0 0 0 3px rgba(14, 129, 112, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.38),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.32);
+}
 .btn-primary:active {
-    background: var(--primary-pressed);
-    transform: translateY(0);
+    transform: translateY(0) scale(0.97);
+    filter: saturate(1);
+    box-shadow:
+        var(--button-shadow-teal),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.25);
 }
 
+/* Secondary · Frost T1 recipe (same as .brand-button-secondary) ·
+   same elevation as primary · only the fill differs */
 .btn-secondary {
-    color: var(--text-inverted);
-    background: var(--glass-on-dark);
-    border-color: var(--glass-on-dark-border);
-    backdrop-filter: blur(10px) saturate(120%);
-    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    color: var(--text);
+    background: rgba(251, 253, 255, 0.70);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--button-shadow),
+        0 0 0 0.5px rgba(20, 30, 25, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus-visible {
-    background: var(--glass-on-dark-strong);
-    border-color: color-mix(in srgb, var(--highlight) 52%, transparent);
     transform: translateY(-1px);
+    background: rgba(253, 254, 255, 0.86);
+    box-shadow:
+        var(--button-shadow-hover),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.74);
     outline: none;
+}
+.btn-secondary:focus-visible {
+    box-shadow:
+        var(--button-shadow-hover),
+        0 0 0 3px rgba(14, 129, 112, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+.btn-secondary:active {
+    transform: translateY(0) scale(0.97);
+    background: rgba(251, 253, 255, 0.70);
+    box-shadow:
+        var(--button-shadow),
+        0 0 0 0.5px rgba(20, 30, 25, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 
 .hero-panels {
@@ -403,16 +509,26 @@ h3 {
     align-items: stretch;
 }
 
+/* Hero panel — T1 Frost recipe (same as .brand-card in the app). Sitting on a
+   dark video hero reads as a light frosted card with good contrast. Dark-glass
+   variants are not a separate tier — the system is T0–T3 · applied universally. */
+/* T2 Frost — denser variant for cards sitting over the dark video hero.
+   Same recipe as the scrolled header + services gate shell. */
 .glass-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: var(--glass-on-dark-strong);
-    border: 1px solid var(--glass-on-dark-border);
+    background: var(--frost-glass);
+    border: 0;
     border-radius: var(--radius-lg);
-    backdrop-filter: blur(18px) saturate(130%);
-    -webkit-backdrop-filter: blur(18px) saturate(130%);
-    box-shadow: var(--shadow-soft), var(--shadow-inset);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    box-shadow:
+        var(--elevation-t2),
+        0 8px 18px var(--cool-shadow),
+        var(--elevation-hairline),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        inset 0 0 32px rgba(200, 224, 240, 0.10);
     width: 100%;
     height: 100%;
     min-height: 0;
@@ -423,17 +539,17 @@ h3 {
 .panel-label {
     font-family: var(--font-data);
     font-size: 0.72rem;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--highlight);
+    color: var(--primary);
     margin-bottom: 0.4rem;
 }
 
 .panel-value {
     font-size: 0.96rem;
     line-height: 1.5;
-    color: var(--ink-on-dark);
+    color: var(--text);
 }
 
 .impact-band {
@@ -460,24 +576,34 @@ h3 {
     gap: 1rem;
 }
 
+/* Impact card — T1 Frost recipe (same as .brand-card in the app) */
 .impact-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
     min-height: 0;
     padding: 0.85rem;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    background: var(--gradient-card);
-    box-shadow: var(--shadow-card);
-    transition: transform var(--transition-base), box-shadow var(--transition-base),
-        border-color var(--transition-base);
+    border: 0;
+    background: var(--frost-glass-soft);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--elevation-t1),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54);
+    transition:
+        transform var(--transition-base),
+        box-shadow var(--transition-base);
 }
 
 .impact-card:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-raised);
-    border-color: var(--border-strong);
+    box-shadow:
+        var(--elevation-t1-hover),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 
 .impact-card-cost {
@@ -488,14 +614,16 @@ h3 {
     --impact-waste-duration: 16s;
 }
 
+/* Inner scene frame — T0 Solid (static art surface, no hover) */
 .impact-card-scene {
     position: relative;
     aspect-ratio: 1 / 1.2;
     height: auto;
     border-radius: var(--radius);
     overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--gradient-card-soft);
+    border: 1px solid rgba(20, 30, 25, 0.08);
+    background: var(--surface);
+    box-shadow: var(--elevation-t0);
 }
 
 .impact-card-scene svg {
@@ -1495,7 +1623,9 @@ h3 {
 }
 
 .services {
-    background: var(--gradient-page-soft);
+    /* Canvas inherited from body — no per-section background override.
+       Earlier this re-painted var(--gradient-page-soft) on top of body,
+       creating a double-stacked yellow orb. Now a single source. */
     position: relative;
 }
 
@@ -1517,25 +1647,36 @@ h3 {
     color: var(--text-soft);
 }
 
+/* Services gate container — T2 Frost (raised tier · "featured panel") */
 .services-gate {
     position: relative;
     margin: 0;
-    border-radius: 28px;
+    border-radius: var(--radius-xl);
     min-height: 360px;
     overflow: hidden;
-    background:
-        radial-gradient(circle at top left, rgba(255, 255, 153, 0.26), transparent 38%),
-        linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(240, 243, 239, 0.76));
-    border: 1px solid rgba(193, 205, 204, 0.92);
-    box-shadow: 0 24px 54px rgba(18, 29, 24, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: min-height 260ms ease, box-shadow 260ms ease, transform 260ms ease;
+    background: var(--frost-glass);
+    border: 0;
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    box-shadow:
+        var(--elevation-t2),
+        0 8px 18px var(--cool-shadow),
+        var(--elevation-hairline),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        inset 0 0 32px rgba(200, 224, 240, 0.10);
+    transition:
+        min-height 260ms ease,
+        box-shadow 260ms ease,
+        transform 260ms ease;
 }
 
 .services-gate.is-dialog-open {
     min-height: 540px;
-    box-shadow: 0 30px 72px rgba(18, 29, 24, 0.16);
+    box-shadow:
+        var(--elevation-t3),
+        0 10px 24px var(--cool-shadow),
+        var(--elevation-hairline),
+        inset 0 1px 0 rgba(255, 255, 255, 0.74);
 }
 
 .services-gate-content {
@@ -1575,35 +1716,57 @@ h3 {
     align-items: center;
 }
 
+/* Tab — button style · secondary recipe by default, primary teal when active */
 .services-gate-tab {
     position: relative;
     z-index: 1;
-    border-radius: 999px;
-    border: 1px solid rgba(193, 205, 204, 0.92);
-    background: rgba(255, 255, 255, 0.88);
-    color: var(--text-soft);
-    font-family: 'Inter', sans-serif;
+    border-radius: var(--radius-pill);
+    border: 0;
+    background: rgba(251, 253, 255, 0.70);
+    color: var(--text);
+    font-family: var(--font-heading);
     font-size: 0.95rem;
     font-weight: 600;
     padding: 0.72rem 1.1rem;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(21, 31, 27, 0.08);
-    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--button-shadow),
+        0 0 0 0.5px rgba(20, 30, 25, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+    transform: scale(1);
+    transition:
+        transform 160ms var(--easing-base),
+        box-shadow 200ms ease,
+        background-color 200ms ease;
 }
 
 .services-gate-tab:hover,
 .services-gate-tab:focus-visible {
-    border-color: rgba(47, 102, 88, 0.42);
-    box-shadow: 0 0 0 3px rgba(47, 102, 88, 0.08), 0 10px 24px rgba(21, 31, 27, 0.09);
-    color: var(--text);
+    background: rgba(253, 254, 255, 0.82);
+    box-shadow:
+        var(--button-shadow-hover),
+        0 0 0 0.5px rgba(20, 30, 25, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.68);
     outline: none;
-    transform: translateY(-1px);
 }
+.services-gate-tab:focus-visible {
+    box-shadow:
+        var(--button-shadow),
+        0 0 0 3px rgba(14, 129, 112, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+.services-gate-tab:active { transform: scale(0.97); }
 
 .services-gate-tab.is-active {
-    background: rgba(255, 255, 153, 0.54);
-    border-color: rgba(47, 102, 88, 0.45);
-    color: var(--text);
+    color: #fff;
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary) 35%, var(--primary-hover) 100%);
+    box-shadow:
+        var(--button-shadow-teal),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.25);
 }
 
 .services-gate-dialog {
@@ -1615,19 +1778,27 @@ h3 {
     transform-origin: top center;
 }
 
+/* Dialog shell — T3 Liquid Hero recipe (featured / modal surface) */
 .services-gate-dialog-shell {
     position: relative;
     height: 100%;
     display: flex;
     flex-direction: column;
     padding: 1.2rem;
-    border-radius: 26px;
-    background:
-        linear-gradient(155deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.18)),
-        rgba(239, 245, 241, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    box-shadow: 0 18px 34px rgba(17, 25, 22, 0.14);
+    border-radius: var(--radius-xl);
+    background: var(--gradient-liquid-refraction);
+    border: 0;
+    backdrop-filter: blur(44px) saturate(220%);
+    -webkit-backdrop-filter: blur(44px) saturate(220%);
+    box-shadow:
+        var(--elevation-t3),
+        var(--elevation-t3-warm),
+        var(--elevation-hairline),
+        inset 0 1px 0 rgba(255, 255, 255, 0.74),
+        inset 0 -1px 2px rgba(20, 30, 25, 0.05),
+        inset 0 0 60px rgba(255, 143, 71, 0.06);
     overflow: hidden;
+    isolation: isolate;
 }
 
 .services-gate-dialog-shell::before {
@@ -1667,26 +1838,37 @@ h3 {
     color: var(--primary);
 }
 
+/* Close button — ghost tier · no material · hover tint only */
 .services-gate-dialog-close {
     width: 40px;
     height: 40px;
     margin-left: auto;
-    border-radius: 999px;
-    border: 1px solid rgba(47, 102, 88, 0.28);
-    background: rgba(255, 255, 255, 0.34);
-    color: var(--text);
+    border-radius: var(--radius-pill);
+    border: 0;
+    background: transparent;
+    color: var(--text-soft);
     font-size: 1.35rem;
     line-height: 1;
     cursor: pointer;
     flex: 0 0 auto;
+    transform: scale(1);
+    transition:
+        transform 160ms var(--easing-base),
+        background-color 180ms ease,
+        color 180ms ease,
+        box-shadow 200ms ease;
 }
 
-.services-gate-dialog-close:hover,
-.services-gate-dialog-close:focus-visible {
-    border-color: rgba(47, 102, 88, 0.65);
-    box-shadow: 0 0 0 3px rgba(47, 102, 88, 0.1);
-    outline: none;
+.services-gate-dialog-close:hover {
+    color: var(--text);
+    background: rgba(14, 129, 112, 0.05);
 }
+.services-gate-dialog-close:focus-visible {
+    outline: none;
+    color: var(--text);
+    box-shadow: 0 0 0 3px rgba(14, 129, 112, 0.26);
+}
+.services-gate-dialog-close:active { transform: scale(0.97); }
 
 .services-gate-cards {
     position: relative;
@@ -1698,9 +1880,10 @@ h3 {
     width: 100%;
 }
 
+/* Services gate tile — T1 Frost · hovers to T2 shadow · keeps tone accent glow */
 .services-gate-card {
-    --card-accent: #2f6658;
-    --card-glow: rgba(47, 102, 88, 0.2);
+    --card-accent: var(--primary);
+    --card-glow: rgba(14, 129, 112, 0.20);
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
@@ -1709,15 +1892,22 @@ h3 {
     gap: 0.6rem;
     text-align: center;
     min-height: 248px;
-    border-radius: 22px;
-    border: 1px solid rgba(193, 205, 204, 0.88);
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(247, 250, 248, 0.7));
+    border-radius: var(--radius-lg);
+    border: 0;
+    background: var(--frost-glass-soft);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--elevation-t1),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54);
     padding: 1.05rem 0.95rem 0.95rem;
     cursor: pointer;
-    box-shadow: 0 14px 28px rgba(21, 31, 27, 0.1);
     overflow: hidden;
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+    transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        background-color 220ms ease;
 }
 
 .services-gate-card::before {
@@ -1747,11 +1937,19 @@ h3 {
 .services-gate-card:hover,
 .services-gate-card:focus-visible,
 .services-gate-card.is-selected {
-    border-color: rgba(47, 102, 88, 0.6);
-    background: rgba(255, 255, 255, 0.94);
-    box-shadow: 0 0 0 3px rgba(47, 102, 88, 0.12), 0 22px 40px rgba(21, 31, 27, 0.14);
+    background: rgba(253, 254, 255, 0.82);
+    box-shadow:
+        var(--elevation-t1-hover),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
     transform: translateY(-6px) scale(1.015);
     outline: none;
+}
+.services-gate-card:focus-visible {
+    box-shadow:
+        var(--elevation-t1-hover),
+        0 0 0 3px rgba(14, 129, 112, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .services-gate-card:hover::before,
@@ -2470,15 +2668,22 @@ h3 {
     }
 }
 
+/* Services Fresh panel — T2 Raised (featured panel on the canvas) */
 .services-fresh {
     position: relative;
     min-height: 540px;
     border-radius: var(--radius-xl);
     overflow: hidden;
     padding: 2.1rem 1.35rem 1.35rem;
-    border: 1px solid var(--border);
-    background: var(--gradient-card);
-    box-shadow: var(--shadow-card);
+    border: 0;
+    background: var(--frost-glass);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    box-shadow:
+        var(--elevation-t2),
+        0 8px 18px var(--cool-shadow),
+        var(--elevation-hairline),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64);
 }
 
 .services-fresh.is-expanded {
@@ -2519,42 +2724,71 @@ h3 {
     gap: 0.85rem;
 }
 
+/* Trigger — secondary button recipe · primary teal when active */
 .services-fresh-trigger {
     border-radius: var(--radius-pill);
-    border: 1px solid var(--border);
-    background: var(--surface-strong);
-    color: var(--text-soft);
+    border: 0;
+    background: rgba(251, 253, 255, 0.70);
+    color: var(--text);
     font-family: var(--font-heading);
     font-size: 0.95rem;
     font-weight: 500;
     letter-spacing: -0.005em;
     padding: 0.8rem 1.2rem;
     cursor: pointer;
-    box-shadow: var(--shadow-soft);
-    transition: transform var(--transition-fast), border-color var(--transition-fast),
-        box-shadow var(--transition-fast), background-color var(--transition-fast),
-        color var(--transition-fast);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--button-shadow),
+        0 0 0 0.5px rgba(20, 30, 25, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+    transform: scale(1);
+    transition:
+        transform 160ms var(--easing-base),
+        box-shadow 200ms ease,
+        background-color 200ms ease;
 }
 
 .services-fresh-trigger:hover,
-.services-fresh-trigger:focus-visible,
-.services-fresh-trigger.is-active {
-    border-color: color-mix(in srgb, var(--primary) 55%, transparent);
-    background: color-mix(in srgb, var(--highlight) 42%, var(--surface-strong));
-    color: var(--text);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 10%, transparent),
-        var(--shadow-soft);
+.services-fresh-trigger:focus-visible {
+    background: rgba(253, 254, 255, 0.82);
+    box-shadow:
+        var(--button-shadow-hover),
+        0 0 0 0.5px rgba(20, 30, 25, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.68);
     outline: none;
-    transform: translateY(-1px);
+}
+.services-fresh-trigger:focus-visible {
+    box-shadow:
+        var(--button-shadow),
+        0 0 0 3px rgba(14, 129, 112, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+.services-fresh-trigger:active { transform: scale(0.97); }
+
+.services-fresh-trigger.is-active {
+    color: #fff;
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary) 35%, var(--primary-hover) 100%);
+    box-shadow:
+        var(--button-shadow-teal),
+        0 0 0 0.5px rgba(20, 30, 25, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(5, 74, 62, 0.25);
 }
 
+/* Expanded panel — T1 Frost (inner content tier) */
 .services-fresh-panel {
     margin-top: 1rem;
     padding: 1rem 1rem 5rem;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    background: var(--gradient-card-soft);
-    box-shadow: var(--shadow-soft);
+    border: 0;
+    background: var(--frost-glass-soft);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--elevation-t1),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54);
 }
 
 .services-fresh.is-expanded .services-fresh-panel {
@@ -2590,31 +2824,40 @@ h3 {
     color: var(--primary);
 }
 
+/* Close buttons — ghost tier · no material · hover tint only */
 .services-fresh-close,
 .services-fresh-modal-close {
     width: 40px;
     height: 40px;
     margin-left: auto;
     border-radius: var(--radius-pill);
-    border: 1px solid color-mix(in srgb, var(--primary) 32%, transparent);
-    background: color-mix(in srgb, var(--surface) 88%, var(--surface-strong));
-    color: var(--text);
+    border: 0;
+    background: transparent;
+    color: var(--text-soft);
     font-size: 1.3rem;
     line-height: 1;
     cursor: pointer;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
-        transform var(--transition-fast);
+    transform: scale(1);
+    transition:
+        transform 160ms var(--easing-base),
+        background-color 180ms ease,
+        color 180ms ease,
+        box-shadow 200ms ease;
 }
 
 .services-fresh-close:hover,
-.services-fresh-close:focus-visible,
-.services-fresh-modal-close:hover,
-.services-fresh-modal-close:focus-visible {
-    border-color: color-mix(in srgb, var(--primary) 64%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 10%, transparent);
-    outline: none;
-    transform: translateY(-1px);
+.services-fresh-modal-close:hover {
+    color: var(--text);
+    background: rgba(14, 129, 112, 0.05);
 }
+.services-fresh-close:focus-visible,
+.services-fresh-modal-close:focus-visible {
+    outline: none;
+    color: var(--text);
+    box-shadow: 0 0 0 3px rgba(14, 129, 112, 0.26);
+}
+.services-fresh-close:active,
+.services-fresh-modal-close:active { transform: scale(0.97); }
 
 .services-fresh-grid {
     display: grid;
@@ -2622,8 +2865,10 @@ h3 {
     gap: 1rem;
 }
 
+/* Services Fresh card — T1 Frost · hovers to T2 · accent border glow on active */
 .services-fresh-card {
     --services-fresh-accent: var(--primary);
+    position: relative;
     display: grid;
     align-content: start;
     gap: 0.8rem;
@@ -2631,11 +2876,17 @@ h3 {
     padding: 1.15rem;
     text-align: left;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    background: var(--gradient-card-soft);
-    box-shadow: var(--shadow-soft);
+    border: 0;
+    background: var(--frost-glass-soft);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--elevation-t1),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54);
     cursor: pointer;
-    transition: transform var(--transition-base), border-color var(--transition-base),
+    transition:
+        transform var(--transition-base),
         box-shadow var(--transition-base);
 }
 
@@ -2646,11 +2897,21 @@ h3 {
 .services-fresh-card:hover,
 .services-fresh-card:focus-visible,
 .services-fresh-card.is-active {
-    border-color: color-mix(in srgb, var(--services-fresh-accent) 55%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--services-fresh-accent) 10%, transparent),
-        var(--shadow-card);
+    background: rgba(253, 254, 255, 0.82);
+    box-shadow:
+        var(--elevation-t1-hover),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset 0 0 0 1px color-mix(in srgb, var(--services-fresh-accent) 32%, transparent);
     outline: none;
     transform: translateY(-3px);
+}
+.services-fresh-card:focus-visible {
+    box-shadow:
+        var(--elevation-t1-hover),
+        0 0 0 3px rgba(14, 129, 112, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset 0 0 0 1px color-mix(in srgb, var(--services-fresh-accent) 32%, transparent);
 }
 
 .services-fresh-card-sage  { --services-fresh-accent: var(--primary); }
@@ -4703,9 +4964,8 @@ h3 {
 }
 
 .contact {
-    background:
-        linear-gradient(165deg, var(--surface) 0%, var(--surface) 58%, color-mix(in srgb, var(--highlight) 52%, transparent) 100%);
-    border-top: 1px solid var(--border);
+    /* Canvas inherited from body — no per-section background override. */
+    position: relative;
 }
 
 .contact-layout {
@@ -4726,12 +4986,39 @@ h3 {
     line-height: 1.152;
 }
 
+/* T1 Frost — the default card material */
 .contact-form {
-    background: var(--gradient-card-soft);
-    border: 1px solid var(--border);
+    position: relative;
+    background: var(--frost-glass-soft);
+    border: 0;
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-card);
-    padding: 1.6rem;
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--elevation-t1),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54),
+        inset 0 0 22px rgba(215, 232, 244, 0.06);
+    padding: 1.75rem;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.contact-form::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: var(--grain-paper);
+    opacity: 0.32;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.contact-form > * {
+    position: relative;
+    z-index: 1;
 }
 
 .form-group {
@@ -4754,19 +5041,25 @@ h3 {
     color: var(--primary);
 }
 
+/* Inputs — T0 Solid surface nested inside T1 Frost form */
 .form-group input,
 .form-group textarea {
     width: 100%;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(20, 30, 25, 0.08);
     border-radius: var(--radius-sm);
-    background: var(--surface-strong);
+    background: var(--surface);
     color: var(--text);
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.4;
     padding: 0.78rem 0.95rem;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
-        background-color var(--transition-fast);
+    box-shadow:
+        var(--elevation-t0),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition:
+        border-color var(--timing-base) var(--easing-base),
+        box-shadow var(--timing-base) var(--easing-base),
+        background-color var(--timing-base) var(--easing-base);
 }
 
 .form-group input::placeholder,
@@ -4777,14 +5070,17 @@ h3 {
 
 .form-group input:hover,
 .form-group textarea:hover {
-    border-color: var(--border-strong);
+    border-color: rgba(20, 30, 25, 0.14);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 14%, transparent);
+    box-shadow:
+        var(--elevation-t0),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 0 0 3px color-mix(in srgb, var(--primary) 26%, transparent);
 }
 
 .form-group textarea {
