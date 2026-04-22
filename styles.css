@@ -617,7 +617,9 @@ h3 {
 /* Inner scene frame — T0 Solid (static art surface, no hover) */
 .impact-card-scene {
     position: relative;
-    aspect-ratio: 1 / 1.2;
+    /* Roughly square: gives the React patterns enough vertical room for both
+     * the eyebrow row and the value/footer below the main visual. */
+    aspect-ratio: 1 / 1;
     height: auto;
     border-radius: var(--radius);
     overflow: hidden;
@@ -626,10 +628,29 @@ h3 {
     box-shadow: var(--elevation-t0);
 }
 
-.impact-card-scene svg {
-    width: 100%;
-    height: 100%;
-    display: block;
+/* Removed: .impact-card-scene svg { width:100%; height:100% } — was sizing up
+ * the 32px icon SVGs inside the React-mounted card pattern. The pattern
+ * components manage their own SVG sizes. */
+
+/* Mount point for the React+framer-motion card bundle. Stage inside the card
+ * uses position: absolute; inset: 0, so the mount needs to be a sized,
+ * positioned container. The scene above already provides background + border
+ * radius, so the mount itself stays transparent.
+ *
+ * `container-type: inline-size` establishes a container query context so that
+ * `cqi` units inside the patterns (e.g. clamp(28px, 7cqi, 44px) on the value
+ * font) resolve relative to the cell width — without this they fall back to
+ * the viewport and blow up at desktop widths. */
+.cohi-card-mount {
+    position: absolute;
+    inset: 0;
+    container-type: inline-size;
+}
+
+.services-fresh-card-visual .cohi-card-mount {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
 }
 
 .impact-scene-title {
@@ -2972,20 +2993,21 @@ h3 {
 }
 
 .services-fresh-card-visual {
+    position: relative;
     display: block;
     width: 100%;
-    height: 138px;
+    /* Bumped from 138px so the React patterns inside have room to breathe. */
+    aspect-ratio: 1 / 1;
+    height: auto;
+    min-height: 200px;
     border-radius: var(--radius);
     overflow: hidden;
     background: var(--gradient-card-soft);
     border: 1px solid var(--border);
 }
 
-.services-fresh-card-visual svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
+/* Removed: .services-fresh-card-visual svg { width:100%; height:100% } — see
+ * matching note on .impact-card-scene above. */
 
 .bill-crush-scene text {
     fill: #1b3f35;

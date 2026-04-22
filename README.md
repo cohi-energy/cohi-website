@@ -155,6 +155,19 @@ This site is plain HTML, CSS, and JavaScript. There is no Vite-style hot module 
 - Refresh the browser to see the update immediately
 - Keep `config.js` local and uncommitted
 
+### Animated Card Bundle
+
+The 12 impact / service-grid card animations are React + framer-motion components
+bundled into a single self-mounting IIFE: `dist/cards-bundle.js`.
+
+- **Source:** `cards-src/` (entry + tokens + per-pattern components)
+- **Build:** `npm install` once, then `npm run build` (Vite, ~1s, ~100 KB gzipped output)
+- **Output:** `dist/cards-bundle.js` (committed — GitHub Pages serves it as a static asset)
+- **Mounting:** `index.html` includes the bundle with `<script src="dist/cards-bundle.js" defer>`. The bundle scans for `<div data-cohi-card="…">` mount points (one per card id: `cost`, `waste`, `compliance`, `savings`, `bill-crush`, `usage-boulder`, `incentive-scan`, `compliance-scan`, `benchmark-mail`, `retrofit-bulb`, `hoa-catch`, `retrofit-balance`) and renders the picked React pattern into each. A `MutationObserver` picks up mount points added later by `script.js` (services-fresh resident / property-manager grids).
+- **Per-card pick:** edit `cards-src/v2/tokens.ts` → `CARD_PICK`.
+
+**Whenever you change a `cards-src/**` file, re-run `npm run build` and commit the updated `dist/cards-bundle.js`.** `npm run watch` rebuilds on save.
+
 ### Optional Live Reload
 
 If you want automatic browser refresh while editing, run:

@@ -1,3 +1,11 @@
 .DS_Store
 config.js
+node_modules/
+
+# Override the repo-root `dist/` ignore — `website/dist/cards-bundle.js`
+# is the built React bundle the marketing site loads, and must be committed
+# so GitHub Pages can serve it as a static asset.
+!dist/
+!dist/**
+dist/.DS_Store
 
