@@ -66,28 +66,12 @@
 
 (function setupServicesFreshBox() {
     const box = document.getElementById('services-fresh');
-    const panel = document.getElementById('services-fresh-panel');
-    const panelLabel = document.getElementById('services-fresh-label');
-    const panelClose = document.getElementById('services-fresh-close');
-    const grid = document.getElementById('services-fresh-grid');
-    const notice = document.getElementById('services-fresh-notice');
-    const noticeHelp = document.getElementById('services-fresh-notice-help');
-    const noticeDismiss = document.getElementById('services-fresh-notice-dismiss');
-    const modal = document.getElementById('services-fresh-modal');
-    const modalLabel = document.getElementById('services-fresh-modal-label');
-    const modalTitle = document.getElementById('services-fresh-modal-title');
-    const modalCopy = document.getElementById('services-fresh-modal-copy');
-    const modalPoints = document.getElementById('services-fresh-modal-points');
-    const modalFooter = document.getElementById('services-fresh-modal-footer');
-    const modalClose = document.getElementById('services-fresh-modal-close');
-    const triggerButtons = box ? Array.from(box.querySelectorAll('[data-fresh-group]')) : [];
+    const accordion = document.getElementById('services-fresh-accordion');
+    const pmBanner = document.getElementById('services-fresh-pm-banner');
+    const pmBannerCta = document.getElementById('services-fresh-pm-banner-cta');
+    const tabButtons = box ? Array.from(box.querySelectorAll('[data-fresh-segment]')) : [];
 
-    if (
-        !box || !panel || !panelLabel || !panelClose || !grid || !notice ||
-        !noticeHelp || !noticeDismiss || !modal || !modalLabel ||
-        !modalTitle || !modalCopy || !modalPoints || !modalFooter ||
-        !modalClose || !triggerButtons.length
-    ) {
+    if (!box || !accordion || !pmBanner || !pmBannerCta || !tabButtons.length) {
         return;
     }
 
@@ -218,235 +202,103 @@
         }
     };
 
-    let activeGroup = null;
-    let activeCardButton = null;
-    let managerNoticeShown = false;
-    let managerNoticeTimer = null;
+    let activeSegment = 'manager';
+    /** Remembers which row is expanded per segment so tab-switching restores
+     *  the user's last pick instead of always jumping to #01. Set to -1 to
+     *  indicate "all collapsed". */
+    const expandedBySegment = { resident: 0, manager: 0 };
 
-    function syncTriggers() {
-        triggerButtons.forEach((button) => {
-            const isActive = button.dataset.freshGroup === activeGroup && !panel.hidden;
-            button.classList.toggle('is-active', isActive);
-            button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-        });
+    function padIndex(i) {
+        return String(i + 1).padStart(2, '0');
     }
 
-    function closeModal() {
-        if (activeCardButton) {
-            activeCardButton.classList.remove('is-active');
-            activeCardButton = null;
-        }
+    function renderAccordion() {
+        const group = serviceGroups[activeSegment];
+        const expanded = expandedBySegment[activeSegment];
 
-        modal.hidden = true;
-        modalLabel.textContent = '';
-        modalTitle.textContent = '';
-        modalCopy.textContent = '';
-        modalPoints.replaceChildren();
-        modalFooter.textContent = '';
-    }
+        accordion.replaceChildren();
+        group.cards.forEach((card, idx) => {
+            const isOpen = idx === expanded;
+            const row = document.createElement('article');
+            row.className = `services-fresh-row ${isOpen ? 'is-open' : ''}`;
+            row.dataset.freshRow = String(idx);
 
-    function showManagerNotice() {
-        if (managerNoticeTimer) {
-            window.clearTimeout(managerNoticeTimer);
-        }
+            const visualMarkup = card.visual
+                ? `<div class="services-fresh-row-visual" aria-hidden="true">
+                       <div class="cohi-card-mount" data-cohi-card="${card.visual}"></div>
+                   </div>`
+                : '';
 
-        managerNoticeTimer = window.setTimeout(() => {
-            notice.hidden = false;
-            box.classList.add('is-notice-open');
-            managerNoticeTimer = null;
-        }, 3000);
-    }
+            const pointsMarkup = (card.detailPoints || [])
+                .map((point) => `<li class="services-fresh-row-point">${point}</li>`)
+                .join('');
 
-    function closeManagerNotice() {
-        if (managerNoticeTimer) {
-            window.clearTimeout(managerNoticeTimer);
-            managerNoticeTimer = null;
-        }
-
-        notice.hidden = true;
-        box.classList.remove('is-notice-open');
-    }
-
-    function openModal(card, button) {
-        closeModal();
-
-        const group = serviceGroups[activeGroup];
-        if (!group) {
-            return;
-        }
-
-        if (button) {
-            activeCardButton = button;
-            activeCardButton.classList.add('is-active');
-        }
-
-        modalLabel.textContent = group.modalLabel;
-        modalTitle.textContent = card.title;
-        modalCopy.textContent = card.detailCopy;
-        modalFooter.textContent = card.detailFooter;
-
-        card.detailPoints.forEach((point) => {
-            const item = document.createElement('div');
-            item.className = 'services-fresh-modal-point';
-            item.textContent = point;
-            modalPoints.appendChild(item);
-        });
-
-        modal.hidden = false;
-    }
-
-    function openManagerBenchmarkModal() {
-        const managerGroup = serviceGroups.manager;
-        const benchmarkCard = managerGroup
-            ? managerGroup.cards.find((card) => card.title === 'Energy Benchmarking')
-            : null;
-
-        if (!benchmarkCard) {
-            return;
-        }
-
-        const benchmarkButton = Array.from(grid.querySelectorAll('.services-fresh-card')).find((button) => {
-            const title = button.querySelector('.services-fresh-card-title');
-            return title && title.textContent === benchmarkCard.title;
-        });
-
-        openModal(benchmarkCard, benchmarkButton || null);
-    }
-
-    function renderCards(groupKey) {
-        const group = serviceGroups[groupKey];
-        if (!group) {
-            return;
-        }
-
-        panelLabel.textContent = group.label;
-        grid.replaceChildren();
-        closeModal();
-
-        group.cards.forEach((card) => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = `services-fresh-card services-fresh-card-${card.tone}${card.visual ? ' services-fresh-card-with-visual' : ''}`;
-            button.innerHTML = `
-                <span class="services-fresh-card-top">
-                    <span class="services-fresh-card-pill">${card.kicker}</span>
-                    <span class="services-fresh-card-arrow" aria-hidden="true">↗</span>
-                </span>
-                ${renderCardVisual(card.visual)}
-                <span class="services-fresh-card-title">${card.title}</span>
-                <span class="services-fresh-card-copy">${card.copy}</span>
+            row.innerHTML = `
+                <button type="button" class="services-fresh-row-head" aria-expanded="${isOpen ? 'true' : 'false'}" aria-controls="services-fresh-row-body-${idx}">
+                    <span class="services-fresh-row-index" aria-hidden="true">${padIndex(idx)}</span>
+                    <span class="services-fresh-row-title">${card.title}</span>
+                    <span class="services-fresh-row-chevron" aria-hidden="true">+</span>
+                </button>
+                <div id="services-fresh-row-body-${idx}" class="services-fresh-row-body" ${isOpen ? '' : 'hidden'}>
+                    <div class="services-fresh-row-body-inner">
+                        ${visualMarkup}
+                        <div class="services-fresh-row-copy">
+                            <p class="services-fresh-row-kicker">${group.modalLabel}</p>
+                            <p class="services-fresh-row-lede">${card.detailCopy}</p>
+                            ${pointsMarkup ? `<ul class="services-fresh-row-points">${pointsMarkup}</ul>` : ''}
+                            ${card.detailFooter ? `<p class="services-fresh-row-footer">${card.detailFooter}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
             `;
-            button.addEventListener('click', () => openModal(card, button));
-            grid.appendChild(button);
+            accordion.appendChild(row);
         });
     }
 
-    /**
-     * Each scene is now rendered by the React+framer-motion bundle (`dist/cards-bundle.js`).
-     * We just emit a mount point with the matching `data-cohi-card` id; the bundle's
-     * MutationObserver picks up the new node and renders the picked pattern into it.
-     */
-    function renderCardVisual(visualType) {
-        const valid = new Set([
-            'bill-crush',
-            'usage-boulder',
-            'incentive-scan',
-            'compliance-scan',
-            'benchmark-mail',
-            'retrofit-bulb',
-            'hoa-catch',
-            'retrofit-balance',
-            'savings',
-            'waste',
-            'cost',
-            'compliance',
-        ]);
-        if (!valid.has(visualType)) return '';
-        return `
-                    <span class="services-fresh-card-visual ${visualType}-scene" aria-hidden="true">
-                        <div class="cohi-card-mount" data-cohi-card="${visualType}"></div>
-                    </span>
-                `;
+    function toggleRow(idx) {
+        const current = expandedBySegment[activeSegment];
+        expandedBySegment[activeSegment] = current === idx ? -1 : idx;
+        renderAccordion();
     }
 
-    function openPanel(groupKey) {
-        activeGroup = groupKey;
-        renderCards(groupKey);
-        panel.hidden = false;
-        box.classList.add('is-expanded');
-        syncTriggers();
+    function applySegment(segment) {
+        if (!serviceGroups[segment]) return;
+        activeSegment = segment;
+
+        tabButtons.forEach((tab) => {
+            const isActive = tab.dataset.freshSegment === segment;
+            tab.classList.toggle('is-active', isActive);
+            tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        pmBanner.hidden = segment !== 'manager';
+        renderAccordion();
     }
 
-    function closePanel() {
-        closeManagerNotice();
-        closeModal();
-        panel.hidden = true;
-        grid.replaceChildren();
-        activeGroup = null;
-        box.classList.remove('is-expanded');
-        syncTriggers();
+    function jumpToBenchmarking() {
+        const managerCards = serviceGroups.manager.cards;
+        const idx = managerCards.findIndex((card) => card.visual === 'benchmark-mail');
+        if (idx < 0) return;
+        expandedBySegment.manager = idx;
+        applySegment('manager');
     }
 
-    triggerButtons.forEach((button) => {
-        button.setAttribute('aria-pressed', 'false');
+    applySegment(activeSegment);
+
+    tabButtons.forEach((button) => {
         button.addEventListener('click', () => {
-            const groupKey = button.dataset.freshGroup;
-            if (!groupKey) {
-                return;
-            }
-
-            if (activeGroup === groupKey && !panel.hidden) {
-                closePanel();
-                return;
-            }
-
-            openPanel(groupKey);
-
-            if (groupKey === 'manager' && !managerNoticeShown) {
-                managerNoticeShown = true;
-                showManagerNotice();
-                return;
-            }
-
-            closeManagerNotice();
+            const segment = button.dataset.freshSegment;
+            if (segment) applySegment(segment);
         });
     });
 
-    panelClose.addEventListener('click', closePanel);
-    noticeHelp.addEventListener('click', () => {
-        if (activeGroup !== 'manager' || panel.hidden) {
-            openPanel('manager');
-        }
+    pmBannerCta.addEventListener('click', jumpToBenchmarking);
 
-        closeManagerNotice();
-        openManagerBenchmarkModal();
-    });
-    noticeDismiss.addEventListener('click', closeManagerNotice);
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key !== 'Escape') {
-            return;
-        }
-
-        if (!notice.hidden) {
-            closeManagerNotice();
-            return;
-        }
-
-        if (!modal.hidden) {
-            closeModal();
-            return;
-        }
-
-        if (!panel.hidden) {
-            closePanel();
-        }
+    accordion.addEventListener('click', (event) => {
+        const head = event.target.closest('.services-fresh-row-head');
+        if (!head) return;
+        const row = head.closest('[data-fresh-row]');
+        if (row) toggleRow(Number(row.dataset.freshRow));
     });
 })();
 
