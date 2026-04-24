@@ -130,51 +130,22 @@
             <div class="container">
                 <div class="section-header">
                     <p class="eyebrow">Services</p>
+                    <h2>What we do for you</h2>
                 </div>
 
                 <div id="services-fresh" class="services-fresh">
-                    <div class="services-fresh-home">
-                        <h2 class="services-fresh-title">So tell us about you</h2>
-                        <div class="services-fresh-actions">
-                            <button type="button" class="services-fresh-trigger" data-fresh-group="resident">I am a Resident</button>
-                            <button type="button" class="services-fresh-trigger" data-fresh-group="manager">I am a Property Manager</button>
-                        </div>
+                    <div class="services-fresh-tabs" role="tablist" aria-label="Filter services by audience">
+                        <button type="button" class="services-fresh-tab is-active" role="tab" aria-selected="true" data-fresh-segment="manager">Property Managers</button>
+                        <button type="button" class="services-fresh-tab" role="tab" aria-selected="false" data-fresh-segment="resident">Individuals</button>
                     </div>
 
-                    <div id="services-fresh-panel" class="services-fresh-panel" hidden>
-                        <div class="services-fresh-panel-head">
-                            <h3 id="services-fresh-label" class="services-fresh-panel-title"></h3>
-                            <button type="button" id="services-fresh-close" class="services-fresh-close" aria-label="Close services panel">×</button>
-                        </div>
-                        <div id="services-fresh-grid" class="services-fresh-grid"></div>
+                    <div id="services-fresh-pm-banner" class="services-fresh-pm-banner" hidden>
+                        <p class="services-fresh-pm-banner-kicker">Compliance notice</p>
+                        <p class="services-fresh-pm-banner-copy">Got a notice of violation from the San Francisco Environment Department? 2025 benchmarking is due May 1. We can help.</p>
+                        <button type="button" id="services-fresh-pm-banner-cta" class="services-fresh-pm-banner-cta">Get benchmarking help</button>
                     </div>
 
-                    <div id="services-fresh-notice" class="services-fresh-notice" hidden>
-                        <div class="services-fresh-notice-card" role="dialog" aria-modal="false" aria-labelledby="services-fresh-notice-title">
-                            <p class="services-fresh-notice-kicker">Property Manager Notice</p>
-                            <h3 id="services-fresh-notice-title" class="services-fresh-notice-title">Did you receive a notice of violation from the San Francisco Environment Department?</h3>
-                            <p class="services-fresh-notice-copy">If you have not submitted past years&apos; energy benchmarking, and your 2025 benchmarking is due May 1, we can help you.</p>
-                            <div class="services-fresh-notice-actions">
-                                <button type="button" id="services-fresh-notice-help" class="services-fresh-notice-primary">I would like help with energy Benchmarking</button>
-                                <button type="button" id="services-fresh-notice-dismiss" class="services-fresh-notice-secondary">Not at the moment</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="services-fresh-modal" class="services-fresh-modal" hidden>
-                        <div class="services-fresh-modal-card" role="dialog" aria-modal="false" aria-label="Service details">
-                            <div class="services-fresh-modal-head">
-                                <div>
-                                    <p id="services-fresh-modal-label" class="services-fresh-modal-label"></p>
-                                    <h3 id="services-fresh-modal-title" class="services-fresh-modal-title"></h3>
-                                </div>
-                                <button type="button" id="services-fresh-modal-close" class="services-fresh-modal-close" aria-label="Close service details">×</button>
-                            </div>
-                            <p id="services-fresh-modal-copy" class="services-fresh-modal-copy"></p>
-                            <div id="services-fresh-modal-points" class="services-fresh-modal-points"></div>
-                            <p id="services-fresh-modal-footer" class="services-fresh-modal-footer"></p>
-                        </div>
-                    </div>
+                    <div id="services-fresh-accordion" class="services-fresh-accordion"></div>
                 </div>
             </div>
         </section>
@@ -182,7 +153,7 @@
         <section class="contact" id="contact">
             <div class="container contact-layout">
                 <div class="section-header left">
-                    <h2>Get in touch<br>over a phone call<br>or<br>  a coffee.</h2>
+                    <h2>Let&rsquo;s talk.<br>Over a call,<br>or a coffee.</h2>
                 </div>
 
                 <form id="contact-form" class="contact-form" method="POST">
