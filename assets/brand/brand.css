@@ -32,6 +32,7 @@
   /* Material surface colors */
   --frost-glass: rgba(249, 252, 255, 0.60);
   --frost-glass-soft: rgba(251, 253, 255, 0.56);
+  --frost-glass-opaque: rgba(249, 252, 255, 0.94);
   --warm-ambient: rgba(255, 143, 71, 0.12);
   --cool-shadow: rgba(14, 60, 100, 0.08);
 
