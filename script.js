@@ -326,6 +326,54 @@
 })();
 
 const contactForm = document.getElementById('contact-form');
+function resolveAppOriginForAnalytics() {
+    if (window.cohiNavigation && typeof window.cohiNavigation.resolveAppOrigin === 'function') {
+        return window.cohiNavigation.resolveAppOrigin();
+    }
+    if (typeof APP_BASE_URL !== 'undefined' && APP_BASE_URL) {
+        return new URL(APP_BASE_URL, window.location.origin).origin;
+    }
+    return window.location.hostname === 'cohi.energy'
+        ? 'https://app.cohi.energy'
+        : window.location.origin;
+}
+
+function currentUtmProperties() {
+    const params = new URLSearchParams(window.location.search);
+    const utm = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((key) => {
+        const value = params.get(key);
+        if (value) {
+            utm[key] = value;
+        }
+    });
+    return utm;
+}
+
+async function createLeadCorrelation(email) {
+    try {
+        const appOrigin = resolveAppOriginForAnalytics();
+        const response = await fetch(`${appOrigin}/api/analytics/lead-correlation`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                posthog_distinct_id: typeof getPostHogDistinctId === 'function' ? getPostHogDistinctId() : null,
+                posthog_session_id: typeof getPostHogSessionId === 'function' ? getPostHogSessionId() : null,
+                source: 'website_contact_form_multifamily',
+                utm: currentUtmProperties()
+            })
+        });
+        if (!response.ok) {
+            return null;
+        }
+        return response.json();
+    } catch {
+        return null;
+    }
+}
+
 if (contactForm) {
     contactForm.addEventListener('submit', async function onSubmit(event) {
         event.preventDefault();
@@ -370,6 +418,22 @@ if (contactForm) {
         };
 
         try {
+            const leadCorrelation = await createLeadCorrelation(email);
+            if (typeof setLeadPostHogProperties === 'function') {
+                setLeadPostHogProperties({
+                    email,
+                    name,
+                    lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
+                    lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : undefined,
+                    lead_source: 'website_contact_form_multifamily',
+                    ...currentUtmProperties()
+                });
+            }
+            if (leadCorrelation) {
+                formSubmission.lead_id = leadCorrelation.lead_id;
+                formSubmission.lead_email_hash = leadCorrelation.lead_email_hash;
+            }
+
             if (typeof GOOGLE_APPS_SCRIPT_URL === 'undefined' || !GOOGLE_APPS_SCRIPT_URL) {
                 throw new Error('Missing form endpoint configuration.');
             }
@@ -389,7 +453,9 @@ if (contactForm) {
 
             if (typeof trackPostHogEvent === 'function') {
                 trackPostHogEvent('contact_form_submitted', {
-                    form_type: 'multifamily_consultation'
+                    form_type: 'multifamily_consultation',
+                    lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
+                    lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : undefined
                 });
             }
 

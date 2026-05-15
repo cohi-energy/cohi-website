@@ -107,8 +107,9 @@ The site includes PostHog analytics for user tracking with cross-subdomain suppo
 #### Features:
 - **Cross-subdomain tracking**: Users are tracked as the same person across cohi.energy and app.cohi.energy
 - **Automatic pageviews**: Page visits are captured automatically
-- **Autocapture**: Button clicks and link interactions are tracked automatically
+- **Privacy-safe explicit events**: Autocapture and session recording are disabled; CTA and contact events are tracked explicitly
 - **Do Not Track respect**: Honors browser DNT settings
+- **Lead/account correlation**: Contact form submissions set PostHog person email/name properties for operator lookup and call the app's lead-correlation endpoint when available. The endpoint returns `lead_id` and an HMAC email hash; it must not block form submission if unavailable.
 
 #### Setup:
 1. Get your PostHog API key from [PostHog](https://posthog.com) (starts with `phc_`)
