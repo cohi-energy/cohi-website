@@ -374,6 +374,34 @@ async function createLeadCorrelation(email) {
     }
 }
 
+async function recordContactSubmissionAnalytics({ name, email, leadCorrelation }) {
+    try {
+        const appOrigin = resolveAppOriginForAnalytics();
+        const response = await fetch(`${appOrigin}/api/analytics/contact-submission`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                name,
+                lead_id: leadCorrelation ? leadCorrelation.lead_id : null,
+                lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : null,
+                posthog_distinct_id: typeof getPostHogDistinctId === 'function' ? getPostHogDistinctId() : null,
+                posthog_session_id: typeof getPostHogSessionId === 'function' ? getPostHogSessionId() : null,
+                source: 'website_contact_form_multifamily',
+                utm: currentUtmProperties()
+            })
+        });
+        if (!response.ok) {
+            return false;
+        }
+        const payload = await response.json();
+        return Boolean(payload && payload.recorded);
+    } catch {
+        return false;
+    }
+}
+
 if (contactForm) {
     contactForm.addEventListener('submit', async function onSubmit(event) {
         event.preventDefault();
@@ -451,7 +479,13 @@ if (contactForm) {
                 trackRedditConversion('Lead');
             }
 
-            if (typeof trackPostHogEvent === 'function') {
+            const recordedServerSide = await recordContactSubmissionAnalytics({
+                name,
+                email,
+                leadCorrelation
+            });
+
+            if (!recordedServerSide && typeof trackPostHogEvent === 'function') {
                 trackPostHogEvent('contact_form_submitted', {
                     form_type: 'multifamily_consultation',
                     lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
