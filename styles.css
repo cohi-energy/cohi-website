@@ -3005,6 +3005,20 @@ a { color: inherit; text-decoration: none; }
     }
 }
 
+/* On mobile the layout stacks vertically, so the horizontal
+   slide-in has no visual purpose — it only pushes the text
+   columns past the right viewport edge during scroll, creating
+   a horizontal scrollbar. Disable the transform on small
+   screens while keeping the opacity fade. */
+@media (max-width: 767px) {
+    .reveal-sides.process-step--right .process-text,
+    .reveal-sides.process-step--right .process-scene-col,
+    .reveal-sides.process-step--left .process-text,
+    .reveal-sides.process-step--left .process-scene-col {
+        transform: none !important;
+    }
+}
+
 /* =============================================================
    Section divider — large centred headline used to mark a
    transition between major page chapters (here: from the
