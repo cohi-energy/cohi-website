@@ -300,6 +300,29 @@ async function createLeadCorrelation(email) {
     }
 }
 
+async function recordContactSubmissionAnalytics({ email, name, leadCorrelation }) {
+    try {
+        const appOrigin = resolveAppOriginForAnalytics();
+        await fetch(`${appOrigin}/api/analytics/contact-submission`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                name,
+                lead_id: leadCorrelation ? leadCorrelation.lead_id : null,
+                lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : null,
+                posthog_distinct_id: typeof getPostHogDistinctId === 'function' ? getPostHogDistinctId() : null,
+                posthog_session_id: typeof getPostHogSessionId === 'function' ? getPostHogSessionId() : null,
+                source: 'website_contact_form_multifamily',
+                utm: currentUtmProperties()
+            })
+        });
+    } catch {
+        // Best effort only; the Apps Script submission remains the user-facing source of truth.
+    }
+}
+
 if (contactForm) {
     contactForm.addEventListener('submit', async function onSubmit(event) {
         event.preventDefault();
@@ -372,6 +395,8 @@ if (contactForm) {
                 },
                 body: JSON.stringify(formSubmission)
             });
+
+            await recordContactSubmissionAnalytics({ email, name, leadCorrelation });
 
             if (typeof trackRedditConversion === 'function') {
                 trackRedditConversion('Lead');
