@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cohi - Intelligent Energy Guidance</title>
-    <meta name="description" content="Cohi helps property managers lower utility costs, optimize retrofits, and stay compliant with California energy benchmarking requirements.">
+    <title>Cohi — Lower bills across every building</title>
+    <meta name="description" content="Cohi finds what's costing your portfolio money — every bill, every building. You approve the fixes.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
     <link rel="stylesheet" href="assets/brand/brand.css">
-    <link rel="stylesheet" href="styles.css?v=rich-canvas-172">
+    <link rel="stylesheet" href="styles.css?v=40">
 
     <script src="config.js"></script>
     <script src="reddit-pixel.js"></script>
@@ -22,132 +22,538 @@
 <body>
     <header class="site-header">
         <div class="nav-shell">
-            <a href="#home" class="brand" aria-label="Cohi home">
+            <a href="#hero" class="brand" aria-label="Cohi home">
                 <span class="brand-lockup">
-                    <img src="assets/brand/logo-light.svg" alt="Cohi" class="logo-img" id="logo-image">
-                    <span class="logo-text" id="logo-text">
+                    <img src="assets/brand/logo-dark.svg" alt="Cohi" class="logo-img">
+                    <span class="logo-text">
                         <span class="logo-wordmark-main">COHI</span>
                         <span class="logo-wordmark-sub">ENERGY</span>
                     </span>
                 </span>
             </a>
             <nav class="site-nav" aria-label="Primary">
-                <a href="#impact-band">Impact</a>
-                <a href="#services">Services</a>
+                <a href="#bill-story">Services</a>
                 <a href="#contact">Contact</a>
             </nav>
-            <a href="https://app.cohi.energy/" data-app-link data-app-path="/" class="nav-cta" onclick="trackCTAClick && trackCTAClick('app', 'sticky_nav')">Reduce your bill</a>
+            <a href="https://app.cohi.energy/register?flow=c07aec28-a4a7-4211-83f6-f5aeaa724fb0" class="nav-cta">Reduce your bill</a>
         </div>
     </header>
 
     <main>
-        <section class="hero" id="home">
-            <div class="hero-media" aria-hidden="true">
-                <video
-                    id="hero-video"
-                    class="hero-video"
-                    autoplay
-                    muted
-                    playsinline
-                    preload="metadata"
-                >
-                    <source src="assets/video/clip-2.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="hero-overlay"></div>
-            <div class="container hero-content">
-                <h1 class="hero-title-single-line">Energy savings<br>made just for you.</h1>
-                <p class="hero-copy">We reduce your energy bill.<br>And if you are concerned about compliance, we'll take care of it for you too.</p>
-                <div class="hero-actions">
-                    <a href="#contact" class="btn btn-primary" onclick="trackCTAClick && trackCTAClick('contact_form', 'hero_primary')">Book a Consultation</a>
-                    <a href="#services" class="btn btn-secondary" onclick="trackCTAClick && trackCTAClick('services', 'hero_secondary')">View Services</a>
+        <section class="hero" id="hero">
+            <div class="hero-inner">
+                <aside class="skyline skyline-left" aria-hidden="true">
+                    <div class="bldg" data-shape="stepped-right" style="--w:72px;--h:92%;--m:88%;--t:58%;--d:0ms">  <span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="pointed"       style="--w:22px;--h:58%;--m:86%;--t:62%;--d:130ms"> <span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="flat"          style="--w:58px;--h:72%;--m:84%;--t:54%;--d:260ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="pointed"       style="--w:28px;--h:84%;--m:88%;--t:56%;--d:390ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="flat"          style="--w:44px;--h:48%;--m:86%;--t:64%;--d:520ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="angle-right"   style="--w:36px;--h:66%;--m:85%;--t:52%;--d:650ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="flat"          style="--w:24px;--h:42%;--m:87%;--t:66%;--d:780ms"><span class="bldg-fill"></span></div>
+                </aside>
+
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Lower bills<br>
+                        across every building.
+                    </h1>
+                    <p class="hero-copy">
+                        We identify and implement the most cost-effective utility plan for every meter in every building.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="https://app.cohi.energy/register?flow=c07aec28-a4a7-4211-83f6-f5aeaa724fb0" class="btn btn-primary">Reduce your bill</a>
+                        <a href="#bill-story" class="btn btn-secondary">See how it works</a>
+                    </div>
                 </div>
-                <div class="hero-panels" aria-label="Service snapshot">
-                    <article class="glass-card">
-                        <p class="panel-label">Approach</p>
-                        <p class="panel-value">We start with your goals and listen to the story your data tells us. Then we bring them together into a solution that gets you where you want to go.</p>
-                    </article>
-                    <article class="glass-card">
-                        <p class="panel-label">Coverage</p>
-                        <p class="panel-value">All residential and commercial buildings in the San Francisco Bay Area.<br>Coming soon to the rest of California.</p>
-                    </article>
-                </div>
+
+                <aside class="skyline skyline-right" aria-hidden="true">
+                    <div class="bldg" data-shape="flat"          style="--w:24px;--h:44%;--m:87%;--t:66%;--d:780ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="angle-left"    style="--w:36px;--h:68%;--m:85%;--t:52%;--d:650ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="flat"          style="--w:44px;--h:50%;--m:86%;--t:64%;--d:520ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="pointed"       style="--w:28px;--h:82%;--m:88%;--t:56%;--d:390ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="stepped-left"  style="--w:58px;--h:74%;--m:84%;--t:54%;--d:260ms"><span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="pointed"       style="--w:22px;--h:60%;--m:86%;--t:62%;--d:130ms"> <span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="stepped-left"  style="--w:72px;--h:90%;--m:88%;--t:58%;--d:0ms">  <span class="bldg-fill"></span></div>
+                </aside>
             </div>
         </section>
 
-        <section class="impact-band" id="impact-band">
-            <div class="container">
-                <div class="section-header">
-                    <p class="eyebrow">Impact</p>
-                    <h2>What Cohi does at a glance</h2>
+        <section class="process bill-story" id="bill-story">
+            <article class="process-step process-step--right reveal-sides" data-step="1">
+                <div class="container">
+                    <div class="process-grid">
+                        <div class="process-text">
+                            <h2 class="process-title">Understand every building&rsquo;s energy profile</h2>
+                            <p class="process-lead">We analyze historical consumption data and usage patterns from every meter across your properties to build a detailed energy profile for each building.</p>
+                        </div>
+                        <div class="process-scene-col">
+                            <article class="bill-story-card" data-scroll-animate aria-label="Animation: a paper utility bill transforms in place into a small line chart.">
+                                <div class="bsc-stage" aria-hidden="true">
+                        <div class="bsc-bill-topbar">UTILITY BILL</div>
+
+                        <div class="bsc-decor bsc-decor-a">
+                            <span class="bsc-skel" style="--w: 78%"></span>
+                            <span class="bsc-skel" style="--w: 52%; --ix: 10%"></span>
+                            <span class="bsc-skel" style="--w: 64%"></span>
+                            <span class="bsc-skel" style="--w: 38%; --ix: 14%"></span>
+                        </div>
+
+                        <div class="bsc-decor bsc-decor-b">
+                            <span class="bsc-skel" style="--w: 58%"></span>
+                            <span class="bsc-skel" style="--w: 48%; --ix: 6%"></span>
+                            <span class="bsc-skel" style="--w: 66%"></span>
+                            <span class="bsc-skel" style="--w: 42%; --ix: 8%"></span>
+                            <span class="bsc-skel" style="--w: 56%"></span>
+                            <span class="bsc-skel" style="--w: 50%; --ix: 4%"></span>
+                        </div>
+
+                        <div class="bsc-decor bsc-decor-c">
+                            <div class="bsc-decor-row bsc-decor-total">
+                                <span class="bsc-skel bsc-skel-bold" style="--w: 42%"></span>
+                                <span class="bsc-skel bsc-skel-bold" style="--w: 26%"></span>
+                            </div>
+                        </div>
+
+                        <div class="bsc-decor bsc-decor-d">
+                            <span class="bsc-skel" style="--w: 88%"></span>
+                            <span class="bsc-skel" style="--w: 72%; --ix: 4%"></span>
+                            <span class="bsc-skel" style="--w: 84%"></span>
+                            <span class="bsc-skel" style="--w: 56%; --ix: 12%"></span>
+                            <span class="bsc-skel" style="--w: 78%"></span>
+                            <span class="bsc-skel" style="--w: 44%; --ix: 8%"></span>
+                        </div>
+
+                        <span class="bsc-dot d1"></span>
+                        <span class="bsc-dot d2"></span>
+                        <span class="bsc-dot d3"></span>
+                        <span class="bsc-dot d4"></span>
+                        <span class="bsc-dot d5"></span>
+                        <span class="bsc-dot d6"></span>
+
+                        <svg class="bsc-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="bscFillGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="var(--primary)" stop-opacity=".22"/>
+                                    <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <g class="bsc-grid" stroke="var(--border)" stroke-width="0.25" stroke-dasharray="0.6 1.2" opacity=".7">
+                                <line x1="8" y1="22" x2="92" y2="22" vector-effect="non-scaling-stroke"/>
+                                <line x1="8" y1="52" x2="92" y2="52" vector-effect="non-scaling-stroke"/>
+                                <line x1="8" y1="82" x2="92" y2="82" vector-effect="non-scaling-stroke"/>
+                            </g>
+                            <polyline class="bsc-line-fill" points="14,68 28,50 42,20 56,62 70,38 84,72 84,90 14,90" stroke="none" fill="url(#bscFillGrad)"/>
+                            <polyline class="bsc-line" points="14,68 28,50 42,20 56,62 70,38 84,72" vector-effect="non-scaling-stroke"/>
+                        </svg>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
                 </div>
+            </article>
+        </section>
 
-                <div class="impact-grid" aria-label="Cohi impact highlights">
-                    <article class="impact-card impact-card-hoa-catch">
-                        <div class="impact-card-scene">
-                            <div class="cohi-card-mount" data-cohi-card="hoa-catch"></div>
+        <section class="process plan-compare" id="plan-compare">
+            <article class="process-step process-step--left reveal-sides" data-step="2">
+                <div class="container">
+                    <div class="process-grid">
+                        <div class="process-scene-col">
+                            <article class="pc-card" data-scroll-animate aria-label="Animation: a deck of rate-plan pages slides horizontally; starts on the user's current plan, scans through mango (worse) and green (better) options, and settles on the greenest one in the middle.">
+                                <span class="pc-dollar pc-dollar-1" aria-hidden="true">$</span>
+                                <span class="pc-dollar pc-dollar-2" aria-hidden="true">$</span>
+                                <span class="pc-dollar pc-dollar-3" aria-hidden="true">$</span>
+                                <div class="pc-frame" aria-hidden="true">
+                                    <div class="pc-viewport">
+                                        <div class="pc-track">
+                                            <!-- 17 pages. Pages themselves stay neutral cream; only
+                                                 the percentage value at the bottom is coloured —
+                                                 teal for savings (negative %, deeper = more saved),
+                                                 red for cost-over (positive %, deeper = more
+                                                 expensive). CURRENT is the user's plan, no number. -->
+                                            <div class="pc-page pc-neutral">
+                                                <span class="pc-eyebrow">YOUR PLAN</span>
+                                                <h3 class="pc-page-name">CURRENT</h3>
+                                                <span class="pc-line" style="--w: 78%"></span>
+                                                <span class="pc-line" style="--w: 56%"></span>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-line" style="--w: 48%"></span>
+                                                <span class="pc-value pc-value-zero">0%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-4">
+                                                <h3 class="pc-page-name">SOLAR&#8209;X</h3>
+                                                <span class="pc-line" style="--w: 72%"></span>
+                                                <span class="pc-line" style="--w: 58%"></span>
+                                                <span class="pc-line" style="--w: 66%"></span>
+                                                <span class="pc-line" style="--w: 50%"></span>
+                                                <span class="pc-value">&minus;8%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-8">
+                                                <h3 class="pc-page-name">E&#8209;1</h3>
+                                                <span class="pc-line" style="--w: 60%"></span>
+                                                <span class="pc-line" style="--w: 74%"></span>
+                                                <span class="pc-line" style="--w: 52%"></span>
+                                                <span class="pc-line" style="--w: 68%"></span>
+                                                <span class="pc-value">+15%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-2">
+                                                <h3 class="pc-page-name">RES&#8209;FLEX</h3>
+                                                <span class="pc-line" style="--w: 80%"></span>
+                                                <span class="pc-line" style="--w: 54%"></span>
+                                                <span class="pc-line" style="--w: 62%"></span>
+                                                <span class="pc-line" style="--w: 46%"></span>
+                                                <span class="pc-value">&minus;4%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-6">
+                                                <h3 class="pc-page-name">E&#8209;TOU&#8209;D</h3>
+                                                <span class="pc-line" style="--w: 68%"></span>
+                                                <span class="pc-line" style="--w: 50%"></span>
+                                                <span class="pc-line" style="--w: 76%"></span>
+                                                <span class="pc-line" style="--w: 58%"></span>
+                                                <span class="pc-value">+12%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-7">
+                                                <h3 class="pc-page-name">PEAK&#8209;MGR</h3>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-line" style="--w: 70%"></span>
+                                                <span class="pc-line" style="--w: 52%"></span>
+                                                <span class="pc-line" style="--w: 78%"></span>
+                                                <span class="pc-value">&minus;14%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-4">
+                                                <h3 class="pc-page-name">CARE</h3>
+                                                <span class="pc-line" style="--w: 72%"></span>
+                                                <span class="pc-line" style="--w: 56%"></span>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-line" style="--w: 48%"></span>
+                                                <span class="pc-value">+8%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-1">
+                                                <h3 class="pc-page-name">NIGHT&#8209;A</h3>
+                                                <span class="pc-line" style="--w: 60%"></span>
+                                                <span class="pc-line" style="--w: 74%"></span>
+                                                <span class="pc-line" style="--w: 50%"></span>
+                                                <span class="pc-line" style="--w: 66%"></span>
+                                                <span class="pc-value">&minus;2%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-8 pc-winner">
+                                                <h3 class="pc-page-name">EV2&#8209;A</h3>
+                                                <span class="pc-line" style="--w: 80%"></span>
+                                                <span class="pc-line" style="--w: 58%"></span>
+                                                <span class="pc-line" style="--w: 68%"></span>
+                                                <span class="pc-line" style="--w: 52%"></span>
+                                                <span class="pc-value">&minus;15%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-5">
+                                                <h3 class="pc-page-name">E&#8209;TOU&#8209;B</h3>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-line" style="--w: 76%"></span>
+                                                <span class="pc-line" style="--w: 50%"></span>
+                                                <span class="pc-line" style="--w: 62%"></span>
+                                                <span class="pc-value">+10%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-6">
+                                                <h3 class="pc-page-name">SMART&#8209;EV</h3>
+                                                <span class="pc-line" style="--w: 70%"></span>
+                                                <span class="pc-line" style="--w: 54%"></span>
+                                                <span class="pc-line" style="--w: 66%"></span>
+                                                <span class="pc-line" style="--w: 48%"></span>
+                                                <span class="pc-value">&minus;12%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-2">
+                                                <h3 class="pc-page-name">E&#8209;1H</h3>
+                                                <span class="pc-line" style="--w: 58%"></span>
+                                                <span class="pc-line" style="--w: 72%"></span>
+                                                <span class="pc-line" style="--w: 50%"></span>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-value">+4%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-3">
+                                                <h3 class="pc-page-name">DAYTIME</h3>
+                                                <span class="pc-line" style="--w: 76%"></span>
+                                                <span class="pc-line" style="--w: 52%"></span>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-line" style="--w: 46%"></span>
+                                                <span class="pc-value">&minus;6%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-7">
+                                                <h3 class="pc-page-name">FERA</h3>
+                                                <span class="pc-line" style="--w: 60%"></span>
+                                                <span class="pc-line" style="--w: 72%"></span>
+                                                <span class="pc-line" style="--w: 52%"></span>
+                                                <span class="pc-line" style="--w: 68%"></span>
+                                                <span class="pc-value">+14%</span>
+                                            </div>
+                                            <div class="pc-page pc-teal-5">
+                                                <h3 class="pc-page-name">OFF&#8209;PK</h3>
+                                                <span class="pc-line" style="--w: 70%"></span>
+                                                <span class="pc-line" style="--w: 56%"></span>
+                                                <span class="pc-line" style="--w: 62%"></span>
+                                                <span class="pc-line" style="--w: 48%"></span>
+                                                <span class="pc-value">&minus;10%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-1">
+                                                <h3 class="pc-page-name">EV&#8209;A</h3>
+                                                <span class="pc-line" style="--w: 64%"></span>
+                                                <span class="pc-line" style="--w: 78%"></span>
+                                                <span class="pc-line" style="--w: 50%"></span>
+                                                <span class="pc-line" style="--w: 60%"></span>
+                                                <span class="pc-value">+2%</span>
+                                            </div>
+                                            <div class="pc-page pc-red-3">
+                                                <h3 class="pc-page-name">E&#8209;TOU&#8209;C</h3>
+                                                <span class="pc-line" style="--w: 72%"></span>
+                                                <span class="pc-line" style="--w: 54%"></span>
+                                                <span class="pc-line" style="--w: 66%"></span>
+                                                <span class="pc-line" style="--w: 48%"></span>
+                                                <span class="pc-value">+6%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                        <div class="impact-card-body">
-                            <h3>Reducing Utility OpEx</h3>
-                            <p>We review billing structure for common-area and portfolio loads to find cost issues that can be corrected quickly.</p>
+                        <div class="process-text">
+                            <h2 class="process-title">We compare every plan</h2>
+                            <p class="process-lead">We test each meter&rsquo;s usage against every eligible rate plan and recommend the lowest-cost option for that meter. Across multiple meters, those savings add up quickly.</p>
                         </div>
-                    </article>
-
-                    <article class="impact-card impact-card-usage-boulder">
-                        <div class="impact-card-scene">
-                            <div class="cohi-card-mount" data-cohi-card="usage-boulder"></div>
-                        </div>
-                        <div class="impact-card-body">
-                            <h3>Usage Analysis</h3>
-                            <p>Turning meter data into the patterns that drive your bill, and the ones worth fixing first.</p>
-                        </div>
-                    </article>
-
-                    <article class="impact-card impact-card-waste">
-                        <div class="impact-card-scene">
-                            <div class="cohi-card-mount" data-cohi-card="waste"></div>
-                        </div>
-                        <div class="impact-card-body">
-                            <h3>Cutting Waste</h3>
-                            <p>We compare equipment performance against current benchmarks so retrofit dollars target the worst offenders first.</p>
-                        </div>
-                    </article>
-
-                    <article class="impact-card impact-card-compliance">
-                        <div class="impact-card-scene">
-                            <div class="cohi-card-mount" data-cohi-card="compliance"></div>
-                        </div>
-                        <div class="impact-card-body">
-                            <h3>Energy Benchmarking</h3>
-                            <p>Handling your annual filings with the city and state. Accurate, on time, and off your plate.</p>
-                        </div>
-                    </article>
+                    </div>
                 </div>
+            </article>
+        </section>
+
+        <section class="process admin-list" id="admin-list">
+            <article class="process-step process-step--right reveal-sides" data-step="3">
+                <div class="container">
+                    <div class="process-grid">
+                        <div class="process-text">
+                            <h2 class="process-title">We handle the admin</h2>
+                            <p class="process-lead">We coordinate the switch for each eligible meter, handling the utility back-and-forth so your team doesn&rsquo;t have to.</p>
+                        </div>
+                        <div class="process-scene-col">
+                            <article class="al-card" data-scroll-animate aria-label="Animation: a checklist of admin tasks ticks itself off top to bottom.">
+                                <div class="al-frame" aria-hidden="true">
+                                    <div class="al-paper">
+                                        <div class="al-row">
+                                            <span class="al-check al-check-1">
+                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 6 17 Q 10 21 14 24 Q 22 13 30 2" /></svg>
+                                            </span>
+                                            <span class="al-line" style="--w: 78%"></span>
+                                        </div>
+                                        <div class="al-row">
+                                            <span class="al-check al-check-2">
+                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 5 16 Q 9 22 15 24 Q 22 14 29 3" /></svg>
+                                            </span>
+                                            <span class="al-line" style="--w: 58%"></span>
+                                        </div>
+                                        <div class="al-row">
+                                            <span class="al-check al-check-3">
+                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 7 18 Q 11 23 14 25 Q 23 13 31 1" /></svg>
+                                            </span>
+                                            <span class="al-line" style="--w: 82%"></span>
+                                        </div>
+                                        <div class="al-row">
+                                            <span class="al-check al-check-4">
+                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 6 17 Q 10 22 14 23 Q 22 14 30 4" /></svg>
+                                            </span>
+                                            <span class="al-line" style="--w: 64%"></span>
+                                        </div>
+                                        <div class="al-row">
+                                            <span class="al-check al-check-5">
+                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 5 17 Q 9 22 14 25 Q 22 13 30 3" /></svg>
+                                            </span>
+                                            <span class="al-line" style="--w: 70%"></span>
+                                        </div>
+                                        <div class="al-row">
+                                            <span class="al-check al-check-6">
+                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 6 18 Q 11 22 15 24 Q 22 13 29 2" /></svg>
+                                            </span>
+                                            <span class="al-line" style="--w: 52%"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+        <section class="process mon-timeline" id="monitor">
+            <article class="process-step process-step--left reveal-sides" data-step="4">
+                <div class="container">
+                    <div class="process-grid">
+                        <div class="process-scene-col">
+                            <article class="mon-card" data-scroll-animate aria-label="Animation: a usage chart and four event papers scroll rightward while a green vertical scanner sweeps slowly across the timeline.">
+                                <div class="mon-viewport" aria-hidden="true">
+                                    <div class="mon-track">
+                                        <!-- Copy 1 of the timeline -->
+                                        <div class="mon-content">
+                                            <svg class="mon-chart" viewBox="0 0 2000 100" preserveAspectRatio="none">
+                                                <polyline class="mon-line" points="0,58 50,83 100,44 150,90 200,50 250,90 300,35 350,77 400,62 450,23 500,71 550,10 600,53 650,32 700,77 750,17 800,62 850,26 900,56 950,10 1000,41 1050,20 1100,65 1150,10 1200,50 1250,29 1300,68 1350,17 1400,56 1450,35 1500,10 1550,47 1600,23 1650,62 1700,10 1750,41 1800,26 1850,68 1900,14 1950,50 2000,58" />
+                                            </svg>
+                                            <div class="mon-papers">
+                                                <article class="mon-paper" style="--x: 70px">
+                                                    <h4 class="mon-paper-title">Rate price change</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                                <article class="mon-paper" style="--x: 570px">
+                                                    <h4 class="mon-paper-title">New plan</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                                <article class="mon-paper" style="--x: 1070px">
+                                                    <h4 class="mon-paper-title">Eligibility change</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                                <article class="mon-paper" style="--x: 1570px">
+                                                    <h4 class="mon-paper-title">Policy change</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                            </div>
+                                        </div>
+                                        <!-- Copy 2 (identical) — seamless loop -->
+                                        <div class="mon-content" aria-hidden="true">
+                                            <svg class="mon-chart" viewBox="0 0 2000 100" preserveAspectRatio="none">
+                                                <polyline class="mon-line" points="0,58 50,83 100,44 150,90 200,50 250,90 300,35 350,77 400,62 450,23 500,71 550,10 600,53 650,32 700,77 750,17 800,62 850,26 900,56 950,10 1000,41 1050,20 1100,65 1150,10 1200,50 1250,29 1300,68 1350,17 1400,56 1450,35 1500,10 1550,47 1600,23 1650,62 1700,10 1750,41 1800,26 1850,68 1900,14 1950,50 2000,58" />
+                                            </svg>
+                                            <div class="mon-papers">
+                                                <article class="mon-paper" style="--x: 70px">
+                                                    <h4 class="mon-paper-title">Rate price change</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                                <article class="mon-paper" style="--x: 570px">
+                                                    <h4 class="mon-paper-title">New plan</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                                <article class="mon-paper" style="--x: 1070px">
+                                                    <h4 class="mon-paper-title">Eligibility change</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                                <article class="mon-paper" style="--x: 1570px">
+                                                    <h4 class="mon-paper-title">Policy change</h4>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                    <span class="mon-skel"></span>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="mon-chart-mask" aria-hidden="true"></span>
+                                    <span class="mon-line-dot" aria-hidden="true"></span>
+                                    <span class="mon-scanner"></span>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="process-text">
+                            <h2 class="process-title">We keep your plans optimized</h2>
+                            <p class="process-lead">We monitor usage, rates, eligibility, and utility updates over time, so when a change creates a better option, we can help move.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="cta-portfolio" id="get-started">
+            <div class="container cta-portfolio-layout">
+                <h2 class="cta-portfolio-title">Let&rsquo;s get your portfolio in order</h2>
+                <a href="https://app.cohi.energy/register?flow=c07aec28-a4a7-4211-83f6-f5aeaa724fb0" class="btn btn-primary cta-portfolio-cta">Get started</a>
+
+                <p class="cta-portfolio-secondary-copy">If you have a bigger portfolio, we can work with you one-on-one to get everything in order.</p>
+                <a href="#contact" class="btn btn-secondary cta-portfolio-cta">Book a portfolio review</a>
             </div>
         </section>
 
-        <section class="services" id="services">
+        <section class="section-divider" id="beyond-portfolio">
             <div class="container">
-                <div class="section-header">
-                    <p class="eyebrow">Services</p>
-                    <h2>What we do for you</h2>
-                </div>
-
-                <div id="services-fresh" class="services-fresh">
-                    <div class="services-fresh-tabs" role="tablist" aria-label="Filter services by audience">
-                        <button type="button" class="services-fresh-tab is-active" role="tab" aria-selected="true" data-fresh-segment="manager">Property Managers</button>
-                        <button type="button" class="services-fresh-tab" role="tab" aria-selected="false" data-fresh-segment="resident">Individuals</button>
-                    </div>
-
-                    <div id="services-fresh-pm-banner" class="services-fresh-pm-banner" hidden>
-                        <p class="services-fresh-pm-banner-kicker">Compliance notice</p>
-                        <p class="services-fresh-pm-banner-copy">Got a notice of violation from the San Francisco Environment Department? 2025 benchmarking is due May 1. We can help.</p>
-                        <button type="button" id="services-fresh-pm-banner-cta" class="services-fresh-pm-banner-cta">Get benchmarking help</button>
-                    </div>
-
-                    <div id="services-fresh-accordion" class="services-fresh-accordion"></div>
-                </div>
+                <h2 class="section-divider-title">Beyond portfolio OpEx</h2>
             </div>
+        </section>
+
+        <section class="process benchmarking" id="benchmarking">
+            <article class="process-step process-step--left reveal-sides" data-step="5">
+                <div class="container">
+                    <div class="process-grid">
+                        <div class="process-scene-col">
+                            <article class="bench-card" data-scroll-animate aria-label="Animation: a three-step compliance pipeline completes (Authorization, Processing, Submitted), then an 'Approved' status badge appears.">
+                                <div class="bench-stage" aria-hidden="true">
+                                    <div class="bench-pipeline">
+                                        <div class="bench-steps">
+                                            <div class="bench-step bench-step-1">
+                                                <div class="bench-circle">
+                                                    <svg viewBox="0 0 22 22" width="14" height="14">
+                                                        <path class="bench-tick" d="M6 11.5 L9.5 15 L16 8"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="bench-label-wrap"><span class="bench-label">Authorization</span></div>
+                                            </div>
+                                            <div class="bench-step bench-step-2">
+                                                <div class="bench-circle">
+                                                    <svg viewBox="0 0 22 22" width="14" height="14">
+                                                        <path class="bench-tick" d="M6 11.5 L9.5 15 L16 8"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="bench-label-wrap"><span class="bench-label">Processing</span></div>
+                                            </div>
+                                            <div class="bench-step bench-step-3">
+                                                <div class="bench-circle">
+                                                    <svg viewBox="0 0 22 22" width="14" height="14">
+                                                        <path class="bench-tick" d="M6 11.5 L9.5 15 L16 8"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="bench-label-wrap"><span class="bench-label">Submitted</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bench-success">
+                                        <div class="bench-success-icon">
+                                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12 L10 17 L19 7"/>
+                                            </svg>
+                                        </div>
+                                        <p class="bench-success-primary">Approved</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="process-text">
+                            <h2 class="process-title">Energy benchmarking</h2>
+                            <p class="process-lead">Handling your annual filings with the city and state. Accurate, on time, and off your plate.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="process home-savings" id="home-savings">
+            <article class="process-step process-step--right reveal-sides" data-step="6">
+                <div class="container">
+                    <div class="process-grid">
+                        <div class="process-text">
+                            <h2 class="process-title">For your home, too</h2>
+                            <p class="process-lead">You don&rsquo;t need to manage a portfolio to benefit. The same analysis works for a single home, switching to the right rate plan can save you hundreds, even thousands of dollars every year.</p>
+                        </div>
+                        <div class="process-scene-col">
+                            <article class="house-card" data-scroll-animate aria-label="Animation: a one-story house with a coloured fill bar inside that shrinks and shifts from orange to green to indicate switching to a better-fit plan.">
+                                <div class="house-shape" aria-hidden="true">
+                                    <span class="house-fill"></span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </section>
 
         <section class="contact" id="contact">
@@ -203,14 +609,13 @@
                 <p class="footer-copy">Intelligent energy guidance for property portfolios.</p>
             </div>
             <div class="footer-contact" aria-label="Contact details">
-                <a href="https://app.cohi.energy/" data-app-link data-app-path="/" onclick="trackCTAClick && trackCTAClick('app', 'footer')">App</a>
+                <a href="https://app.cohi.energy/">App</a>
                 <a href="mailto:contact@cohi.energy">contact@cohi.energy</a>
                 <a href="tel:+14153790018">(415) 379-0018</a>
             </div>
         </div>
     </footer>
 
-    <script src="script.js?v=services-rebuild-165"></script>
-    <script src="dist/cards-bundle.js" defer></script>
+    <script src="script.js?v=8"></script>
 </body>
 </html>
