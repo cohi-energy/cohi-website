@@ -402,6 +402,7 @@ a { color: inherit; text-decoration: none; }
     }
     .skyline {
         order: 2;
+        flex: 0 0 220px;
         height: 220px;
         padding: 0 1.25rem;
     }
@@ -410,12 +411,115 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 600px) {
+    .hero {
+        min-height: 100svh;
+        padding-top: 4.75rem;
+    }
+    .hero-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        min-height: calc(100svh - 4.75rem);
+        place-items: center;
+        gap: 0;
+    }
+    .hero-inner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.44), transparent 52%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.30), rgba(255, 252, 240, 0.18)),
+            rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(18px) saturate(125%);
+        -webkit-backdrop-filter: blur(18px) saturate(125%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.38),
+            inset 0 -1px 0 rgba(20, 30, 25, 0.05);
+        opacity: 0;
+        animation: mobileHeroGlassReveal 820ms 2420ms var(--easing-base) forwards;
+    }
+    .hero-content {
+        order: initial;
+        align-self: center;
+        justify-self: center;
+        z-index: 3;
+        max-width: 22rem;
+        width: min(calc(100% - 2rem), 22rem);
+        margin: 0 auto;
+        padding: 1.35rem 1.1rem 2rem;
+    }
+    .hero-title,
+    .hero-copy,
+    .hero-actions {
+        opacity: 0;
+        transform: translateY(0.75rem);
+        animation: mobileHeroTextReveal 720ms 2700ms var(--easing-base) forwards;
+    }
+    .hero-copy { animation-delay: 2820ms; }
+    .hero-actions { animation-delay: 2940ms; }
     .site-nav { display: none; }
     .nav-shell { padding: 0.7rem 1rem; }
-    .btn { width: 100%; }
-    .hero-actions { width: 100%; flex-direction: column; }
-    .skyline { height: 180px; gap: 4px; }
-    .bldg { transform: scale(0.82); }
+    .btn {
+        width: auto;
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    .hero-actions {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 0.65rem;
+    }
+    .skyline {
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        order: initial;
+        flex: none;
+        width: 62vw;
+        height: clamp(430px, 64svh, 540px);
+        padding: 0;
+        gap: 5px;
+        overflow: hidden;
+        z-index: 1;
+    }
+    .skyline-left {
+        left: -18vw;
+        justify-content: flex-start;
+    }
+    .skyline-right {
+        right: -18vw;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .bldg {
+        width: calc(var(--w, 30px) * 0.76);
+        transform: none;
+    }
+    @keyframes mobileHeroGlassReveal {
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes mobileHeroTextReveal {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+@media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+    .hero-inner::before,
+    .hero-title,
+    .hero-copy,
+    .hero-actions {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+    }
 }
 
 /* =============================================================
@@ -1062,6 +1166,17 @@ a { color: inherit; text-decoration: none; }
     .process-step--right .process-scene-col  { grid-row: 2; }
     .process-step--left  .process-text       { grid-row: 1; }
     .process-step--left  .process-scene-col  { grid-row: 2; }
+}
+
+@media (max-width: 600px) {
+    .bill-story .process-scene-col,
+    .plan-compare .process-scene-col,
+    .admin-list .process-scene-col {
+        margin-bottom: 7rem;
+    }
+    .mon-timeline .process-scene-col {
+        margin-bottom: 2.5rem;
+    }
 }
 
 /* =============================================================
@@ -2048,6 +2163,20 @@ a { color: inherit; text-decoration: none; }
 .al-check-5 .al-tick { transform: rotate(-3deg); }
 .al-check-6 .al-tick { transform: rotate(4deg); }
 
+@media (max-width: 600px) {
+    .admin-list .al-check {
+        overflow: visible;
+    }
+
+    .admin-list .al-tick {
+        inset: -9px -8px -4px -4px;
+    }
+
+    .admin-list .al-tick path {
+        stroke-width: 3.2;
+    }
+}
+
 .al-line {
     flex: 1;
     height: 6px;
@@ -2737,6 +2866,88 @@ a { color: inherit; text-decoration: none; }
     }
 }
 
+@media (max-width: 600px) {
+    .process.benchmarking,
+    .process.home-savings,
+    .contact {
+        margin-top: 0;
+    }
+
+    .process.home-savings {
+        padding-top: 0;
+    }
+
+    .home-savings .process-step {
+        padding-top: 0;
+    }
+
+    .process.benchmarking {
+        padding-bottom: 1.5rem;
+    }
+
+    .benchmarking .process-step {
+        padding-bottom: 1rem;
+    }
+
+    .benchmarking .bench-card {
+        width: min(260px, 100%);
+        height: 180px;
+        aspect-ratio: auto;
+        padding: 10px 14px;
+    }
+
+    .benchmarking .bench-stage {
+        flex: 1 1 auto;
+    }
+
+    .contact {
+        padding: 3.5rem 0;
+    }
+
+    .contact-layout {
+        gap: 1.75rem;
+    }
+
+    .contact .section-header.left h2 {
+        font-size: clamp(2.35rem, 12vw, 3.15rem);
+        line-height: 1.08;
+    }
+
+    .contact-form {
+        padding: 1.25rem;
+        border-radius: var(--radius);
+    }
+
+    .site-footer {
+        padding: 2rem 0 calc(2.25rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .footer-layout {
+        display: grid;
+        justify-content: stretch;
+        gap: 1.35rem;
+    }
+
+    .footer-brand-group {
+        min-width: 0;
+    }
+
+    .footer-copy {
+        max-width: 18rem;
+    }
+
+    .footer-contact {
+        justify-items: start;
+        text-align: left;
+        gap: 0.7rem;
+    }
+
+    .footer-contact a {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+}
+
 /* =============================================================
    Step 5 · One-story house — fill-bar shift orange → green.
 
@@ -2883,6 +3094,12 @@ a { color: inherit; text-decoration: none; }
     padding: 4rem 0 5.33rem;
 }
 
+@media (max-width: 600px) {
+    .cta-portfolio {
+        padding-top: 1.5rem;
+    }
+}
+
 .cta-portfolio-layout {
     display: flex;
     flex-direction: column;
@@ -2921,14 +3138,12 @@ a { color: inherit; text-decoration: none; }
 /* =============================================================
    Scroll-driven side reveal · steps 1–4.
 
-   Each of the four core process steps has the left column come
+   Each `.reveal-sides` process step has the left column come
    in from the left page margin and the right column come in
    from the right, both starting faded and reaching full opacity
-   as the section settles into the viewport. This applies only
-   to the four narrative steps (the bill-story, plan-compare,
-   admin-list, and monitor cards) — the supplementary sections
-   below the "Beyond portfolio opex" divider don't get the
-   treatment.
+   as the section settles into the viewport. The markup applies
+   this to the four main process steps plus the two closing
+   process notes below the portfolio CTA.
 
    The animation is driven by the CSS custom property
    `--reveal-progress` (0 → 1), updated per-frame by JS as the
@@ -2981,17 +3196,32 @@ a { color: inherit; text-decoration: none; }
     }
 }
 
-/* On mobile the layout stacks vertically, so the horizontal
-   slide-in has no visual purpose — it only pushes the text
-   columns past the right viewport edge during scroll, creating
-   a horizontal scrollbar. Disable the transform on small
-   screens while keeping the opacity fade. */
+/* On mobile the layout stacks vertically, so each column needs its
+   own reveal progress. script.js writes `--reveal-progress` on the
+   text/scene children directly at this breakpoint. Keep the original
+   side-entry feel, with a little upward travel, while clipping the
+   off-canvas part so the page stays one viewport wide. */
 @media (max-width: 767px) {
+    .process {
+        overflow-x: hidden;
+    }
+
     .reveal-sides.process-step--right .process-text,
+    .reveal-sides.process-step--left .process-text {
+        transform: translate3d(
+            calc(-18vw * (1 - var(--reveal-progress))),
+            calc(1.15rem * (1 - var(--reveal-progress))),
+            0
+        );
+    }
+
     .reveal-sides.process-step--right .process-scene-col,
-    .reveal-sides.process-step--left .process-text,
     .reveal-sides.process-step--left .process-scene-col {
-        transform: none !important;
+        transform: translate3d(
+            calc(18vw * (1 - var(--reveal-progress))),
+            calc(1.15rem * (1 - var(--reveal-progress))),
+            0
+        );
     }
 }
 
