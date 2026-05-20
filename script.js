@@ -203,6 +203,17 @@
         return;
     }
 
+    const mobileRevealQuery = window.matchMedia
+        ? window.matchMedia('(max-width: 767px)')
+        : { matches: false };
+
+    function revealProgressForTop(top, startY, range) {
+        let p = (startY - top) / range;
+        if (p < 0) p = 0;
+        else if (p > 1) p = 1;
+        return p;
+    }
+
     function update() {
         const vh = window.innerHeight || document.documentElement.clientHeight;
         // Start the reveal when the step's top is at the viewport
@@ -213,13 +224,19 @@
         const startY = vh * START_RATIO;
         const endY   = vh * END_RATIO;
         const range  = startY - endY;
+        const isMobileReveal = mobileRevealQuery.matches;
         for (let i = 0; i < steps.length; i++) {
             const step = steps[i];
             const top = step.getBoundingClientRect().top;
-            let p = (startY - top) / range;
-            if (p < 0) p = 0;
-            else if (p > 1) p = 1;
+            const p = revealProgressForTop(top, startY, range);
             step.style.setProperty('--reveal-progress', p.toFixed(3));
+
+            const targets = step.querySelectorAll('.process-text, .process-scene-col');
+            targets.forEach((target) => {
+                const targetTop = isMobileReveal ? target.getBoundingClientRect().top : top;
+                const targetProgress = revealProgressForTop(targetTop, startY, range);
+                target.style.setProperty('--reveal-progress', targetProgress.toFixed(3));
+            });
         }
     }
 
