@@ -69,26 +69,10 @@ a { color: inherit; text-decoration: none; }
     padding: 0.85rem 1.6rem;
 }
 
-/* Lockup matched to the main marketing site (website/styles.css)
-   — same logo height, gap, wordmark sizing and weights. Icon
-   stays on the dark variant because website-next's canvas is
-   light; the main site swaps to logo-light over the dark hero
-   video, which doesn't apply here. */
+/* Full SVG brand lockup, kept at the same visual height as the prior
+   icon-plus-text rendering. */
 .brand { display: inline-flex; align-items: center; }
-.brand-lockup { display: inline-flex; align-items: center; gap: 0.44rem; }
-.logo-img { height: 28px; width: auto; opacity: 1; }
-
-.logo-text {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0;
-    color: var(--text);
-    font-size: 1.06rem;
-    line-height: 1;
-}
-
-.logo-wordmark-main { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
-.logo-wordmark-sub  { font-family: var(--font-display); font-weight: 300; letter-spacing: 0.04em; }
+.brand-lockup-img { height: 28px; width: auto; opacity: 1; }
 
 .site-nav { display: flex; gap: 0.4rem; }
 
@@ -2707,14 +2691,6 @@ a { color: inherit; text-decoration: none; }
     font-size: 1.06rem;
     margin: 0 0 0.2rem;
     color: var(--text-inverted);
-}
-
-.footer-brand-lockup {
-    gap: 0.44rem;
-}
-
-.footer-logo-img {
-    height: 28px;
 }
 
 .footer-copy {
