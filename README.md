@@ -4,11 +4,11 @@ A conversion-focused landing page for COHI, tailored to San Francisco multifamil
 
 ## Repository Ownership
 
-This site is authored in `util-bill-app/website` and mirrored to `cohi-capital/cohi-website` for GitHub Pages deployment.
+This site is authored in `cohi/website` and mirrored to `cohi-energy/cohi-website` for GitHub Pages deployment.
 
-- **Source of truth:** `util-bill-app/website`
+- **Source of truth:** `cohi/website`
 - **Deploy target:** `cohi-website/master`
-- **Policy:** Direct edits in `cohi-website` are emergency-only and should be pulled back into `util-bill-app` with `git subtree`
+- **Policy:** Direct edits in `cohi-website` are emergency-only and should be pulled back into `cohi` with `git subtree`
 
 ## Setup
 
@@ -129,7 +129,7 @@ Ensure both domains are in the Authorized Domains list:
 
 ## Viewing Locally
 
-All day-to-day website development now happens from `util-bill-app/website`.
+All day-to-day website development now happens from `cohi/website`.
 
 ### Quick Start (Recommended)
 ```bash
@@ -198,14 +198,14 @@ Deployment is automated via GitHub Actions. The workflow injects secrets at buil
 
 ### Source of Truth
 
-Day-to-day website changes should be made in `util-bill-app/website`, not directly in `cohi-website`.
+Day-to-day website changes should be made in `cohi/website`, not directly in `cohi-website`.
 
-1. Edit files under `util-bill-app/website`
-2. Merge those changes to `util-bill-app/main`
+1. Edit files under `cohi/website`
+2. Merge those changes to `cohi/main`
 3. Let `.github/workflows/sync-website-subtree.yml` mirror the subtree to `cohi-website/master`
 4. Let the standalone `cohi-website` GitHub Pages workflow deploy the updated site
 
-If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `util-bill-app` and still has write access to `cohi-capital/cohi-website`.
+If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `cohi` and still has write access to `cohi-energy/cohi-website`.
 
 ### Initial Setup (One-time)
 
@@ -223,12 +223,12 @@ If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `u
    - Under **Source**, select **GitHub Actions**
 
 3. **Add subtree sync secret**
-   - In `util-bill-app`, go to **Settings** → **Secrets and variables** → **Actions**
-   - Add `SUBREPO_PAT` with push access to `cohi-capital/cohi-website`
+   - In `cohi`, go to **Settings** → **Secrets and variables** → **Actions**
+   - Add `SUBREPO_PAT` with push access to `cohi-energy/cohi-website`
 
 ### Deploying
 
-Normal deployments flow through `util-bill-app`:
+Normal deployments flow through `cohi`:
 
 ```bash
 git add website
@@ -240,10 +240,10 @@ The sync workflow will push `website/` to `cohi-website/master`, and the standal
 
 ### Emergency Recovery
 
-If someone makes an emergency fix directly in `cohi-website`, pull it back into `util-bill-app` immediately:
+If someone makes an emergency fix directly in `cohi-website`, pull it back into `cohi` immediately:
 
 ```bash
-git remote add cohi-website https://github.com/cohi-capital/cohi-website.git
+git remote add cohi-website https://github.com/cohi-energy/cohi-website.git
 git fetch cohi-website master
 git subtree pull --prefix=website cohi-website master --squash
 ```
@@ -259,7 +259,7 @@ git commit -m "Emergency website fix"
 git push origin master
 ```
 
-After any emergency direct deploy, sync the fix back into `util-bill-app/website` so the canonical source does not drift.
+After any emergency direct deploy, sync the fix back into `cohi/website` so the canonical source does not drift.
 
 The `cohi-website` GitHub Action will:
 1. Generate `config.js` from secrets
@@ -270,7 +270,7 @@ Your site will be live at: `https://cohi.energy` (or your configured domain)
 ## File Structure
 
 ```
-util-bill-app/website/
+cohi/website/
 ├── index.html           # Main HTML file
 ├── styles.css           # Stylesheet
 ├── script.js            # JavaScript for form handling and navigation
