@@ -1,6 +1,5 @@
 (function setupCrossSiteNavigation() {
     const PROD_APP_ORIGIN = 'https://app.cohi.energy';
-    const RETURNING_USER_COOKIE = 'cohi_returning_user';
     const LOCAL_PORT_PAIRS = {
         '8000': '5173',
         '8001': '5174',
@@ -66,26 +65,23 @@
         return new URL(pathname || '/', window.location.origin).toString();
     }
 
-    function hasReturningUserCookie() {
-        return document.cookie
-            .split(';')
-            .some((cookie) => cookie.trim() === `${RETURNING_USER_COOKIE}=1`);
-    }
-
-    async function isCurrentUserAuthenticated() {
+    async function getAccountSessionState() {
         try {
             const response = await fetch(buildAppUrl('/api/auth/me'), {
                 credentials: 'include',
                 headers: { 'Accept': 'application/json' },
             });
             if (!response.ok) {
-                return false;
+                return { isAuthenticated: false, hasSessionCookie: false };
             }
 
             const user = await response.json();
-            return user && user.authenticated === true;
+            return {
+                isAuthenticated: user && user.authenticated === true,
+                hasSessionCookie: user && user.has_session_cookie === true,
+            };
         } catch {
-            return false;
+            return { isAuthenticated: false, hasSessionCookie: false };
         }
     }
 
@@ -98,11 +94,11 @@
         });
     }
 
-    function updateAccountEntryLinks(isAuthenticated) {
+    function updateAccountEntryLinks(isAuthenticated, hasSessionCookie) {
         let pathname = '/register';
         if (isAuthenticated) {
             pathname = '/app';
-        } else if (hasReturningUserCookie()) {
+        } else if (hasSessionCookie) {
             pathname = '/login';
         }
 
@@ -123,10 +119,10 @@
         });
 
         updateAuthAwareHomeLinks(false);
-        updateAccountEntryLinks(false);
-        void isCurrentUserAuthenticated().then((isAuthenticated) => {
+        updateAccountEntryLinks(false, false);
+        void getAccountSessionState().then(({ isAuthenticated, hasSessionCookie }) => {
             updateAuthAwareHomeLinks(isAuthenticated);
-            updateAccountEntryLinks(isAuthenticated);
+            updateAccountEntryLinks(isAuthenticated, hasSessionCookie);
         });
     });
 })();
