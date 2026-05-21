@@ -1,5 +1,6 @@
 (function setupCrossSiteNavigation() {
     const PROD_APP_ORIGIN = 'https://app.cohi.energy';
+    const RETURNING_USER_COOKIE = 'cohi_returning_user';
     const LOCAL_PORT_PAIRS = {
         '8000': '5173',
         '8001': '5174',
@@ -65,6 +66,12 @@
         return new URL(pathname || '/', window.location.origin).toString();
     }
 
+    function hasReturningUserCookie() {
+        return document.cookie
+            .split(';')
+            .some((cookie) => cookie.trim() === `${RETURNING_USER_COOKIE}=1`);
+    }
+
     async function isCurrentUserAuthenticated() {
         try {
             const response = await fetch(buildAppUrl('/api/auth/me'), {
@@ -91,6 +98,19 @@
         });
     }
 
+    function updateAccountEntryLinks(isAuthenticated) {
+        let pathname = '/register';
+        if (isAuthenticated) {
+            pathname = '/app';
+        } else if (hasReturningUserCookie()) {
+            pathname = '/login';
+        }
+
+        document.querySelectorAll('[data-account-entry-link]').forEach((link) => {
+            link.setAttribute('href', buildAppUrl(pathname));
+        });
+    }
+
     window.cohiNavigation = {
         resolveAppOrigin,
         buildAppUrl,
@@ -103,6 +123,10 @@
         });
 
         updateAuthAwareHomeLinks(false);
-        void isCurrentUserAuthenticated().then(updateAuthAwareHomeLinks);
+        updateAccountEntryLinks(false);
+        void isCurrentUserAuthenticated().then((isAuthenticated) => {
+            updateAuthAwareHomeLinks(isAuthenticated);
+            updateAccountEntryLinks(isAuthenticated);
+        });
     });
 })();
