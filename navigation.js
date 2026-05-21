@@ -61,6 +61,36 @@
         return new URL(pathname || '/', resolveAppOrigin()).toString();
     }
 
+    function buildMarketingUrl(pathname) {
+        return new URL(pathname || '/', window.location.origin).toString();
+    }
+
+    async function isCurrentUserAuthenticated() {
+        try {
+            const response = await fetch(buildAppUrl('/api/auth/me'), {
+                credentials: 'include',
+                headers: { 'Accept': 'application/json' },
+            });
+            if (!response.ok) {
+                return false;
+            }
+
+            const user = await response.json();
+            return user && user.authenticated === true;
+        } catch {
+            return false;
+        }
+    }
+
+    function updateAuthAwareHomeLinks(isAuthenticated) {
+        document.querySelectorAll('[data-auth-aware-home-link]').forEach((link) => {
+            link.setAttribute(
+                'href',
+                isAuthenticated ? buildAppUrl('/app') : buildMarketingUrl('/'),
+            );
+        });
+    }
+
     window.cohiNavigation = {
         resolveAppOrigin,
         buildAppUrl,
@@ -71,5 +101,8 @@
             const pathname = link.getAttribute('data-app-path') || '/';
             link.setAttribute('href', buildAppUrl(pathname));
         });
+
+        updateAuthAwareHomeLinks(false);
+        void isCurrentUserAuthenticated().then(updateAuthAwareHomeLinks);
     });
 })();
