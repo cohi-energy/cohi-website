@@ -65,23 +65,20 @@
         return new URL(pathname || '/', window.location.origin).toString();
     }
 
-    async function getAccountSessionState() {
+    async function isCurrentUserAuthenticated() {
         try {
             const response = await fetch(buildAppUrl('/api/auth/me'), {
                 credentials: 'include',
                 headers: { 'Accept': 'application/json' },
             });
             if (!response.ok) {
-                return { isAuthenticated: false, hasSessionCookie: false };
+                return false;
             }
 
             const user = await response.json();
-            return {
-                isAuthenticated: user && user.authenticated === true,
-                hasSessionCookie: user && user.has_session_cookie === true,
-            };
+            return user && user.authenticated === true;
         } catch {
-            return { isAuthenticated: false, hasSessionCookie: false };
+            return false;
         }
     }
 
@@ -91,19 +88,6 @@
                 'href',
                 isAuthenticated ? buildAppUrl('/app') : buildMarketingUrl('/'),
             );
-        });
-    }
-
-    function updateAccountEntryLinks(isAuthenticated, hasSessionCookie) {
-        let pathname = '/register';
-        if (isAuthenticated) {
-            pathname = '/app';
-        } else if (hasSessionCookie) {
-            pathname = '/login';
-        }
-
-        document.querySelectorAll('[data-account-entry-link]').forEach((link) => {
-            link.setAttribute('href', buildAppUrl(pathname));
         });
     }
 
@@ -119,10 +103,6 @@
         });
 
         updateAuthAwareHomeLinks(false);
-        updateAccountEntryLinks(false, false);
-        void getAccountSessionState().then(({ isAuthenticated, hasSessionCookie }) => {
-            updateAuthAwareHomeLinks(isAuthenticated);
-            updateAccountEntryLinks(isAuthenticated, hasSessionCookie);
-        });
+        void isCurrentUserAuthenticated().then(updateAuthAwareHomeLinks);
     });
 })();
