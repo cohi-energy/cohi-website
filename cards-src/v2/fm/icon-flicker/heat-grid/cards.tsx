@@ -21,7 +21,7 @@ interface PhaseState {
 
 const STAGES: PhaseState[] = [
   {
-    caption: 'Baseline · 4 hr peak (4–8 PM)',
+    caption: 'Baseline · 4 hr peak (4 to 8 PM)',
     peakHours: [16, 17, 18, 19],
     precoolHours: [],
     midHours: [10, 11, 12, 13, 14, 15, 20, 21],
