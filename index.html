@@ -3,21 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cohi: Lower bills across every building</title>
-    <meta name="description" content="Cohi finds what's costing your portfolio money: every bill, every building. You approve the fixes.">
+    <title>Cohi: Stop overpaying for energy</title>
+    <meta name="description" content="Cohi finds no-cost ways to lower your energy bill. You buy nothing and don&rsquo;t change how you use energy. Free for homes and small businesses.">
+    <link rel="canonical" href="https://cohi.energy/">
+    <meta name="theme-color" content="#f6f4e8">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cohi.energy/">
+    <meta property="og:site_name" content="Cohi">
+    <meta property="og:title" content="Cohi: Stop overpaying for energy">
+    <meta property="og:description" content="Cohi finds no-cost ways to lower your energy bill. You buy nothing and don&rsquo;t change how you use energy. Free for homes and small businesses.">
+    <meta property="og:image" content="https://cohi.energy/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cohi: Stop overpaying for energy">
+    <meta name="twitter:description" content="Cohi finds no-cost ways to lower your energy bill. You buy nothing and don&rsquo;t change how you use energy. Free for homes and small businesses.">
+    <meta name="twitter:image" content="https://cohi.energy/assets/og-image.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
     <link rel="stylesheet" href="assets/brand/brand.css">
-    <link rel="stylesheet" href="styles.css?v=62">
+    <link rel="stylesheet" href="styles.css?v=94">
 
     <script src="config.js" defer></script>
     <script src="reddit-pixel.js" defer></script>
     <script src="posthog.js" defer></script>
     <script src="navigation.js" defer></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://cohi.energy/#organization",
+          "name": "Cohi",
+          "url": "https://cohi.energy/",
+          "logo": "https://cohi.energy/assets/og-image.png",
+          "email": "contact@cohi.energy",
+          "telephone": "+1-415-379-0018",
+          "areaServed": "San Francisco Bay Area"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Cohi",
+          "url": "https://cohi.energy/",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Free for homes and small businesses."
+          },
+          "publisher": { "@id": "https://cohi.energy/#organization" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is it really free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, for homes and small businesses. For multifamily buildings and portfolios, email contact@cohi.energy or use the form below to set up a portfolio review."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I have to change how I use energy?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No, that's the point. We work on the plan and setup behind your bill, not on how much energy you use."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Doesn't my utility already do this?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Kind of. There is a comparison tool on their site, and it tries. But helping you pay less for the same usage was never really the utility's job. We've made it ours. Their version gives each plan one number and no explanation. It also won't tell you which plans you actually qualify for. Cohi shows how every option plays out on your real usage, month by month, and explains each one in plain language."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Will switching plans affect my service?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Your utility, wires, meter, and reliability stay exactly the same; only your billing changes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you work for an energy supplier?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. We work for you. Cohi doesn't sell energy and doesn't take commissions from suppliers."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which utilities do you support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "PG&E, starting with electric accounts. Gas support is coming soon."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -25,11 +125,19 @@
             <a href="/" class="brand" aria-label="COHI ENERGY home" data-auth-aware-home-link>
                 <img src="assets/brand/brand-lockup-dark.svg" alt="COHI ENERGY" class="brand-lockup-img">
             </a>
-            <nav class="site-nav" aria-label="Primary">
-                <a href="#bill-story">Services</a>
+            <nav class="site-nav" id="site-nav" aria-label="Primary">
+                <a href="#bill-story">How it works</a>
+                <a href="#plans">Who it's for</a>
+                <a href="#faq">FAQ</a>
                 <a href="#contact">Contact</a>
             </nav>
-            <a href="https://app.cohi.energy/register" class="nav-cta" data-account-entry-link>Reduce your bill</a>
+            <a href="https://app.cohi.energy/register" class="nav-cta" data-account-entry-link
+               data-cta-destination="app_register" data-cta-location="sticky_nav">Get Started</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+            </button>
         </div>
     </header>
 
@@ -37,6 +145,7 @@
         <section class="hero" id="hero">
             <div class="hero-inner">
                 <aside class="skyline skyline-left" aria-hidden="true">
+                    <div class="bldg" data-shape="house"         style="--w:44px;--h:30%;--m:86%;--t:56%;--d:910ms"><span class="bldg-fill"></span></div>
                     <div class="bldg" data-shape="stepped-right" style="--w:72px;--h:92%;--m:88%;--t:58%;--d:0ms">  <span class="bldg-fill"></span></div>
                     <div class="bldg" data-shape="pointed"       style="--w:22px;--h:58%;--m:86%;--t:62%;--d:130ms"> <span class="bldg-fill"></span></div>
                     <div class="bldg" data-shape="flat"          style="--w:58px;--h:72%;--m:84%;--t:54%;--d:260ms"><span class="bldg-fill"></span></div>
@@ -48,15 +157,15 @@
 
                 <div class="hero-content">
                     <h1 class="hero-title">
-                        Lower bills<br>
-                        across every building.
+                        Stop overpaying<br>
+                        for energy.
                     </h1>
-                    <p class="hero-copy">
-                        We identify and implement the most cost-effective utility plan for every meter in every building.
-                    </p>
+                    <p class="hero-copy">Cohi finds no-cost ways to lower your energy bill.</p>
                     <div class="hero-actions">
-                        <a href="https://app.cohi.energy/register" class="btn btn-primary" data-account-entry-link>Reduce your bill</a>
-                        <a href="#bill-story" class="btn btn-secondary">See how it works</a>
+                        <a href="https://app.cohi.energy/register" class="btn btn-primary" data-account-entry-link
+                           data-cta-destination="app_register" data-cta-location="hero_primary">Reduce my bill</a>
+                        <a href="#bill-story" class="btn btn-secondary"
+                           data-cta-destination="how_it_works" data-cta-location="hero_secondary">See how it works</a>
                     </div>
                 </div>
 
@@ -68,6 +177,7 @@
                     <div class="bldg" data-shape="stepped-left"  style="--w:58px;--h:74%;--m:84%;--t:54%;--d:260ms"><span class="bldg-fill"></span></div>
                     <div class="bldg" data-shape="pointed"       style="--w:22px;--h:60%;--m:86%;--t:62%;--d:130ms"> <span class="bldg-fill"></span></div>
                     <div class="bldg" data-shape="stepped-left"  style="--w:72px;--h:90%;--m:88%;--t:58%;--d:0ms">  <span class="bldg-fill"></span></div>
+                    <div class="bldg" data-shape="house"         style="--w:44px;--h:28%;--m:86%;--t:56%;--d:910ms"><span class="bldg-fill"></span></div>
                 </aside>
             </div>
         </section>
@@ -77,8 +187,8 @@
                 <div class="container">
                     <div class="process-grid">
                         <div class="process-text">
-                            <h2 class="process-title">Understand every building&rsquo;s energy profile</h2>
-                            <p class="process-lead">We analyze historical consumption data and usage patterns from every meter across your properties to build a detailed energy profile for each building.</p>
+                            <h2 class="process-title">See your usage patterns</h2>
+                            <p class="process-lead">Connect your PG&amp;E account. See daily, weekly and seasonal patterns in seconds.</p>
                         </div>
                         <div class="process-scene-col">
                             <article class="bill-story-card" data-scroll-animate aria-label="Animation: a paper utility bill transforms in place into a small line chart.">
@@ -307,8 +417,9 @@
                             </article>
                         </div>
                         <div class="process-text">
-                            <h2 class="process-title">We compare every plan</h2>
-                            <p class="process-lead">We test each meter&rsquo;s usage against every eligible rate plan and recommend the lowest-cost option for that meter. Across multiple meters, those savings add up quickly.</p>
+                            <h2 class="process-title">Compare plans at a glance</h2>
+                            <p class="process-lead">We reprice your actual usage under every eligible plan, hidden charges included. You see what each would cost you before anything changes.</p>
+                            <p class="process-lead">We also check your eligibility for better baselines, incentives, and anything else that influences your bill. If the fix costs nothing, it&rsquo;s on our list.</p>
                         </div>
                     </div>
                 </div>
@@ -320,8 +431,8 @@
                 <div class="container">
                     <div class="process-grid">
                         <div class="process-text">
-                            <h2 class="process-title">We handle the admin</h2>
-                            <p class="process-lead">We coordinate the switch for each eligible meter, handling the utility back-and-forth so your team doesn&rsquo;t have to.</p>
+                            <h2 class="process-title">Let us handle the paperwork</h2>
+                            <p class="process-lead">Request plan changes in a few clicks and we&rsquo;ll handle the utility back-and-forth. Nothing about your service changes, only the billing.</p>
                         </div>
                         <div class="process-scene-col">
                             <article class="al-card" data-scroll-animate aria-label="Animation: a checklist of admin tasks ticks itself off top to bottom.">
@@ -329,37 +440,37 @@
                                     <div class="al-paper">
                                         <div class="al-row">
                                             <span class="al-check al-check-1">
-                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 6 17 Q 10 21 14 24 Q 22 13 30 2" /></svg>
+                                                <svg class="al-tick" viewBox="0 0 20 20"><path pathLength="1" d="M 4.6 10.7 Q 6.4 12.5 8.4 14.4 Q 11.6 9.9 15.5 5.1" /></svg>
                                             </span>
                                             <span class="al-line" style="--w: 78%"></span>
                                         </div>
                                         <div class="al-row">
                                             <span class="al-check al-check-2">
-                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 5 16 Q 9 22 15 24 Q 22 14 29 3" /></svg>
+                                                <svg class="al-tick" viewBox="0 0 20 20"><path pathLength="1" d="M 4.5 10.5 Q 6.5 12.6 8.6 14.5 Q 11.5 9.8 15.6 4.9" /></svg>
                                             </span>
                                             <span class="al-line" style="--w: 58%"></span>
                                         </div>
                                         <div class="al-row">
                                             <span class="al-check al-check-3">
-                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 7 18 Q 11 23 14 25 Q 23 13 31 1" /></svg>
+                                                <svg class="al-tick" viewBox="0 0 20 20"><path pathLength="1" d="M 4.7 10.9 Q 6.4 12.4 8.3 14.3 Q 11.7 10.1 15.4 5.3" /></svg>
                                             </span>
                                             <span class="al-line" style="--w: 82%"></span>
                                         </div>
                                         <div class="al-row">
                                             <span class="al-check al-check-4">
-                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 6 17 Q 10 22 14 23 Q 22 14 30 4" /></svg>
+                                                <svg class="al-tick" viewBox="0 0 20 20"><path pathLength="1" d="M 4.5 10.8 Q 6.3 12.6 8.5 14.6 Q 11.6 10 15.6 5.2" /></svg>
                                             </span>
                                             <span class="al-line" style="--w: 64%"></span>
                                         </div>
                                         <div class="al-row">
                                             <span class="al-check al-check-5">
-                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 5 17 Q 9 22 14 25 Q 22 13 30 3" /></svg>
+                                                <svg class="al-tick" viewBox="0 0 20 20"><path pathLength="1" d="M 4.6 10.6 Q 6.5 12.5 8.4 14.4 Q 11.4 9.9 15.5 5" /></svg>
                                             </span>
                                             <span class="al-line" style="--w: 70%"></span>
                                         </div>
                                         <div class="al-row">
                                             <span class="al-check al-check-6">
-                                                <svg class="al-tick" viewBox="0 0 32 32"><path d="M 6 18 Q 11 22 15 24 Q 22 13 29 2" /></svg>
+                                                <svg class="al-tick" viewBox="0 0 20 20"><path pathLength="1" d="M 4.4 10.7 Q 6.4 12.5 8.6 14.4 Q 11.7 10 15.5 5.1" /></svg>
                                             </span>
                                             <span class="al-line" style="--w: 52%"></span>
                                         </div>
@@ -451,109 +562,103 @@
                             </article>
                         </div>
                         <div class="process-text">
-                            <h2 class="process-title">We keep your plans optimized</h2>
-                            <p class="process-lead">We monitor usage, rates, eligibility, and utility updates over time, so when a change creates a better option, we can help move.</p>
+                            <h2 class="process-title">Your best plan keeps changing</h2>
+                            <p class="process-lead">Utilities change their rates often. A rate plan that made sense for you yesterday may no longer be the best option.</p>
                         </div>
                     </div>
                 </div>
             </article>
         </section>
 
-        <section class="cta-portfolio" id="get-started">
-            <div class="container cta-portfolio-layout">
-                <h2 class="cta-portfolio-title">Let&rsquo;s get your portfolio in order</h2>
-                <a href="https://app.cohi.energy/register" class="btn btn-primary cta-portfolio-cta" data-account-entry-link>Get started</a>
-
-                <p class="cta-portfolio-secondary-copy">If you have a bigger portfolio, we can work with you one-on-one to get everything in order.</p>
-                <a href="#contact" class="btn btn-secondary cta-portfolio-cta">Book a portfolio review</a>
-            </div>
-        </section>
-
-        <section class="section-divider" id="beyond-portfolio">
+        <section class="plans" id="plans">
             <div class="container">
-                <h2 class="section-divider-title">Beyond portfolio OpEx</h2>
-            </div>
-        </section>
-
-        <section class="process benchmarking" id="benchmarking">
-            <article class="process-step process-step--left reveal-sides" data-step="5">
-                <div class="container">
-                    <div class="process-grid">
-                        <div class="process-scene-col">
-                            <article class="bench-card" data-scroll-animate aria-label="Animation: a three-step compliance pipeline completes (Authorization, Processing, Submitted), then an 'Approved' status badge appears.">
-                                <div class="bench-stage" aria-hidden="true">
-                                    <div class="bench-pipeline">
-                                        <div class="bench-steps">
-                                            <div class="bench-step bench-step-1">
-                                                <div class="bench-circle">
-                                                    <svg viewBox="0 0 22 22" width="14" height="14">
-                                                        <path class="bench-tick" d="M6 11.5 L9.5 15 L16 8"/>
-                                                    </svg>
-                                                </div>
-                                                <div class="bench-label-wrap"><span class="bench-label">Authorization</span></div>
-                                            </div>
-                                            <div class="bench-step bench-step-2">
-                                                <div class="bench-circle">
-                                                    <svg viewBox="0 0 22 22" width="14" height="14">
-                                                        <path class="bench-tick" d="M6 11.5 L9.5 15 L16 8"/>
-                                                    </svg>
-                                                </div>
-                                                <div class="bench-label-wrap"><span class="bench-label">Processing</span></div>
-                                            </div>
-                                            <div class="bench-step bench-step-3">
-                                                <div class="bench-circle">
-                                                    <svg viewBox="0 0 22 22" width="14" height="14">
-                                                        <path class="bench-tick" d="M6 11.5 L9.5 15 L16 8"/>
-                                                    </svg>
-                                                </div>
-                                                <div class="bench-label-wrap"><span class="bench-label">Submitted</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="bench-success">
-                                        <div class="bench-success-icon">
-                                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M5 12 L10 17 L19 7"/>
-                                            </svg>
-                                        </div>
-                                        <p class="bench-success-primary">Approved</p>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="process-text">
-                            <h2 class="process-title">Energy benchmarking</h2>
-                            <p class="process-lead">Handling your annual filings with the city and state. Accurate, on time, and off your plate.</p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-
-        <section class="process home-savings" id="home-savings">
-            <article class="process-step process-step--right reveal-sides" data-step="6">
-                <div class="container">
-                    <div class="process-grid">
-                        <div class="process-text">
-                            <h2 class="process-title">For your home, too</h2>
-                            <p class="process-lead">You don&rsquo;t need to manage a portfolio to benefit. The same analysis works for a single home, switching to the right rate plan can save you hundreds, even thousands of dollars every year.</p>
-                        </div>
-                        <div class="process-scene-col">
+                <h2 class="plans-title">Free for homes and small businesses</h2>
+                <div class="plans-grid">
+                    <article class="plan-card">
+                        <div class="plan-card-scene">
                             <article class="house-card" data-scroll-animate aria-label="Animation: a one-story house with a coloured fill bar inside that shrinks and shifts from orange to green to indicate switching to a better-fit plan.">
                                 <div class="house-shape" aria-hidden="true">
                                     <span class="house-fill"></span>
                                 </div>
                             </article>
                         </div>
+                        <h3 class="plan-card-title">Homes and small businesses</h3>
+                        <p class="plan-card-copy">Even a single-family home can save hundreds of dollars every year.</p>
+                        <a href="https://app.cohi.energy/register" class="btn btn-primary plan-card-cta" data-account-entry-link
+                           data-cta-destination="app_register" data-cta-location="plans_free">Get started for free</a>
+                    </article>
+                    <article class="plan-card">
+                        <div class="plan-card-scene">
+                            <div class="plan-card-skyline" aria-hidden="true">
+                                <div class="bldg" data-shape="stepped-right" style="--w:52px;--h:88%;--m:88%;--t:58%;--d:0ms">  <span class="bldg-fill"></span></div>
+                                <div class="bldg" data-shape="pointed"       style="--w:20px;--h:56%;--m:86%;--t:62%;--d:130ms"> <span class="bldg-fill"></span></div>
+                                <div class="bldg" data-shape="flat"          style="--w:44px;--h:70%;--m:84%;--t:54%;--d:260ms"><span class="bldg-fill"></span></div>
+                                <div class="bldg" data-shape="angle-right"   style="--w:30px;--h:62%;--m:85%;--t:52%;--d:390ms"><span class="bldg-fill"></span></div>
+                            </div>
+                        </div>
+                        <h3 class="plan-card-title">Multifamily buildings and portfolios</h3>
+                        <p class="plan-card-copy">Your entire portfolio and its projected savings on one dashboard within minutes.</p>
+                        <a href="#contact" class="btn btn-secondary plan-card-cta"
+                           data-cta-destination="contact_form" data-cta-location="plans_portfolio">Book a portfolio review</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-study" id="case-study">
+            <div class="container">
+                <h2 class="case-study-title">What we found in one multi-family building</h2>
+                <div class="case-study-figures">
+                    <div class="case-figure">
+                        <span class="case-figure-value case-figure-risk">+20.4%</span>
+                        <span class="case-figure-caption">cost increase, on 1.4% more usage</span>
+                    </div>
+                    <div class="case-figure">
+                        <span class="case-figure-value case-figure-savings">$25,300</span>
+                        <span class="case-figure-caption">a year in savings identified</span>
                     </div>
                 </div>
-            </article>
+                <p class="case-study-copy">Costs climbed 20.4% in a 300-unit San Francisco building; usage rose 1.4%. Cohi identified about $25,300 a year in savings. No equipment, no construction, just better choices.</p>
+                <p class="case-study-cta"><a href="#contact" data-cta-destination="contact_form" data-cta-location="case_study">Have a building like this? Let&rsquo;s talk.</a></p>
+            </div>
+        </section>
+
+        <section class="faq" id="faq">
+            <div class="container faq-layout">
+                <h2 class="faq-title">FAQs</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary class="faq-question">Is it really free?</summary>
+                        <p class="faq-answer">Yes, for homes and small businesses. For multifamily buildings and portfolios, email <a href="mailto:contact@cohi.energy">contact@cohi.energy</a> or use the form below to set up a portfolio review.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Do I have to change how I use energy?</summary>
+                        <p class="faq-answer">No, that&rsquo;s the point. We work on the plan and setup behind your bill, not on how much energy you use.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Doesn&rsquo;t my utility already do this?</summary>
+                        <p class="faq-answer">Kind of. There is a comparison tool on their site, and it tries. But helping you pay less for the same usage was never really the utility&rsquo;s job. We&rsquo;ve made it ours.<br><br> Their version gives each plan one number and no explanation. It also won&rsquo;t tell you which plans you actually qualify for.<br><br> Cohi shows how every option plays out on your real usage, month by month, and explains each one in plain language.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Will switching plans affect my service?</summary>
+                        <p class="faq-answer">No. Your utility, wires, meter, and reliability stay exactly the same; only your billing changes.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Do you work for an energy supplier?</summary>
+                        <p class="faq-answer">No. We work for you. Cohi doesn&rsquo;t sell energy and doesn&rsquo;t take commissions from suppliers.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Which utilities do you support?</summary>
+                        <p class="faq-answer">PG&amp;E, starting with electric accounts. Gas support is coming soon.</p>
+                    </details>
+                </div>
+            </div>
         </section>
 
         <section class="contact" id="contact">
             <div class="container contact-layout">
                 <div class="section-header left">
-                    <h2>Let&rsquo;s talk.<br>Over a call,<br>or a coffee.</h2>
+                    <h2>Let&rsquo;s<br>lower<br>that bill.</h2>
                 </div>
 
                 <form id="contact-form" class="contact-form" method="POST">
@@ -582,7 +687,8 @@
                         <textarea id="message" name="message" rows="4" placeholder="Share your goals or current challenges"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">
+                    <button type="submit" class="btn btn-primary btn-block"
+                            data-cta-destination="contact_form" data-cta-location="contact_submit">
                         <span>Reach Out</span>
                     </button>
                 </form>
@@ -597,15 +703,15 @@
                 <p class="footer-brand">
                     <img src="assets/brand/brand-lockup-light.svg" alt="COHI ENERGY" class="brand-lockup-img">
                 </p>
-                <p class="footer-copy">Intelligent energy guidance for property portfolios.</p>
+                <p class="footer-copy">The right energy plan for every meter, from single homes to multifamily and commercial portfolios.</p>
             </div>
             <div class="footer-contact" aria-label="Contact details">
-                <a href="mailto:contact@cohi.energy">contact@cohi.energy</a>
-                <a href="tel:+14153790018">(415) 379-0018</a>
+                <a class="footer-mail" href="mailto:contact@cohi.energy">contact@cohi.energy</a>
+                <a class="footer-legal" href="https://app.cohi.energy/privacy">Privacy policy</a>
             </div>
         </div>
     </footer>
 
-    <script src="script.js?v=10" defer></script>
+    <script src="script.js?v=14" defer></script>
 </body>
 </html>

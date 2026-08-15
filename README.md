@@ -1,6 +1,6 @@
 # Cohi Landing Page
 
-A conversion-focused landing page for COHI, tailored to San Francisco multifamily residential audiences (HOAs, condo associations, and apartment operators) that need utility savings and benchmarking compliance support.
+The marketing site for Cohi's bill-optimization app: free rate-plan checking and switching for homes and small businesses, and portfolio-wide energy-spend screening for multifamily owners and operators. Primary conversion is app signup (`app.cohi.energy/register`); secondary is the portfolio-review contact form.
 
 ## Repository Ownership
 
@@ -156,18 +156,9 @@ This site is plain HTML, CSS, and JavaScript. There is no Vite-style hot module 
 - Refresh the browser to see the update immediately
 - Keep `config.js` local and uncommitted
 
-### Animated Card Bundle
+### Section Animations
 
-The 12 impact / service-grid card animations are React + framer-motion components
-bundled into a single self-mounting IIFE: `dist/cards-bundle.js`.
-
-- **Source:** `cards-src/` (entry + tokens + per-pattern components)
-- **Build:** `npm install` once, then `npm run build` (Vite, ~1s, ~100 KB gzipped output)
-- **Output:** `dist/cards-bundle.js` (committed — GitHub Pages serves it as a static asset)
-- **Mounting:** `index.html` includes the bundle with `<script src="dist/cards-bundle.js" defer>`. The bundle scans for `<div data-cohi-card="…">` mount points (one per card id: `cost`, `waste`, `compliance`, `savings`, `bill-crush`, `usage-boulder`, `incentive-scan`, `compliance-scan`, `benchmark-mail`, `retrofit-bulb`, `hoa-catch`, `retrofit-balance`) and renders the picked React pattern into each. A `MutationObserver` picks up mount points added later by `script.js` (services-fresh resident / property-manager grids).
-- **Per-card pick:** edit `cards-src/v2/tokens.ts` → `CARD_PICK`.
-
-**Whenever you change a `cards-src/**` file, re-run `npm run build` and commit the updated `dist/cards-bundle.js`.** `npm run watch` rebuilds on save.
+All section animations (hero skyline, bill-to-chart, plan-compare deck, admin checklist, monitoring timeline, house fill) are hand-written CSS/SVG driven by `script.js` scroll observers. There is no build step; edit `styles.css` and refresh.
 
 ### Optional Live Reload
 
@@ -205,7 +196,7 @@ Day-to-day website changes should be made in `cohi/website`, not directly in `co
 3. Let `.github/workflows/sync-website-subtree.yml` mirror the subtree to `cohi-website/master`
 4. Let the standalone `cohi-website` GitHub Pages workflow deploy the updated site
 
-If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `cohi` and still has write access to `cohi-energy/cohi-website`.
+If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `cohi`, still has write access to `cohi-energy/cohi-website`, and carries both the `repo` and `workflow` scopes (the mirror includes `.github/workflows/deploy.yml`, which a token without `workflow` scope cannot push).
 
 ### Initial Setup (One-time)
 
@@ -224,7 +215,7 @@ If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `c
 
 3. **Add subtree sync secret**
    - In `cohi`, go to **Settings** → **Secrets and variables** → **Actions**
-   - Add `SUBREPO_PAT` with push access to `cohi-energy/cohi-website`
+   - Add `SUBREPO_PAT` with push access to `cohi-energy/cohi-website` (`repo` + `workflow` scopes; `workflow` is needed to push the mirrored deploy workflow file)
 
 ### Deploying
 
@@ -271,15 +262,20 @@ Your site will be live at: `https://cohi.energy` (or your configured domain)
 
 ```
 cohi/website/
-├── index.html           # Main HTML file
-├── styles.css           # Stylesheet
-├── script.js            # JavaScript for form handling and navigation
+├── index.html           # Main HTML file (all copy rendered server-side for SEO)
+├── styles.css           # Stylesheet (built entirely on assets/brand/brand.css tokens)
+├── script.js            # Scroll animations, form handling, CTA tracking, mobile nav
+├── navigation.js        # Auth-aware app links (register vs /app)
 ├── reddit-pixel.js      # Reddit Pixel tracking code
 ├── posthog.js           # PostHog analytics tracking
 ├── config.template.js   # Config template with placeholders (committed)
 ├── config.js            # Local generated config with secrets (gitignored)
 ├── dev.sh               # Local development script
-├── assets/branding/     # Brand logos (logo_white.svg, logo_grey.svg)
+├── robots.txt           # Crawl policy + sitemap pointer
+├── sitemap.xml          # Single-URL sitemap
+├── assets/brand/        # GENERATED brand tokens + lockups (never edit by hand;
+│                        #   edit brand/tokens.js and run scripts/sync-brand-assets.mjs)
+├── assets/og-image.png  # Social preview card (1200x630)
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml   # Workflow mirrored to cohi-website for GitHub Pages deploys
@@ -293,7 +289,8 @@ The contact form saves submissions to Google Sheets.
 Required fields:
 - Name
 - Email
-- Building address
+- Phone number
+- Address
 
 Optional field:
 - Message

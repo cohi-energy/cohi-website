@@ -41,6 +41,20 @@ body > * { position: relative; z-index: 1; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 
+/* Anchor targets clear the fixed header when navigated to. */
+section[id] { scroll-margin-top: 5.5rem; }
+
+/* Visible keyboard focus everywhere a component doesn't already
+   draw its own focus treatment. */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+}
+
 /* =============================================================
    Header
    ============================================================= */
@@ -76,6 +90,35 @@ a { color: inherit; text-decoration: none; }
 
 .site-nav { display: flex; gap: 0.4rem; }
 
+/* Hamburger disclosure — hidden on wide screens, replaces the
+   inline nav links on small ones. */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 40px;
+    height: 36px;
+    padding: 0 9px;
+    border: 0;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.nav-toggle-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text);
+    transition: transform 200ms var(--easing-base), opacity 150ms ease;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
 .site-nav a {
     font-family: var(--font-heading);
     font-size: 0.92rem;
@@ -95,6 +138,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav-cta {
+    white-space: nowrap;
     font-family: var(--font-data);
     font-size: 0.78rem;
     font-weight: 600;
@@ -170,15 +214,24 @@ a { color: inherit; text-decoration: none; }
     line-height: 1.02;
     letter-spacing: -0.035em;
     color: var(--text);
-    margin-bottom: 1.4rem;
+    margin-bottom: clamp(1.7rem, 2.9vw, 2.6rem);
 }
 
+/* Hero subtext: one line, one thought. Sized up so it carries the
+   promise on its own, but held in the body voice and the softer ink
+   so the headline keeps the hierarchy. The measure stays narrower
+   than the headline's longest line, so the sentence reads as inset
+   beneath it rather than competing for width. The gap below is the
+   larger of the two, which groups the line with the headline and
+   lets the buttons read as their own step. */
 .hero-copy {
-    font-size: clamp(1.05rem, 1.4vw, 1.22rem);
-    line-height: 1.5;
+    font-size: clamp(1.12rem, 1.55vw, 1.4rem);
+    line-height: 1.42;
+    letter-spacing: -0.008em;
     color: var(--text-soft);
-    margin: 0 auto 1.8rem;
-    max-width: 44ch;
+    margin: 0 auto clamp(2.3rem, 3.3vw, 3.1rem);
+    max-width: min(36rem, 100%);
+    text-wrap: balance;
 }
 
 .hero-actions {
@@ -316,6 +369,10 @@ a { color: inherit; text-decoration: none; }
 .bldg[data-shape="stepped-right"] { clip-path: polygon(0 100%, 0 22%, 38% 22%, 38% 0, 100% 0, 100% 100%); }
 .bldg[data-shape="stepped-left"]  { clip-path: polygon(0 100%, 0 0, 62% 0, 62% 22%, 100% 22%, 100% 100%); }
 .bldg[data-shape="pointed"]       { clip-path: polygon(0 100%, 0 22%, 50% 0, 100% 22%, 100% 100%); }
+/* Little house — same gable-and-chimney silhouette as the
+   `.house-shape` card, scaled down to sit at the outer edge of
+   each skyline. Homes belong on the horizon too. */
+.bldg[data-shape="house"]         { clip-path: polygon(50% 0%, 72% 16.7%, 72% 4%, 82% 4%, 82% 24.3%, 100% 38%, 100% 100%, 0 100%, 0 38%); }
 
 /* The fill — one bar visually. Top edge drops from --m to --t.
    Two stacked layers (::before mango, ::after teal) crossfade so
@@ -380,6 +437,21 @@ a { color: inherit; text-decoration: none; }
     to   { opacity: 1; }
 }
 
+/* Reduced motion: skip the skyline's entry-and-cool sequence and
+   rest every building in its final, lower-bill state. */
+@media (prefers-reduced-motion: reduce) {
+    .bldg,
+    .bldg-fill,
+    .bldg-fill::before,
+    .bldg-fill::after {
+        animation: none !important;
+    }
+    .bldg { opacity: 1; background: color-mix(in srgb, var(--text) 82%, var(--primary) 18%); }
+    .bldg-fill { opacity: 1; height: var(--t, 56%); }
+    .bldg-fill::before { opacity: 0; }
+    .bldg-fill::after  { opacity: 1; }
+}
+
 /* =============================================================
    Responsive
    ============================================================= */
@@ -408,6 +480,36 @@ a { color: inherit; text-decoration: none; }
     }
     .skyline-left  { justify-content: center; }
     .skyline-right { display: none; }
+}
+
+/* Collapse the inline nav into a hamburger-opened panel that drops
+   below the fixed header. Non-modal disclosure: Esc and link clicks
+   close it (script.js). The breakpoint sits above the expanded
+   header's minimum width (brand + four links + CTA is ~720px), so
+   the desktop row never gets clipped. */
+@media (max-width: 760px) {
+    .site-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        gap: 0.15rem;
+        padding: 0.6rem 1rem 0.9rem;
+        background: var(--frost-menu);
+        backdrop-filter: blur(30px) saturate(140%);
+        -webkit-backdrop-filter: blur(30px) saturate(140%);
+        box-shadow:
+            var(--elevation-t2),
+            0 8px 18px var(--cool-shadow),
+            var(--elevation-hairline);
+    }
+    .site-nav.is-open { display: flex; }
+    .site-nav a { padding: 0.65rem 0.85rem; font-size: 1rem; }
+    .nav-toggle { display: inline-flex; }
+    .nav-cta { margin-left: auto; }
+    .nav-shell { padding: 0.7rem 1rem; }
 }
 
 @media (max-width: 600px) {
@@ -439,8 +541,6 @@ a { color: inherit; text-decoration: none; }
         transform: none;
         animation: none;
     }
-    .site-nav { display: none; }
-    .nav-shell { padding: 0.7rem 1rem; }
     .btn {
         width: auto;
         padding: 0.8rem 1rem;
@@ -503,6 +603,10 @@ a { color: inherit; text-decoration: none; }
 .process {
     position: relative;
     padding: 4rem 0 5.33rem;
+    /* The side-reveal translates columns in from the page margins;
+       clip that transient overhang so it never widens the page.
+       (clip, not hidden: no scroll container, sticky keeps working.) */
+    overflow-x: clip;
 }
 
 /* Extra breathing room between the hero and the first
@@ -527,19 +631,14 @@ a { color: inherit; text-decoration: none; }
     margin-top: -7.85rem;
 }
 
-/* Tighten the vertical gap between the "Beyond portfolio
-   opex" divider and the energy-benchmarking step by ~40 %.
-   Default gap (divider bottom 4rem + section top 4rem + step
-   top 3.33rem = ~11.33rem) drops to ~6.8rem. */
-.process.benchmarking {
-    margin-top: -4.5rem;
-}
-
-/* Tighten the vertical gap between the energy-benchmarking
-   section and "For your home, too". -13.96rem leaves a
-   ~2.04rem gap (50% of the prior 4.08rem). */
-.process.home-savings {
-    margin-top: -13.96rem;
+/* On tall/wide screens the steps carry their own viewport-scaled
+   height, so the tightening overlap above eases off. */
+@media (min-width: 1440px) {
+    .process.plan-compare,
+    .process.admin-list,
+    .process.mon-timeline {
+        margin-top: -3rem;
+    }
 }
 
 .process-section-eyebrow {
@@ -556,6 +655,14 @@ a { color: inherit; text-decoration: none; }
 .process-step {
     position: relative;
     padding: 3.33rem 0;
+    /* Let each narrative step scale with the window instead of
+       packing several steps into one tall viewport: the step
+       claims most of a screen and its content centers vertically
+       inside it, so the story reads one beat at a time. */
+    min-height: clamp(420px, 74vh, 900px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .process-step + .process-step {
@@ -565,7 +672,7 @@ a { color: inherit; text-decoration: none; }
 .process-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 4rem;
+    gap: clamp(3rem, 5vw, 6rem);
     align-items: center;
 }
 
@@ -1210,7 +1317,8 @@ a { color: inherit; text-decoration: none; }
 
 .bill-story-card {
     position: relative;
-    width: min(220px, 100%);
+    /* Scales up with the viewport on large screens. */
+    width: min(clamp(220px, 19vw, 340px), 100%);
     margin: 0 auto;
     border-radius: var(--radius-xl);
     padding: 0.9rem;
@@ -1794,7 +1902,8 @@ a { color: inherit; text-decoration: none; }
 
 .pc-card {
     position: relative;
-    width: min(260px, 100%);
+    /* Scales up with the viewport on large screens. */
+    width: min(clamp(260px, 22vw, 390px), 100%);
     margin: 0 auto;
 }
 
@@ -2048,7 +2157,8 @@ a { color: inherit; text-decoration: none; }
 
 .al-card {
     position: relative;
-    width: min(260px, 100%);
+    /* Scales up with the viewport on large screens. */
+    width: min(clamp(260px, 22vw, 390px), 100%);
     margin: 0 auto;
 }
 
@@ -2083,67 +2193,78 @@ a { color: inherit; text-decoration: none; }
     gap: 16px;
 }
 
-/* Pen-and-paper checkbox. position: relative so the SVG tick can
-   reach outside its bounds; overflow: visible so the stroke can
-   spill past the top/right edges like a quick handwritten check. */
+/* Empty checkbox: an ink outline on the page's own paper, not a
+   white chip stuck on top of it. The border alpha is tuned to sit
+   in the same tonal family as the .al-line bars beside it, so the
+   column of boxes reads as one quiet grid rather than six dark
+   marks. */
 .al-check {
     flex: 0 0 20px;
     width: 20px;
     height: 20px;
-    border: 1.5px solid rgba(20, 30, 25, 0.45);
-    border-radius: 4px;
-    background: #ffffff;
+    border: 1.5px solid color-mix(in srgb, var(--text) 26%, transparent);
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--surface-strong) 55%, transparent);
     position: relative;
     overflow: visible;
 }
 
-/* The tick — sized larger than the box and inset negatively so the
-   stroke can extend up-and-right past the top-right corner. The
-   inset is asymmetric top-vs-bottom (-14px / -6px instead of the
-   original -10px / -10px) so the SVG content sits ~4px higher
-   inside the checkbox — the bend of the check sits just above
-   the box's bottom edge, not on it. */
+/* The "done" state of the box: a teal ring plus a faint wash that
+   resolves as its row's tick lands. Painted on a pseudo-element so
+   the confirmation animates on opacity alone. inset: -1.5px puts it
+   exactly over the border box, and ::before keeps it behind the
+   tick in paint order. */
+.al-check::before {
+    content: "";
+    position: absolute;
+    inset: -1.5px;
+    border: 1.5px solid var(--primary);
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* The tick. inset: -1.5px lines the 20x20 viewBox up with the box's
+   outer edge, so every path coordinate is a pixel of the checkbox
+   and the stroke weight needs no compensation at any breakpoint.
+   The mark is drawn to sit inside the box with a hair of optical
+   padding: contained, not spilling. */
 .al-tick {
     position: absolute;
-    inset: -14px -12px -6px -6px;
+    inset: -1.5px;
     width: auto;
     height: auto;
     overflow: visible;
     pointer-events: none;
 }
 
+/* pathLength="1" normalises every path, so the dash travel is
+   exactly the length of the stroke: the draw finishes on the last
+   frame of its window instead of completing early and idling.
+   The gap is twice the dash (1 2, not 1) so that at full offset no
+   zero-length dash lands on the end point, where a round cap would
+   otherwise leave a stray dot in the empty box. */
 .al-tick path {
     fill: none;
     stroke: var(--primary);
-    stroke-width: 2.6;
+    stroke-width: 2.3;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 60;
-    stroke-dashoffset: 60;
+    stroke-dasharray: 1 2;
+    stroke-dashoffset: 1;
 }
 
-/* Each row uses a slightly different path + tilt so the marks
-   feel independently sketched rather than copy-pasted. */
-.al-check-1 .al-tick { transform: rotate(-4deg); }
-.al-check-2 .al-tick { transform: rotate(3deg); }
-.al-check-3 .al-tick { transform: rotate(-2deg); }
-.al-check-4 .al-tick { transform: rotate(5deg); }
-.al-check-5 .al-tick { transform: rotate(-3deg); }
-.al-check-6 .al-tick { transform: rotate(4deg); }
-
-@media (max-width: 600px) {
-    .admin-list .al-check {
-        overflow: visible;
-    }
-
-    .admin-list .al-tick {
-        inset: -9px -8px -4px -4px;
-    }
-
-    .admin-list .al-tick path {
-        stroke-width: 3.2;
-    }
-}
+/* Each row uses a slightly different path and tilt so the marks
+   feel independently drawn rather than copy-pasted. The tilt is
+   kept under 2.5deg: enough to read as a hand, not enough to read
+   as an accident. */
+.al-check-1 .al-tick { transform: rotate(-2deg); }
+.al-check-2 .al-tick { transform: rotate(1.5deg); }
+.al-check-3 .al-tick { transform: rotate(-1deg); }
+.al-check-4 .al-tick { transform: rotate(2.5deg); }
+.al-check-5 .al-tick { transform: rotate(-1.5deg); }
+.al-check-6 .al-tick { transform: rotate(2deg); }
 
 .al-line {
     flex: 1;
@@ -2154,10 +2275,14 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Each row's tick gets its own keyframe. They share the erase
-   window (88% → 92%) so every tick vanishes at the same instant.
+   window (88% to 92%) so every tick vanishes at the same instant.
    Only the DRAW window differs per row, walking down the list
    top-to-bottom. Cycle restarts with all six already cleared,
-   so there's no flicker at the loop boundary. */
+   so there's no flicker at the loop boundary.
+
+   The box's teal ring runs on a matching per-row keyframe, offset
+   about half a beat later, so the box confirms just after the pen
+   lifts rather than at the same instant. */
 .al-card.is-in .al-check-1 .al-tick path { animation: alTick1 7s linear infinite; }
 .al-card.is-in .al-check-2 .al-tick path { animation: alTick2 7s linear infinite; }
 .al-card.is-in .al-check-3 .al-tick path { animation: alTick3 7s linear infinite; }
@@ -2165,41 +2290,83 @@ a { color: inherit; text-decoration: none; }
 .al-card.is-in .al-check-5 .al-tick path { animation: alTick5 7s linear infinite; }
 .al-card.is-in .al-check-6 .al-tick path { animation: alTick6 7s linear infinite; }
 
-/* Row 1 draws at 2–7% (≈0.14–0.49s). Each subsequent row draws ~4%
-   later. All hold until 88%, then ALL erase 88–92% together. */
+.al-card.is-in .al-check-1::before { animation: alBox1 7s linear infinite; }
+.al-card.is-in .al-check-2::before { animation: alBox2 7s linear infinite; }
+.al-card.is-in .al-check-3::before { animation: alBox3 7s linear infinite; }
+.al-card.is-in .al-check-4::before { animation: alBox4 7s linear infinite; }
+.al-card.is-in .al-check-5::before { animation: alBox5 7s linear infinite; }
+.al-card.is-in .al-check-6::before { animation: alBox6 7s linear infinite; }
+
+/* Row 1 draws at 2% to 8.5% (about 0.14s to 0.6s). Each subsequent
+   row draws 4% later. All hold until 88%, then ALL erase 88% to 92%
+   together. The draw itself carries the brand easing, so the stroke
+   leaves fast and settles into the corner instead of running at a
+   constant machine speed. */
 @keyframes alTick1 {
-    0%, 2%    { stroke-dashoffset: 60; }
-    7%, 88%   { stroke-dashoffset: 0; }
-    92%, 100% { stroke-dashoffset: 60; }
+    0%, 2%    { stroke-dashoffset: 1; animation-timing-function: var(--easing-base); }
+    8.5%, 88% { stroke-dashoffset: 0; }
+    92%, 100% { stroke-dashoffset: 1; }
 }
 @keyframes alTick2 {
-    0%, 6%    { stroke-dashoffset: 60; }
-    11%, 88%  { stroke-dashoffset: 0; }
-    92%, 100% { stroke-dashoffset: 60; }
+    0%, 6%     { stroke-dashoffset: 1; animation-timing-function: var(--easing-base); }
+    12.5%, 88% { stroke-dashoffset: 0; }
+    92%, 100%  { stroke-dashoffset: 1; }
 }
 @keyframes alTick3 {
-    0%, 10%   { stroke-dashoffset: 60; }
-    15%, 88%  { stroke-dashoffset: 0; }
-    92%, 100% { stroke-dashoffset: 60; }
+    0%, 10%    { stroke-dashoffset: 1; animation-timing-function: var(--easing-base); }
+    16.5%, 88% { stroke-dashoffset: 0; }
+    92%, 100%  { stroke-dashoffset: 1; }
 }
 @keyframes alTick4 {
-    0%, 14%   { stroke-dashoffset: 60; }
-    19%, 88%  { stroke-dashoffset: 0; }
-    92%, 100% { stroke-dashoffset: 60; }
+    0%, 14%    { stroke-dashoffset: 1; animation-timing-function: var(--easing-base); }
+    20.5%, 88% { stroke-dashoffset: 0; }
+    92%, 100%  { stroke-dashoffset: 1; }
 }
 @keyframes alTick5 {
-    0%, 18%   { stroke-dashoffset: 60; }
-    23%, 88%  { stroke-dashoffset: 0; }
-    92%, 100% { stroke-dashoffset: 60; }
+    0%, 18%    { stroke-dashoffset: 1; animation-timing-function: var(--easing-base); }
+    24.5%, 88% { stroke-dashoffset: 0; }
+    92%, 100%  { stroke-dashoffset: 1; }
 }
 @keyframes alTick6 {
-    0%, 22%   { stroke-dashoffset: 60; }
-    27%, 88%  { stroke-dashoffset: 0; }
-    92%, 100% { stroke-dashoffset: 60; }
+    0%, 22%    { stroke-dashoffset: 1; animation-timing-function: var(--easing-base); }
+    28.5%, 88% { stroke-dashoffset: 0; }
+    92%, 100%  { stroke-dashoffset: 1; }
+}
+
+@keyframes alBox1 {
+    0%, 4%    { opacity: 0; animation-timing-function: var(--easing-base); }
+    10%, 88%  { opacity: 1; }
+    92%, 100% { opacity: 0; }
+}
+@keyframes alBox2 {
+    0%, 8%    { opacity: 0; animation-timing-function: var(--easing-base); }
+    14%, 88%  { opacity: 1; }
+    92%, 100% { opacity: 0; }
+}
+@keyframes alBox3 {
+    0%, 12%   { opacity: 0; animation-timing-function: var(--easing-base); }
+    18%, 88%  { opacity: 1; }
+    92%, 100% { opacity: 0; }
+}
+@keyframes alBox4 {
+    0%, 16%   { opacity: 0; animation-timing-function: var(--easing-base); }
+    22%, 88%  { opacity: 1; }
+    92%, 100% { opacity: 0; }
+}
+@keyframes alBox5 {
+    0%, 20%   { opacity: 0; animation-timing-function: var(--easing-base); }
+    26%, 88%  { opacity: 1; }
+    92%, 100% { opacity: 0; }
+}
+@keyframes alBox6 {
+    0%, 24%   { opacity: 0; animation-timing-function: var(--easing-base); }
+    30%, 88%  { opacity: 1; }
+    92%, 100% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .al-card.is-in .al-tick path { animation: none !important; stroke-dashoffset: 0; }
+    .al-card.is-in .al-check::before { animation: none !important; opacity: 1; }
 }
 
 /* =============================================================
@@ -2215,7 +2382,8 @@ a { color: inherit; text-decoration: none; }
 
 .mon-card {
     position: relative;
-    width: min(400px, 100%);
+    /* Scales up with the viewport on large screens. */
+    width: min(clamp(400px, 34vw, 600px), 100%);
     margin: 0 auto;
     border-radius: var(--radius);
     padding: 16px;
@@ -2502,8 +2670,7 @@ a { color: inherit; text-decoration: none; }
 .bill-story-card,
 .pc-frame,
 .al-frame,
-.mon-card,
-.bench-card {
+.mon-card {
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -2606,30 +2773,59 @@ a { color: inherit; text-decoration: none; }
 .contact {
     position: relative;
     padding: 5.25rem 0;
-    /* Halve the vertical gap from "For your home, too" above.
-       Default gap was ~13.91rem (5.33 + 3.33 + 5.25); -7rem
-       brings it to ~6.91rem. */
-    margin-top: -7rem;
 }
 
+/* The form is the working half of this section, so it takes the
+   wider column. The narrower left column gives the heading a
+   measure it actually fills, instead of a wide lane with type
+   stranded along one edge. */
 .contact-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    align-items: start;
+    grid-template-columns: minmax(0, 0.66fr) minmax(0, 1fr);
+    /* A deliberate gutter between two masses: the statement on the
+       page's left rail, the card on its right. */
+    gap: 2.5rem clamp(2rem, 3.2vw, 3rem);
+    align-items: stretch;
 }
 
+/* One thing in this column: the statement, set as a block and
+   centered on the card beside it. The old decorative skyline was
+   removed rather than restyled, because the page already carries
+   the building motif three times and a fourth run beside the form
+   competed with the only thing here that needs attention. */
 .contact .section-header.left {
     text-align: left;
-    justify-self: start;
+    justify-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* The block is bottom-heavy (its longest line is last), so it
+       is lifted off true center to sit right optically. */
+    padding-bottom: clamp(0.75rem, 2vw, 1.75rem);
+    min-width: 0;
+    /* Type is sized off this column, not the viewport, so the
+       longest line keeps filling its measure as the column narrows. */
+    container-type: inline-size;
 }
 
 .contact .section-header.left h2 {
-    margin: 0 0 0 0;
+    margin: 0;
     font-family: var(--font-heading);
-    font-size: clamp(2.673rem, 4.752vw, 4.3065rem);
-    line-height: 1.152;
+    /* Display setting: three short lines, leading pulled under 1 so
+       they read as one mass, tracking matched to the hero headline.
+       It tops out at the hero's 5rem, the page's other display
+       voice, and never runs past it. */
+    font-size: clamp(2.6rem, 18.8cqi, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.026em;
     color: var(--text);
+    /* Sit toward the gutter: the block leans to the form side of
+       its column so heading and card read as one centered pair,
+       with a step of air so they don't crowd each other. */
+    width: max-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: clamp(1.5rem, 3vw, 3rem);
 }
 
 /* T1 Frost — the default card material */
@@ -2771,7 +2967,7 @@ a { color: inherit; text-decoration: none; }
 
 .footer-layout {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
@@ -2797,11 +2993,26 @@ a { color: inherit; text-decoration: none; }
     line-height: 1.55;
 }
 
+/* Two rows mirroring the brand column's rhythm: the email sits on
+   the lockup's line as the working contact, the legal link drops to
+   the tagline's line at the tagline's quiet level. */
 .footer-contact {
-    display: grid;
-    justify-items: end;
-    gap: 0.55rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    align-self: stretch;
     text-align: right;
+}
+
+.footer-mail {
+    font-size: 1rem;
+    line-height: 28px;
+}
+
+.footer-legal {
+    font-size: 0.85rem;
+    color: color-mix(in srgb, var(--text-inverted) 55%, transparent);
 }
 
 .footer-contact a {
@@ -2822,6 +3033,21 @@ a { color: inherit; text-decoration: none; }
     .contact-layout {
         grid-template-columns: 1fr;
     }
+
+    /* Stacked, the heading sits directly above the form, so the
+       optical lift comes off and the type carries a wider measure. */
+    .contact .section-header.left {
+        padding-bottom: 0;
+    }
+
+    .contact .section-header.left h2 {
+        width: auto;
+        margin-left: 0;
+    }
+
+    .contact .section-header.left h2 {
+        font-size: clamp(2.6rem, 7.4vw, 4.1rem);
+    }
 }
 
 @media (max-width: 760px) {
@@ -2835,40 +3061,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 600px) {
-    .process.benchmarking,
-    .process.home-savings,
     .contact {
         margin-top: 0;
-    }
-
-    .process.home-savings {
-        padding-top: 0;
-    }
-
-    .home-savings .process-step {
-        padding-top: 0;
-    }
-
-    .process.benchmarking {
-        padding-bottom: 1.5rem;
-    }
-
-    .benchmarking .process-step {
-        padding-bottom: 1rem;
-    }
-
-    .benchmarking .bench-card {
-        width: min(260px, 100%);
-        height: 180px;
-        aspect-ratio: auto;
-        padding: 10px 14px;
-    }
-
-    .benchmarking .bench-stage {
-        flex: 1 1 auto;
-    }
-
-    .contact {
         padding: 3.5rem 0;
     }
 
@@ -2877,8 +3071,8 @@ a { color: inherit; text-decoration: none; }
     }
 
     .contact .section-header.left h2 {
-        font-size: clamp(2.35rem, 12vw, 3.15rem);
-        line-height: 1.08;
+        font-size: clamp(2.4rem, 12.5vw, 3.4rem);
+        line-height: 0.96;
     }
 
     .contact-form {
@@ -3045,65 +3239,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =============================================================
-   Portfolio CTA — sits between the monitor timeline (the close
-   of the four-step process) and the "for your home, too" note.
-
-   Two stacked offers in a single centred column:
-     1. Headline + primary CTA — the main "start service" path.
-     2. Smaller copy + secondary CTA — the bespoke / large-
-        portfolio path. Visually subordinate so the primary
-        choice reads first.
-   Padding matches `.process` so the rhythm with the steps
-   above and the home-savings note below stays consistent.
-   ============================================================= */
-
-.cta-portfolio {
-    position: relative;
-    padding: 4rem 0 5.33rem;
-}
-
-@media (max-width: 600px) {
-    .cta-portfolio {
-        padding-top: 1.5rem;
-    }
-}
-
-.cta-portfolio-layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1.5rem;
-}
-
-.cta-portfolio-title {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 3.6vw, 3.2rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    color: var(--text);
-    max-width: 28rem;
-}
-
-/* A bit more breathing room before the secondary offer so it
-   reads as a separate, lower-key option rather than a stacked
-   continuation of the primary CTA. */
-.cta-portfolio-secondary-copy {
-    margin: 2rem 0 0;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.55;
-    color: var(--text-soft);
-    max-width: 34rem;
-}
-
-.cta-portfolio-cta {
-    min-width: 12rem;
-}
-
-/* =============================================================
    Scroll-driven side reveal · steps 1–4.
 
    Each `.reveal-sides` process step has the left column come
@@ -3117,7 +3252,7 @@ a { color: inherit; text-decoration: none; }
    `--reveal-progress` (0 → 1), updated per-frame by JS as the
    section moves through the viewport. The opacity floor is set
    at 0.18 so the columns are perceptibly there from the start
-   without being distracting. Translate distance is 12 % of
+   without being distracting. Translate distance is 22 % of
    viewport width on each side — far enough to read as "from
    the margin", but not so far the content is missing.
 
@@ -3133,7 +3268,7 @@ a { color: inherit; text-decoration: none; }
 
 .reveal-sides .process-text,
 .reveal-sides .process-scene-col {
-    opacity: calc(0.18 + 0.82 * var(--reveal-progress));
+    opacity: calc(0.08 + 0.92 * var(--reveal-progress));
     will-change: opacity, transform;
 }
 
@@ -3141,19 +3276,19 @@ a { color: inherit; text-decoration: none; }
    column 2 (right). Text slides in from the left margin, scene
    from the right margin. */
 .reveal-sides.process-step--right .process-text {
-    transform: translate3d(calc(-12vw * (1 - var(--reveal-progress))), 0, 0);
+    transform: translate3d(calc(-22vw * (1 - var(--reveal-progress))), 0, 0);
 }
 .reveal-sides.process-step--right .process-scene-col {
-    transform: translate3d(calc(12vw * (1 - var(--reveal-progress))), 0, 0);
+    transform: translate3d(calc(22vw * (1 - var(--reveal-progress))), 0, 0);
 }
 
 /* Left-variant: scene in column 1, text in column 2. Each
    column still emerges from its own side of the page. */
 .reveal-sides.process-step--left .process-scene-col {
-    transform: translate3d(calc(-12vw * (1 - var(--reveal-progress))), 0, 0);
+    transform: translate3d(calc(-22vw * (1 - var(--reveal-progress))), 0, 0);
 }
 .reveal-sides.process-step--left .process-text {
-    transform: translate3d(calc(12vw * (1 - var(--reveal-progress))), 0, 0);
+    transform: translate3d(calc(22vw * (1 - var(--reveal-progress))), 0, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3177,7 +3312,7 @@ a { color: inherit; text-decoration: none; }
     .reveal-sides.process-step--right .process-text,
     .reveal-sides.process-step--left .process-text {
         transform: translate3d(
-            calc(-18vw * (1 - var(--reveal-progress))),
+            calc(-24vw * (1 - var(--reveal-progress))),
             calc(1.15rem * (1 - var(--reveal-progress))),
             0
         );
@@ -3186,7 +3321,7 @@ a { color: inherit; text-decoration: none; }
     .reveal-sides.process-step--right .process-scene-col,
     .reveal-sides.process-step--left .process-scene-col {
         transform: translate3d(
-            calc(-18vw * (1 - var(--reveal-progress))),
+            calc(-24vw * (1 - var(--reveal-progress))),
             calc(1.15rem * (1 - var(--reveal-progress))),
             0
         );
@@ -3194,331 +3329,24 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =============================================================
-   Section divider — large centred headline used to mark a
-   transition between major page chapters (here: from the
-   portfolio-CTA close into the "for your home, too" note).
-   ============================================================= */
+   Soft frosted-glass treatment on the hero, the case study, and
+   the contact section. The pseudo-element sits at z-index 0
+   inside each section so flex-item children (skylines z-index: 1,
+   .hero-content z-index: 2) paint above it. The blur is gentle —
+   just enough to read as glass over the cream canvas without
+   erasing the texture beneath.
 
-.section-divider {
-    position: relative;
-    /* Vertical space above and below the headline trimmed
-       cumulatively (30% then another 30% — was 4rem, now
-       ~1.96rem). */
-    padding: 1.96rem 0;
-    text-align: center;
-}
-
-.section-divider-title {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2.4rem, 4.2vw, 3.6rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    color: var(--text);
-}
-
-/* =============================================================
-   Step 5 · Energy benchmarking — combined "compliance flow" +
-   "submission status" animation.
-
-   This card fuses two of the main marketing site's pattern
-   cards into a single 10 s loop:
-
-     1. Phase 1 (frames 4–58 %) — Compliance flow pipeline.
-        Four step nodes (Authorization, Processing, Filing,
-        Approval) activate one by one (~0.6 s apart). Each
-        node fills its circle with the brand teal and draws a
-        white check by animating stroke-dashoffset on the tick
-        path. A "Filed ahead of cutoff" footnote sits below.
-
-     2. Phase 2 (frames 66–94 %) — Submission status badge.
-        A larger teal disc with a white check tags the cycle
-        as complete; underneath, "Submitted" and the filing
-        date / receipt number land as the reassuring epilogue.
-
-   The two phases stack absolutely inside .bench-stage and
-   crossfade via opacity so the card visually swaps without
-   re-layout. The whole cycle restarts cleanly because both
-   phases are invisible across the cycle boundary (94–4 %).
-   ============================================================= */
-
-.bench-card {
-    position: relative;
-    width: min(280px, 100%);
-    margin: 0 auto;
-    aspect-ratio: 7 / 8;
-    padding: 22px 22px 20px;
-    border-radius: 14px;
-    /* No background or shadow: the animation reads directly on
-       the page canvas, matching the other showcase scenes. */
-    background: transparent;
-    box-shadow: none;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    isolation: isolate;
-}
-
-.bench-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-}
-
-.bench-eyebrow {
-    font-family: var(--font-data);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-soft);
-}
-
-.bench-shield {
-    display: inline-flex;
-    color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 14%, transparent);
-    border-radius: 6px;
-    padding: 4px;
-}
-
-.bench-stage {
-    position: relative;
-    flex: 1;
-}
-
-/* Both phases overlap absolutely inside the stage — crossfade
-   via opacity rather than swapping DOM. */
-.bench-pipeline,
-.bench-success {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.bench-pipeline {
-    justify-content: center;
-    opacity: 0;
-}
-
-.bench-success {
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    opacity: 0;
-}
-
-.bench-card.is-in .bench-pipeline {
-    animation: benchPipelineFade 10s linear infinite;
-}
-
-.bench-card.is-in .bench-success {
-    animation: benchSuccessFade 10s linear infinite;
-}
-
-@keyframes benchPipelineFade {
-    0%,   4% { opacity: 0; }
-    8%,  58% { opacity: 1; }
-    64%, 96% { opacity: 0; }
-    100%     { opacity: 0; }
-}
-
-@keyframes benchSuccessFade {
-    0%,  60% { opacity: 0; transform: scale(0.78); }
-    68%      { opacity: 1; transform: scale(1);    }
-    92%      { opacity: 1; transform: scale(1);    }
-    96%, 100% { opacity: 0; transform: scale(0.92); }
-}
-
-/* ---- Phase 1 · pipeline ---- */
-.bench-steps {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    /* Asymmetric horizontal padding leaves room for the slanted
-       labels under each step without crowding the right edge. */
-    padding: 0 28px 0 6px;
-}
-
-.bench-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.bench-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    border: 2px solid color-mix(in srgb, var(--text) 18%, transparent);
-    background: var(--surface);
-    display: grid;
-    place-items: center;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
-
-.bench-circle svg {
-    display: block;
-}
-
-.bench-tick {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 2.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 16;
-    stroke-dashoffset: 16;
-}
-
-/* Per-step circle activation. Step N lights up 6 % later than
-   step N − 1, matching the original step-progress card's
-   ~0.55 s rhythm on a 10 s cycle. The activation runs as a
-   transition over a 4 % window so each check feels discrete. */
-.bench-card.is-in .bench-step-1 .bench-circle { animation: benchCircle1 10s linear infinite; }
-.bench-card.is-in .bench-step-2 .bench-circle { animation: benchCircle2 10s linear infinite; }
-.bench-card.is-in .bench-step-3 .bench-circle { animation: benchCircle3 10s linear infinite; }
-.bench-card.is-in .bench-step-4 .bench-circle { animation: benchCircle4 10s linear infinite; }
-
-@keyframes benchCircle1 {
-    0%,  12% { background: var(--surface); border-color: color-mix(in srgb, var(--text) 18%, transparent); }
-    16%, 100% { background: var(--primary); border-color: var(--primary); }
-}
-@keyframes benchCircle2 {
-    0%,  18% { background: var(--surface); border-color: color-mix(in srgb, var(--text) 18%, transparent); }
-    22%, 100% { background: var(--primary); border-color: var(--primary); }
-}
-@keyframes benchCircle3 {
-    0%,  24% { background: var(--surface); border-color: color-mix(in srgb, var(--text) 18%, transparent); }
-    28%, 100% { background: var(--primary); border-color: var(--primary); }
-}
-@keyframes benchCircle4 {
-    0%,  30% { background: var(--surface); border-color: color-mix(in srgb, var(--text) 18%, transparent); }
-    34%, 100% { background: var(--primary); border-color: var(--primary); }
-}
-
-.bench-card.is-in .bench-step-1 .bench-tick { animation: benchTick1 10s linear infinite; }
-.bench-card.is-in .bench-step-2 .bench-tick { animation: benchTick2 10s linear infinite; }
-.bench-card.is-in .bench-step-3 .bench-tick { animation: benchTick3 10s linear infinite; }
-.bench-card.is-in .bench-step-4 .bench-tick { animation: benchTick4 10s linear infinite; }
-
-@keyframes benchTick1 {
-    0%,  16% { stroke-dashoffset: 16; }
-    22%, 100% { stroke-dashoffset:  0; }
-}
-@keyframes benchTick2 {
-    0%,  22% { stroke-dashoffset: 16; }
-    28%, 100% { stroke-dashoffset:  0; }
-}
-@keyframes benchTick3 {
-    0%,  28% { stroke-dashoffset: 16; }
-    34%, 100% { stroke-dashoffset:  0; }
-}
-@keyframes benchTick4 {
-    0%,  34% { stroke-dashoffset: 16; }
-    40%, 100% { stroke-dashoffset:  0; }
-}
-
-/* Diagonal step labels — start under the circle and slant
-   down-right at 45° so they don't crowd neighbouring nodes. */
-.bench-label-wrap {
-    position: relative;
-    width: 0;
-    height: 44px;
-    margin-top: 8px;
-}
-
-.bench-label {
-    position: absolute;
-    top: 0;
-    left: 5px;
-    font-family: var(--font-data);
-    font-size: 0.5rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-soft);
-    white-space: nowrap;
-    transform: rotate(45deg);
-    transform-origin: top left;
-}
-
-.bench-footnote {
-    margin: 18px 0 0;
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text);
-}
-
-/* ---- Phase 2 · submission status ---- */
-.bench-success-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: var(--primary);
-    display: grid;
-    place-items: center;
-    box-shadow:
-        0 0 0 4px color-mix(in srgb, var(--primary) 14%, transparent),
-        0 8px 18px -10px color-mix(in srgb, var(--primary) 60%, transparent);
-    margin-bottom: 12px;
-}
-
-.bench-success-icon svg {
-    display: block;
-}
-
-.bench-success-primary {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: 1.7rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    color: var(--text);
-    line-height: 1;
-}
-
-.bench-success-secondary {
-    margin: 6px 0 0;
-    font-family: var(--font-data);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-soft);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .bench-card.is-in .bench-pipeline,
-    .bench-card.is-in .bench-success,
-    .bench-card.is-in .bench-circle,
-    .bench-card.is-in .bench-tick {
-        animation: none !important;
-    }
-    /* Settle on the success state when motion is reduced. */
-    .bench-card.is-in .bench-pipeline { opacity: 0; }
-    .bench-card.is-in .bench-success  { opacity: 1; }
-}
-
-/* =============================================================
-   Soft frosted-glass treatment on the hero, the mid-page
-   portfolio CTA, and the contact section. The pseudo-element
-   sits at z-index 0 inside each section so flex-item children
-   (skylines z-index: 1, .hero-content z-index: 2) paint above
-   it. The blur is gentle — just enough to read as glass over
-   the cream canvas without erasing the texture beneath.
+   Three bands, evenly spaced down the page: the opening claim,
+   the proof, and the ask. Everything between them runs on the
+   bare canvas, so the glass is what tells a visitor mid-scroll
+   that they have arrived somewhere rather than passed through.
    ============================================================= */
 .hero            { position: relative; }
-.cta-portfolio   { position: relative; }
+.case-study      { position: relative; }
 .contact         { position: relative; }
 
 .hero::before,
-.cta-portfolio::before,
+.case-study::before,
 .contact::before {
     content: '';
     position: absolute;
@@ -3534,8 +3362,334 @@ a { color: inherit; text-decoration: none; }
         0 3px 8px -6px rgba(20, 30, 30, 0.05);
 }
 
-.cta-portfolio > *,
+.case-study > *,
 .contact > * {
     position: relative;
     z-index: 1;
+}
+
+/* =============================================================
+   Who it's for — two offer cards after the four-step story.
+   Card A (homes and small businesses) carries the animated
+   house from the old closing note; card B (multifamily) gets a
+   small settled skyline. Both sit on the T1 frost material used
+   by the contact form.
+   ============================================================= */
+.plans {
+    position: relative;
+    padding: 4rem 0 4.5rem;
+}
+
+.plans-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.6vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text);
+    text-align: center;
+    margin: 0 auto 2.8rem;
+    max-width: 24ch;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.plan-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--frost-glass-soft);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(22px) saturate(125%);
+    -webkit-backdrop-filter: blur(22px) saturate(125%);
+    box-shadow:
+        var(--elevation-t1),
+        var(--elevation-hairline-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54),
+        inset 0 0 22px rgba(215, 232, 244, 0.06);
+    padding: 2rem;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.plan-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: var(--grain-paper);
+    opacity: 0.32;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.plan-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.plan-card-scene {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 1.6rem;
+}
+
+.plan-card-scene .house-card {
+    width: min(180px, 100%);
+}
+
+/* Card B's skyline rests in its final, lower-bill state: by the
+   time a visitor reaches this card the hero has already told the
+   fill-drop story, so these buildings simply hold the result. */
+.plan-card-skyline {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 160px;
+}
+
+.plan-card-skyline .bldg,
+.plan-card-skyline .bldg-fill,
+.plan-card-skyline .bldg-fill::before,
+.plan-card-skyline .bldg-fill::after {
+    animation: none;
+}
+
+.plan-card-skyline .bldg {
+    opacity: 1;
+    background: color-mix(in srgb, var(--text) 82%, var(--primary) 18%);
+}
+
+.plan-card-skyline .bldg-fill { opacity: 1; height: var(--t, 56%); }
+.plan-card-skyline .bldg-fill::before { opacity: 0; }
+.plan-card-skyline .bldg-fill::after  { opacity: 1; }
+
+.plan-card-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+}
+
+.plan-card-copy {
+    color: var(--text-soft);
+    line-height: 1.55;
+    max-width: 46ch;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.plan-card-cta {
+    align-self: flex-start;
+}
+
+/* =============================================================
+   Case study — one building, two figures, told in type. The
+   values use the brand chart semantics: risk red for the cost
+   climb, savings green for the identified dollars.
+
+   The section carries the frosted band (see the frosted-glass
+   block above), so the padding is symmetric: both edges of the
+   glass are visible here, unlike the hero and the contact band
+   where the header and the footer close one side. The extra air
+   is the point of the band as much as the tint is.
+   ============================================================= */
+.case-study {
+    padding: clamp(4rem, 7.5vw, 6.5rem) 0;
+    text-align: center;
+}
+
+.case-study-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.4vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--text);
+    margin: 0 auto 2.2rem;
+}
+
+/* The figures are what the visitor came for, so inside the calm
+   of the band they get to be bigger than anything else on the
+   page. Column gap holds them apart on one line; the smaller row
+   gap takes over once they stack. */
+.case-study-figures {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: clamp(2rem, 3vw, 2.6rem) clamp(2.75rem, 8vw, 6.5rem);
+    margin-bottom: 2.8rem;
+}
+
+.case-figure {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.case-figure-value {
+    font-family: var(--font-data);
+    font-size: clamp(3rem, 6vw, 4.8rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.case-figure-risk    { color: var(--error); }
+.case-figure-savings { color: var(--success); }
+
+/* The caption column is as wide as the figure above it, which is
+   wide enough to hold either caption on one line at every size we
+   ship; the line-height is here for the wrap if a translation or a
+   narrower phone ever forces one. */
+.case-figure-caption {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--text-soft);
+}
+
+.case-study-copy {
+    font-size: clamp(1.02rem, 1.3vw, 1.18rem);
+    line-height: 1.55;
+    color: var(--text-soft);
+    max-width: 54ch;
+    margin: 0 auto 1.75rem;
+}
+
+.case-study-cta a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.case-study-cta a:hover {
+    color: var(--primary-hover);
+}
+
+/* =============================================================
+   FAQ — title beside a plain list of native disclosure items.
+   No cards; hairline rules and type carry it.
+   ============================================================= */
+.faq {
+    position: relative;
+    padding: 4.5rem 0 5.5rem;
+}
+
+.faq-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.faq-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.4vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--text);
+    max-width: 12ch;
+}
+
+.faq-item {
+    border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+.faq-item:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+.faq-question {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.05rem 0.2rem;
+    font-family: var(--font-heading);
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 150ms ease;
+}
+
+.faq-question::-webkit-details-marker { display: none; }
+
+.faq-question::after {
+    content: '+';
+    font-family: var(--font-data);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    transition: transform 200ms var(--easing-base), color 150ms ease;
+}
+
+.faq-item[open] .faq-question::after {
+    transform: rotate(45deg);
+    color: var(--primary);
+}
+
+.faq-question:hover { color: var(--primary-hover); }
+
+.faq-answer {
+    padding: 0 2rem 1.2rem 0.2rem;
+    color: var(--text-soft);
+    line-height: 1.6;
+    max-width: 60ch;
+}
+
+.faq-answer a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.faq-answer a:hover { color: var(--primary-hover); }
+
+/* =============================================================
+   Responsive rules for the new sections.
+   ============================================================= */
+@media (max-width: 900px) {
+    .plans-grid { grid-template-columns: minmax(0, 1fr); }
+
+    .faq-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.6rem;
+    }
+
+    .faq-title { max-width: none; }
+}
+
+@media (max-width: 600px) {
+    .plans { padding: 3rem 0 3.5rem; }
+    .faq { padding: 3.5rem 0 4rem; }
+    .plan-card { padding: 1.5rem; }
+    .plan-card-scene { height: 150px; }
+    .plan-card-skyline { height: 135px; }
+}
+
+/* Narrowest screens: compact the brand, CTA, and toggle so the
+   fixed header's minimum width stays inside a 320px viewport. */
+@media (max-width: 420px) {
+    .nav-shell { gap: 0.5rem; padding: 0.7rem 0.75rem; }
+    .site-header .brand-lockup-img { height: 22px; }
+    .nav-cta { font-size: 0.7rem; padding: 0.5rem 0.8rem; letter-spacing: 0.04em; }
+    .nav-toggle { width: 36px; padding: 0 8px; }
 }
