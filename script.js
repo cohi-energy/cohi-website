@@ -203,10 +203,6 @@
         return;
     }
 
-    const mobileRevealQuery = window.matchMedia
-        ? window.matchMedia('(max-width: 767px)')
-        : { matches: false };
-
     function revealProgressForTop(top, startY, range) {
         let p = (startY - top) / range;
         if (p < 0) p = 0;
@@ -214,26 +210,43 @@
         return p;
     }
 
+    const mobileRevealQuery = window.matchMedia
+        ? window.matchMedia('(max-width: 767px)')
+        : { matches: false };
+
     function update() {
         const vh = window.innerHeight || document.documentElement.clientHeight;
-        // Start the reveal when the step's top is at the viewport
-        // bottom; complete when it's at the 50 % line. Tweak END_RATIO
-        // upward to delay completion, downward to finish sooner.
-        const START_RATIO = 1.0;
-        const END_RATIO   = 0.5;
+        // The reveal band: starts once the content is well inside the
+        // viewport (not the instant it peeks in) and ends when the
+        // grid TOP is 32% down the screen. With the content blocks
+        // measuring roughly 45% of a viewport tall, that lands the
+        // block's perceived center at 40-50% of its journey through
+        // the viewport when the motion settles, matching the CSS
+        // scroll-driven-animation convention (entry/cover ~40%).
+        // Raise START_RATIO to begin earlier; raise END_RATIO to
+        // finish sooner (higher on the screen means earlier).
+        const START_RATIO = 0.88;
+        const END_RATIO   = 0.32;
         const startY = vh * START_RATIO;
         const endY   = vh * END_RATIO;
         const range  = startY - endY;
         const isMobileReveal = mobileRevealQuery.matches;
         for (let i = 0; i < steps.length; i++) {
             const step = steps[i];
-            const top = step.getBoundingClientRect().top;
-            const p = revealProgressForTop(top, startY, range);
+            // Anchor on the content grid, not the step shell: the steps
+            // are viewport-tall with centered content, so the shell's top
+            // crosses the band while the content is still below the fold.
+            // Both columns share the grid anchor so the two sides travel
+            // in lockstep; on stacked mobile each column uses its own
+            // position instead, since they enter one after the other.
+            const grid = step.querySelector('.process-grid') || step;
+            const anchorTop = grid.getBoundingClientRect().top;
+            const p = revealProgressForTop(anchorTop, startY, range);
             step.style.setProperty('--reveal-progress', p.toFixed(3));
 
             const targets = step.querySelectorAll('.process-text, .process-scene-col');
             targets.forEach((target) => {
-                const targetTop = isMobileReveal ? target.getBoundingClientRect().top : top;
+                const targetTop = isMobileReveal ? target.getBoundingClientRect().top : anchorTop;
                 const targetProgress = revealProgressForTop(targetTop, startY, range);
                 target.style.setProperty('--reveal-progress', targetProgress.toFixed(3));
             });
@@ -457,3 +470,65 @@ function showMessage(message, type) {
         }, 5000);
     }
 }
+
+// =============================================================
+// CTA click tracking — one delegated listener over every element
+// carrying data-cta-destination / data-cta-location. Emits
+// `cta_clicked {destination, cta_location}` via the
+// trackCTAClick helper from posthog.js when it's loaded.
+// =============================================================
+
+function ctaDestinationFor(cta) {
+    // navigation.js rewrites [data-account-entry-link] hrefs for
+    // authenticated visitors (/register becomes /app or /login), so
+    // derive the reported destination from the live href instead of
+    // the static attribute.
+    if (cta.hasAttribute('data-account-entry-link')) {
+        const href = cta.getAttribute('href') || '';
+        if (href.includes('/login')) return 'app_login';
+        if (href.includes('/register')) return 'app_register';
+        return 'app_open';
+    }
+    return cta.dataset.ctaDestination;
+}
+
+document.addEventListener('click', (event) => {
+    const cta = event.target.closest('[data-cta-destination]');
+    if (!cta) return;
+    if (typeof trackCTAClick === 'function') {
+        trackCTAClick(ctaDestinationFor(cta), cta.dataset.ctaLocation || 'unknown');
+    }
+});
+
+// =============================================================
+// Mobile nav — hamburger disclosure. Non-modal: Esc closes and
+// returns focus to the toggle, and choosing a link closes the
+// panel before the browser scrolls to the anchor.
+// =============================================================
+
+(function setupNavToggle() {
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('site-nav');
+    if (!toggle || !nav) return;
+
+    function setOpen(open) {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        nav.classList.toggle('is-open', open);
+    }
+
+    toggle.addEventListener('click', () => {
+        setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    nav.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        if (toggle.getAttribute('aria-expanded') === 'true') {
+            setOpen(false);
+            toggle.focus();
+        }
+    });
+})();
