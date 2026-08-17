@@ -111,6 +111,8 @@
   --chart-current: #0e8170;
   --chart-comparison: #ff8f47;
   --chart-grid: #d8dddb;
+  --chart-series-usage: #d6601f;
+  --chart-series-cost: #1f6fb3;
   --chart-savings: #2f9c5a;
   --chart-increase: #d85f3c;
 }
