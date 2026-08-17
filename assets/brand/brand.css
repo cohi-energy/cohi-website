@@ -113,6 +113,11 @@
   --chart-grid: #d8dddb;
   --chart-series-usage: #d6601f;
   --chart-series-cost: #1f6fb3;
+  --chart-plan-e-1: #1baf7a;
+  --chart-plan-e-elec: #eda100;
+  --chart-plan-e-tou-c: #7c3a96;
+  --chart-plan-e-tou-d: #2a78d6;
+  --chart-plan-ev2-a: #c52f6c;
   --chart-savings: #2f9c5a;
   --chart-increase: #d85f3c;
 }
