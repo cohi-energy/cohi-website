@@ -111,12 +111,14 @@
   --chart-current: #0e8170;
   --chart-comparison: #ff8f47;
   --chart-grid: #d8dddb;
-  --chart-series-usage: #d6601f;
+  --chart-series-usage: #d4a017;
   --chart-series-cost: #1f6fb3;
-  --chart-plan-e-1: #1baf7a;
-  --chart-plan-e-elec: #eda100;
+  --chart-series-neutral: #6b7280;
+  --chart-hover-wash: rgba(255, 255, 255, 0.4);
+  --chart-plan-e-1: #0e8170;
+  --chart-plan-e-elec: #d6601f;
   --chart-plan-e-tou-c: #7c3a96;
-  --chart-plan-e-tou-d: #2a78d6;
+  --chart-plan-e-tou-d: #1f6fb3;
   --chart-plan-ev2-a: #c52f6c;
   --chart-savings: #2f9c5a;
   --chart-increase: #d85f3c;
