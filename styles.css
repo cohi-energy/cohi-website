@@ -28,9 +28,9 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: var(--grain-halftone-10);
-    background-size: 10px 10px;
-    opacity: 0.85;
+    background-image: var(--grain-halftone);
+    background-size: var(--grain-halftone-size) var(--grain-halftone-size);
+    opacity: 1;
     mix-blend-mode: multiply;
     pointer-events: none;
     z-index: 0;
@@ -1462,12 +1462,12 @@ section[id] { scroll-margin-top: 5.5rem; }
     color: var(--text-soft);
 }
 
-/* Subtle paper grain on the stage */
+/* Subtle paper grain on the stage: the canvas dot, on its own finer grid */
 .bsc-stage::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: var(--grain-halftone-10);
+    background-image: var(--grain-halftone);
     background-size: 10px 10px;
     opacity: 0.18;
     mix-blend-mode: multiply;
