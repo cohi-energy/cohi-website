@@ -1,8 +1,15 @@
 (function setupCrossSiteNavigation() {
     const PROD_APP_ORIGIN = 'https://app.cohi.energy';
+    // Marketing-site port -> app port, for local development.
+    //
+    // 8001 is deliberately absent. `./scripts/dc.sh up` takes 8000 for the API,
+    // so website/dev.sh serves on 8001 by default, and mapping that to
+    // 5174 pointed at a second stack's frontend that is usually not running.
+    // Falling through to the :5173 default below hits the single stack a
+    // developer actually has. Set APP_BASE_URL in config.js to override, which
+    // is what a genuine second stack needs.
     const LOCAL_PORT_PAIRS = {
         '8000': '5173',
-        '8001': '5174',
         '5173': '8000',
         '5174': '8001',
     };

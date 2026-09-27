@@ -24,7 +24,6 @@ Run the dev script:
 ```
 
 This handles everything automatically. If you need to manually configure, edit `config.js` with:
-- `GOOGLE_APPS_SCRIPT_URL`: Your Google Apps Script Web App URL (see [Google Sheets Integration](#google-sheets-integration))
 - `REDDIT_PIXEL_ID`: Your Reddit Pixel ID (optional, for ad tracking)
 - `POSTHOG_API_KEY`: Your PostHog API key (starts with `phc_`)
 - `POSTHOG_HOST`: `https://us.i.posthog.com`
@@ -35,59 +34,45 @@ This handles everything automatically. If you need to manually configure, edit `
 
 Secrets are injected at build time in the standalone `cohi-website` repository after the subtree sync completes. See [Deploying to GitHub Pages](#deploying-to-github-pages) below.
 
-### Google Sheets Integration
+### Contact Form
 
-Form submissions are saved directly to Google Sheets via Google Apps Script.
+The contact form posts to the app's own API, which stores the submission and
+emails it to us. It needs no configuration here: `navigation.js` resolves the
+app origin at runtime (`https://app.cohi.energy` in production).
 
-#### Setup Steps:
+`POST /api/contact/submissions` persists the submission, emails the whole thing
+to the team with `reply_to` set to the visitor, and sends the visitor a branded
+acknowledgement. The handler in `script.js` inspects the response and only shows
+success when the app accepted it.
 
-1. **Create a Google Sheet**
-   - Go to [Google Sheets](https://sheets.google.com)
-   - Create a new spreadsheet
-   - Add headers in row 1: `Timestamp`, `Name`, `Email`, `Building Address`, `Message`, `Source`
+This replaced a Google Apps Script Web App that appended a row to a Google
+Sheet. That path sent no mail, silently dropped the phone number, and was posted
+to with `mode: 'no-cors'`, so its response was opaque and a failed write still
+showed the visitor a success message. Do not reintroduce a `no-cors` sink here.
 
-2. **Create Google Apps Script**
-   - In your Google Sheet, click **Extensions** → **Apps Script**
-   - Paste this code:
+Submissions are visible in the app's admin dashboard, in the **Contact**
+section. Full reference: [docs/website-contact-form.md](https://github.com/cohi-energy/cohi/blob/main/docs/website-contact-form.md).
 
-```javascript
-function doPost(e) {
-  try {
-    const data = JSON.parse(e.postData.contents);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    sheet.appendRow([
-      data.timestamp || new Date().toISOString(),
-      data.name || '',
-      data.email || '',
-      data.building_address || '',
-      data.message || '',
-      data.source || 'website_contact_form'
-    ]);
-    return ContentService
-      .createTextOutput(JSON.stringify({success: true}))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({success: false, error: error.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
+To exercise the form locally you need the API running, because the form now
+posts to it. From this directory:
 
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({status: 'ok', message: 'Google Apps Script is working.'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+```bash
+(cd .. && ./scripts/dc.sh up -d)
 ```
 
-3. **Deploy as Web App**
-   - Click **Deploy** → **New deployment** → **Web app**
-   - Set **Execute as**: "Me"
-   - Set **Who has access**: "Anyone"
-   - Click **Deploy** and authorize when prompted
-   - Copy the Web App URL (looks like `https://script.google.com/macros/s/xxx.../exec`)
-   - For local dev: add to `config.js` as `GOOGLE_APPS_SCRIPT_URL`
-   - For production: add as GitHub Secret `GOOGLE_APPS_SCRIPT_URL`
+```bash
+./dev.sh
+```
+
+Two details worth stating: `./scripts/dc.sh` lives at the repository root, not
+here, so it needs the `cd ..`. And the stack takes port 8000 for the API, which
+is why `./dev.sh` serves on 8001 by default. Any port except 5173 and 5174 (the
+app's own, which navigation.js maps back to the marketing site) works for the
+form: it posts through the Vite dev server on 5173, which proxies `/api` and answers CORS
+for any `localhost` origin itself. If your stack serves the frontend over HTTPS
+(`DEV_APP_SCHEME=https` or local certificates), set
+`APP_BASE_URL = 'https://localhost:5173'` in `config.js`: the page otherwise
+copies its own `http` scheme and posts to a TLS listener over plain HTTP.
 
 ### Reddit Ads Integration
 
@@ -139,12 +124,12 @@ All day-to-day website development now happens from `cohi/website`.
 This script will:
 1. Create `config.js` from template if it doesn't exist
 2. Prompt you to fill in credentials if needed
-3. Start a local server on `http://localhost:${PORT:-8000}`
+3. Start a local server on `http://localhost:${PORT:-8001}`
 
-If `8000` is already in use:
+To serve on another port:
 
 ```bash
-PORT=8001 ./dev.sh
+PORT=8002 ./dev.sh
 ```
 
 ### Editing Workflow
@@ -177,11 +162,11 @@ If you prefer manual setup:
 2. Edit `config.js` with your credentials
 3. Start server:
    ```bash
-   python3 -m http.server 8000
+   python3 -m http.server 8001
    # or
-   npx http-server -p 8000
+   npx http-server -p 8001
    ```
-4. Open http://localhost:8000
+4. Open http://localhost:8001
 
 ## Deploying to GitHub Pages
 
@@ -204,7 +189,6 @@ If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `c
    - Go to the `cohi-website` repository on GitHub
    - Click **Settings** → **Secrets and variables** → **Actions**
    - Add the following secrets:
-     - `GOOGLE_APPS_SCRIPT_URL` - Your Google Apps Script Web App URL
      - `REDDIT_PIXEL_ID` - Your Reddit Pixel ID
      - `POSTHOG_API_KEY` - Your PostHog API key (starts with `phc_`)
      - `POSTHOG_HOST` - PostHog host URL (`https://us.i.posthog.com`)
@@ -284,7 +268,10 @@ cohi/website/
 
 ## Contact Form
 
-The contact form saves submissions to Google Sheets.
+The contact form posts to the app API, which stores the submission and emails it
+to the team and the visitor. See [Contact Form](#contact-form) above for how it
+works, or [docs/website-contact-form.md](https://github.com/cohi-energy/cohi/blob/main/docs/website-contact-form.md) for the
+full reference.
 
 Required fields:
 - Name
@@ -294,3 +281,7 @@ Required fields:
 
 Optional field:
 - Message
+
+There is also a hidden `reference_code` honeypot field (sent to the API as
+`company_website`), named after nothing autofill fills. Real users never see or
+tab to it, so any value means a bot, and the API drops those submissions.

@@ -687,6 +687,22 @@
                         <textarea id="message" name="message" rows="4" placeholder="Share your goals or current challenges"></textarea>
                     </div>
 
+                    <!-- Honeypot. Hidden INLINE, deliberately not via a stylesheet
+                         class: styles.css is served with a ?v= cache buster, so a
+                         returning visitor on a stale copy would render this
+                         field visibly, fill it, and have their real submission
+                         discarded as a bot while the page still said success.
+                         Inline styling travels with the markup, so the field
+                         cannot be exposed by a stale asset. Off-canvas rather
+                         than display:none because some bots skip hidden inputs.
+                         Named after nothing an autofill profile holds (no
+                         company, website, name or address), so a browser or
+                         password manager cannot fill it for a real visitor. -->
+                    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+                        <label for="reference_code">Reference code</label>
+                        <input type="text" id="reference_code" name="reference_code" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <button type="submit" class="btn btn-primary btn-block"
                             data-cta-destination="contact_form" data-cta-location="contact_submit">
                         <span>Reach Out</span>
@@ -712,6 +728,6 @@
         </div>
     </footer>
 
-    <script src="script.js?v=14" defer></script>
+    <script src="script.js?v=15" defer></script>
 </body>
 </html>

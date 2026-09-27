@@ -21,6 +21,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # The contact form needs no secret: it posts to the app's own
+      # /api/contact/submissions endpoint, resolved at runtime by navigation.js.
+      # GOOGLE_APPS_SCRIPT_URL is still written for one reason: config.js is
+      # unversioned, so a visitor whose browser cached the pre-switch page runs
+      # the old script against this config.js, and that script requires the
+      # constant before it posts to the Sheet. The new script never reads it.
+      # It is a cohi-energy organization secret; once it is deleted after the
+      # Apps Script grace period this writes an empty string that nothing reads.
+      # See docs/website-contact-form.md in cohi, "Retiring the Google Sheet".
       - name: Generate config.js from secrets
         env:
           GOOGLE_APPS_SCRIPT_URL: ${{ secrets.GOOGLE_APPS_SCRIPT_URL }}

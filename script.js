@@ -269,29 +269,73 @@
 })();
 
 // =============================================================
-// Contact form — POSTs to the Google Apps Script Web App URL
-// defined in config.js, creates a lead-correlation record on
-// the app, and tracks the submission in PostHog + Reddit.
-// Ported from the production website/script.js so website-next
-// has parity when it replaces the homepage. External symbols
-// (GOOGLE_APPS_SCRIPT_URL, trackPostHogEvent, setLeadPostHogProperties,
+// Contact form. POSTs the full submission to the app's own
+// contact endpoint, which persists it and emails both us and the
+// visitor. Success is shown as soon as that POST is accepted.
+//
+// ORDER MATTERS, in two ways that are easy to undo by accident:
+//
+// 1. The submission runs FIRST and lead correlation only after it
+//    is accepted. Correlating first left an orphan lead record and
+//    PostHog person properties behind for submissions the API
+//    refused, which happens deterministically on requests 6 to 10
+//    in a minute, since correlation allows 10/min and the contact
+//    endpoint 5/min. The lead is not lost by waiting: the submission
+//    row stores email_hash and the PostHog ids itself. A correlation
+//    cut off by an early page close costs only the lead_id person
+//    property: the identity backfill builds the pre-signup alias from
+//    the submission row too.
+// 2. Correlation is NOT awaited before showing success. It is best
+//    effort, and awaiting it let a stalled analytics request hold
+//    the button disabled for a submission that was already stored
+//    with its emails scheduled, so visitors retried and created
+//    duplicates.
+//
+// This replaced a Google Apps Script Web App that appended a row
+// to a Sheet. That path sent no mail, dropped the phone number,
+// and was posted to with mode:'no-cors', so its response was
+// opaque and a failed write still showed the visitor a success
+// message. Do not reintroduce a no-cors sink here.
+//
+// External symbols (trackPostHogEvent, setLeadPostHogProperties,
 // getPostHogDistinctId/SessionId, trackRedditConversion,
 // window.cohiNavigation.resolveAppOrigin, APP_BASE_URL) come from
-// config.js + posthog.js + reddit-pixel.js + navigation.js.
+// posthog.js + reddit-pixel.js + navigation.js.
 // =============================================================
 
 const contactForm = document.getElementById('contact-form');
 
-function resolveAppOriginForAnalytics() {
+// The app origin for the contact submission and the analytics calls. The
+// submission is the one call that records a lead, so the fallback (used only if
+// navigation.js did not load) gives navigation.js's resolveAppOrigin answer: a
+// local page goes to the Vite dev server (its paired port, else 5173) and every
+// other host, the app's own included, goes to the app.
+// Posting to the page's own static server would fail and lose the lead.
+// Keep LOCAL_APP_PORT_PAIRS in step with navigation.js's LOCAL_PORT_PAIRS.
+const LOCAL_APP_PORT_PAIRS = { '8000': '5173', '5173': '8000', '5174': '8001' };
+
+function resolveAppOrigin() {
     if (window.cohiNavigation && typeof window.cohiNavigation.resolveAppOrigin === 'function') {
         return window.cohiNavigation.resolveAppOrigin();
     }
     if (typeof APP_BASE_URL !== 'undefined' && APP_BASE_URL) {
-        return new URL(APP_BASE_URL, window.location.origin).origin;
+        // An unusable value (unparseable, or not http or https) falls through
+        // to the rules below rather than failing the submission. navigation.js
+        // falls through for the unparseable ones too.
+        try {
+            const configured = new URL(APP_BASE_URL, window.location.origin);
+            if (configured.protocol === 'http:' || configured.protocol === 'https:') {
+                return configured.origin;
+            }
+        } catch {
+            // Fall through.
+        }
     }
-    return window.location.hostname === 'cohi.energy'
-        ? 'https://app.cohi.energy'
-        : window.location.origin;
+    const { hostname, protocol, port } = window.location;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return `${protocol}//${hostname}:${LOCAL_APP_PORT_PAIRS[port] || '5173'}`;
+    }
+    return 'https://app.cohi.energy';
 }
 
 function currentUtmProperties() {
@@ -306,12 +350,22 @@ function currentUtmProperties() {
     return utm;
 }
 
+// Bounded so a request that never settles cannot leak a pending promise. The
+// caller does not await this, so the timeout is belt and braces rather than the
+// thing protecting the submit button.
+const LEAD_CORRELATION_TIMEOUT_MS = 8000;
+
 async function createLeadCorrelation(email) {
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = controller
+        ? setTimeout(() => controller.abort(), LEAD_CORRELATION_TIMEOUT_MS)
+        : null;
     try {
-        const appOrigin = resolveAppOriginForAnalytics();
+        const appOrigin = resolveAppOrigin();
         const response = await fetch(`${appOrigin}/api/analytics/lead-correlation`, {
             method: 'POST',
             mode: 'cors',
+            signal: controller ? controller.signal : undefined,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 email,
@@ -324,33 +378,146 @@ async function createLeadCorrelation(email) {
         if (!response.ok) {
             return null;
         }
-        return response.json();
+        // Awaited here, inside the try and before the timer is cleared, so a
+        // malformed or stalled body is caught and bounded like the request.
+        return await response.json();
     } catch {
         return null;
+    } finally {
+        if (timer) {
+            clearTimeout(timer);
+        }
     }
 }
 
-async function recordContactSubmissionAnalytics({ email, name, leadCorrelation }) {
+// The API stores page_url and referrer truncated to 500 characters and rejects
+// anything over 4000. These come straight from the browser and can be far
+// longer (long ad-tracking query strings), so trim here to the stored length
+// rather than let optional attribution metadata cost us the whole lead.
+function trimAttributionUrl(value) {
+    return (value || '').toString().slice(0, 500);
+}
+
+// Bounded because this one IS awaited and it holds the submit button disabled.
+// Without a deadline, a connection the API accepts but never answers leaves the
+// button spinning forever and the visitor never sees the email fallback, which
+// defeats the honest-failure property this whole endpoint exists for. Generous
+// relative to the work involved: the response is sent before the two emails are
+// attempted, so the request itself is only a database insert.
+const CONTACT_SUBMISSION_TIMEOUT_MS = 15000;
+
+// The authoritative submission. Unlike the lead-correlation call above, this is
+// NOT best effort: it is the only thing that records the lead and notifies us,
+// so a failure must reach the visitor rather than being swallowed.
+async function submitContactForm(submission) {
+    const appOrigin = resolveAppOrigin();
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = controller
+        ? setTimeout(() => controller.abort(), CONTACT_SUBMISSION_TIMEOUT_MS)
+        : null;
     try {
-        const appOrigin = resolveAppOriginForAnalytics();
-        await fetch(`${appOrigin}/api/analytics/contact-submission`, {
-            method: 'POST',
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email,
-                name,
-                lead_id: leadCorrelation ? leadCorrelation.lead_id : null,
-                lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : null,
-                posthog_distinct_id: typeof getPostHogDistinctId === 'function' ? getPostHogDistinctId() : null,
-                posthog_session_id: typeof getPostHogSessionId === 'function' ? getPostHogSessionId() : null,
-                source: 'website_contact_form_multifamily',
-                utm: currentUtmProperties()
-            })
-        });
-    } catch {
-        // Best effort only; the Apps Script submission remains the user-facing source of truth.
+        let response;
+        try {
+            response = await fetch(`${appOrigin}/api/contact/submissions`, {
+                method: 'POST',
+                mode: 'cors',
+                signal: controller ? controller.signal : undefined,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(submission)
+            });
+        } catch (error) {
+            // No response at all: a timeout, or a connection that dropped,
+            // possibly after the body was sent and the row committed. Either
+            // way we cannot say whether it was recorded.
+            error.unconfirmed = true;
+            throw error;
+        }
+        if (!response.ok) {
+            const failure = new Error(`Contact submission failed with status ${response.status}`);
+            // A server error cannot prove the row was not stored: a 500 can
+            // follow the commit, and a proxy's 502/503/504 looks the same as the
+            // API's own. Only a 4xx is a definite refusal before anything is
+            // stored.
+            failure.unconfirmed = response.status >= 500;
+            throw failure;
+        }
+        // A 2xx alone proves nothing: a captive portal, a proxy's error page or
+        // a redirect to some HTML page all answer 200 without the API ever
+        // seeing the lead. The API always answers {received: true}, so only
+        // that is a success; anything else is unconfirmed, which asks the
+        // visitor to email us rather than thanking them for a lead we may not
+        // hold.
+        let result = null;
+        try {
+            result = await response.json();
+        } catch {
+            result = null;
+        }
+        if (!result || result.received !== true) {
+            const unconfirmed = new Error('Contact submission response was not the API acceptance');
+            unconfirmed.unconfirmed = true;
+            throw unconfirmed;
+        }
+        return result;
+    } finally {
+        if (timer) {
+            clearTimeout(timer);
+        }
     }
+}
+
+// Run one analytics call, logging rather than raising: these are globals from
+// other files, and one failing must not cost the others or the confirmation.
+function runAnalytics(label, call) {
+    try {
+        call();
+    } catch (error) {
+        console.error(`Contact analytics error (${label}):`, error);
+    }
+}
+
+// Everything a recorded lead reports to analytics, after the visitor has been
+// told it is received. Nothing here may take that confirmation back.
+function recordContactConversion(email, name) {
+    runAnalytics('reddit', () => {
+        if (typeof trackRedditConversion === 'function') {
+            trackRedditConversion('Lead');
+        }
+    });
+
+    // The conversion event fires now, with the confirmation: a visitor who
+    // leaves while correlation is still running would otherwise take it with
+    // them. The server-side event already carries the email hash that joins it
+    // to the lead.
+    runAnalytics('posthog event', () => {
+        if (typeof trackPostHogEvent === 'function') {
+            trackPostHogEvent('contact_form_submitted', {
+                form_type: 'multifamily_consultation'
+            });
+        }
+    });
+
+    // Deliberately not awaited. Correlation is best effort and its result only
+    // decorates the PostHog person properties. It settles later, outside any
+    // try above, so its callback guards itself and a rejection is caught here.
+    runAnalytics('correlation', () => {
+        createLeadCorrelation(email).then((leadCorrelation) => {
+            runAnalytics('person properties', () => {
+                if (typeof setLeadPostHogProperties === 'function') {
+                    setLeadPostHogProperties({
+                        email,
+                        name,
+                        lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
+                        lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : undefined,
+                        lead_source: 'website_contact_form_multifamily',
+                        ...currentUtmProperties()
+                    });
+                }
+            });
+        }).catch((error) => {
+            console.error('Contact analytics error (correlation):', error);
+        });
+    });
 }
 
 if (contactForm) {
@@ -367,6 +534,9 @@ if (contactForm) {
         const phone = (formData.get('phone') || '').toString().trim();
         const buildingAddress = (formData.get('building_address') || '').toString().trim();
         const message = (formData.get('message') || '').toString().trim();
+        // The honeypot. Its HTML name avoids anything autofill recognizes; the
+        // API still receives it under its contract key, company_website.
+        const companyWebsite = (formData.get('reference_code') || '').toString().trim();
 
         if (!name || !email || !phone || !buildingAddress) {
             showMessage('Please complete name, email, phone number, and address.', 'error');
@@ -387,64 +557,82 @@ if (contactForm) {
         const formSubmission = {
             name,
             email,
-            building_address: buildingAddress,
-            address: buildingAddress,
-            buildingAddress,
             phone,
+            building_address: buildingAddress,
             message,
-            timestamp: new Date().toISOString(),
-            source: 'website_contact_form_multifamily'
+            company_website: companyWebsite,
+            source: 'website_contact_form_multifamily',
+            page_url: trimAttributionUrl(window.location.href),
+            referrer: trimAttributionUrl(document.referrer),
+            utm: currentUtmProperties()
         };
 
+        // A filled honeypot needs no special case here: the API drops the
+        // submission and answers with a null submission_id, and everything that
+        // would enter our lead data is gated on that below. The POST still goes
+        // out, so the server keeps logging the trap and applying its rate limit.
         try {
-            const leadCorrelation = await createLeadCorrelation(email);
-            if (typeof setLeadPostHogProperties === 'function') {
-                setLeadPostHogProperties({
-                    email,
-                    name,
-                    lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
-                    lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : undefined,
-                    lead_source: 'website_contact_form_multifamily',
-                    ...currentUtmProperties()
-                });
+            if (typeof getPostHogDistinctId === 'function') {
+                formSubmission.posthog_distinct_id = getPostHogDistinctId();
             }
-            if (leadCorrelation) {
-                formSubmission.lead_id = leadCorrelation.lead_id;
-                formSubmission.lead_email_hash = leadCorrelation.lead_email_hash;
+            if (typeof getPostHogSessionId === 'function') {
+                formSubmission.posthog_session_id = getPostHogSessionId();
             }
 
-            if (typeof GOOGLE_APPS_SCRIPT_URL === 'undefined' || !GOOGLE_APPS_SCRIPT_URL) {
-                throw new Error('Missing form endpoint configuration.');
-            }
+            // The submission goes FIRST. Correlating before it would leave a
+            // lead record and PostHog person properties behind for a submission
+            // that was never accepted, which happens deterministically on
+            // requests 6 to 10 in a minute (correlation allows 10/min, this
+            // endpoint 5/min) and on any persistence failure. The lead is not
+            // lost by waiting: the submission row stores email_hash and the
+            // PostHog ids itself, and the identity backfill builds the
+            // pre-signup alias from that row, so a correlation cut off by an
+            // early page close costs only the lead_id person property.
+            //
+            // Throws on a non-2xx, so nothing below runs for a rejected request.
+            const result = await submitContactForm(formSubmission);
 
-            await fetch(GOOGLE_APPS_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formSubmission)
-            });
+            // The API answers a dropped submission with 200 and a null
+            // submission_id, so that a bot cannot tell it was caught. Only a
+            // submission it actually recorded is a real lead: counting the
+            // others would report bots as conversions.
+            const recorded = Boolean(result && result.submission_id);
 
-            await recordContactSubmissionAnalytics({ email, name, leadCorrelation });
-
-            if (typeof trackRedditConversion === 'function') {
-                trackRedditConversion('Lead');
-            }
-
-            if (typeof trackPostHogEvent === 'function') {
-                trackPostHogEvent('contact_form_submitted', {
-                    form_type: 'multifamily_consultation',
-                    lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
-                    lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : undefined
-                });
-            }
-
+            // The submission is recorded and its emails are scheduled, so tell
+            // the visitor NOW. Everything below is analytics and must never be
+            // able to hold the button disabled or withhold the confirmation: a
+            // correlation request that stalled would otherwise leave a visitor
+            // staring at a spinner for a submission that already succeeded, and
+            // retrying creates duplicates. A dropped submission (the honeypot)
+            // gets the same message, so a bot learns nothing from it.
             showMessage('Thanks. We received your request and will reach out shortly.', 'success');
             form.reset();
+
+            // Analytics gets its own guard: these are globals from other files,
+            // and a throw from one reaching the catch below would replace the
+            // confirmation with "could not submit" for a stored lead.
+            if (recorded) {
+                try {
+                    recordContactConversion(email, name);
+                } catch (analyticsError) {
+                    console.error('Contact analytics error:', analyticsError);
+                }
+            }
         } catch (error) {
             console.error('Form submission error:', error);
-            showMessage('We could not submit the form right now. Please email contact@cohi.energy.', 'error');
+            // A timeout or a dropped connection is genuinely ambiguous: the
+            // request may have been recorded and both emails sent, and we
+            // simply never saw the response. Saying "we could not submit" would
+            // be a claim we cannot support, and it invites a resubmission that
+            // creates a duplicate lead and a second acknowledgement. Say what
+            // we actually know.
+            const unconfirmed = Boolean(error && error.unconfirmed);
+            showMessage(
+                unconfirmed
+                    ? 'We could not confirm your submission. Please email contact@cohi.energy so we do not miss you.'
+                    : 'We could not submit the form right now. Please email contact@cohi.energy.',
+                'error'
+            );
         } finally {
             if (submitButton) {
                 submitButton.disabled = false;

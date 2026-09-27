@@ -10,7 +10,9 @@ NC='\033[0m' # No Color
 
 echo "🚀 Starting Cohi website local development..."
 
-PORT="${PORT:-8000}"
+# 8001, not 8000: the dev stack's API takes 8000, and the contact form needs
+# that stack up to post anywhere. PORT overrides it.
+PORT="${PORT:-8001}"
 
 echo "Syncing shared brand assets..."
 (cd .. && npm run brand:sync)
@@ -23,10 +25,14 @@ if [ ! -f "config.js" ]; then
         echo -e "${RED}⚠️  Please edit config.js and replace the placeholder values with your actual credentials.${NC}"
         echo ""
         echo "Required values:"
-        echo "  - GOOGLE_APPS_SCRIPT_URL: Your Google Apps Script Web App URL"
         echo "  - REDDIT_PIXEL_ID: Your Reddit Pixel ID"
         echo "  - POSTHOG_API_KEY: Your PostHog API key (starts with phc_)"
         echo "  - POSTHOG_HOST: https://us.i.posthog.com"
+        echo ""
+        echo "The contact form needs no config: it posts to the app's own"
+        echo "/api/contact/submissions endpoint. To exercise it locally, bring"
+        echo "the dev stack up so the API is reachable: (cd .. && ./scripts/dc.sh up)"
+        echo "The stack takes port 8000 for the API; this site serves on ${PORT}."
         echo ""
         read -p "Press Enter after editing config.js to continue..."
     else
@@ -36,7 +42,7 @@ if [ ! -f "config.js" ]; then
 fi
 
 # Check if config.js still has placeholder values
-if grep -q "__GOOGLE_APPS_SCRIPT_URL__\|__POSTHOG_API_KEY__\|phc_xxxxx" config.js; then
+if grep -q "__POSTHOG_API_KEY__\|phc_xxxxx" config.js; then
     echo -e "${YELLOW}⚠️  Warning: config.js appears to have placeholder values.${NC}"
     echo "The site may not work correctly until you add your actual credentials."
     echo ""
