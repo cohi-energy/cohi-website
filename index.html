@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
     <link rel="stylesheet" href="assets/brand/brand.css">
-    <link rel="stylesheet" href="styles.css?v=95">
+    <link rel="stylesheet" href="styles.css?v=97">
 
     <script src="config.js" defer></script>
     <script src="reddit-pixel.js" defer></script>
@@ -725,8 +725,12 @@
                             data-cta-destination="contact_form" data-cta-location="contact_submit">
                         <span>Reach Out</span>
                     </button>
+
+                    <!-- Inside the form, so the confirmation shows in the card
+                         under the button (outside it, the section grid placed
+                         it in the left column). -->
+                    <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
                 </form>
-                <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
             </div>
         </section>
     </main>

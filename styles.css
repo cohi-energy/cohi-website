@@ -3046,11 +3046,18 @@ section[id] { scroll-margin-top: 5.5rem; }
 
 .form-message {
     min-height: 1.4rem;
-    margin-top: 0.75rem;
+    margin-top: 1.25rem;
     padding: 0 0.25rem;
     font-size: 0.94rem;
     font-weight: 500;
     line-height: 1.45;
+}
+
+/* Empty, it takes no room in the card; it stays rendered rather than
+   display:none so screen readers still announce what appears in it. */
+.form-message:empty {
+    min-height: 0;
+    margin-top: 0;
 }
 
 .form-message.success {
