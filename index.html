@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
     <link rel="stylesheet" href="assets/brand/brand.css">
-    <link rel="stylesheet" href="styles.css?v=94">
+    <link rel="stylesheet" href="styles.css?v=95">
 
     <script src="config.js" defer></script>
     <script src="reddit-pixel.js" defer></script>
@@ -661,30 +661,48 @@
                     <h2>Let&rsquo;s<br>lower<br>that bill.</h2>
                 </div>
 
-                <form id="contact-form" class="contact-form" method="POST">
+                <!-- novalidate: script.js checks each field and shows its own
+                     message under it; the browser's bubbles would pre-empt that.
+                     The asterisk is decorative (aria-hidden): screen readers
+                     hear "required" from the control itself. -->
+                <form id="contact-form" class="contact-form" method="POST" novalidate>
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your full name" autocomplete="name" required>
+                        <label for="name">Name<span class="required-mark" aria-hidden="true">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Your full name" autocomplete="name" maxlength="200" required aria-describedby="name-error">
+                        <p class="field-error" id="name-error" hidden></p>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" required>
+                        <label for="email">Email<span class="required-mark" aria-hidden="true">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" maxlength="320" required aria-describedby="email-error">
+                        <p class="field-error" id="email-error" hidden></p>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(415) 555-0123" autocomplete="tel" required>
+                        <input type="tel" id="phone" name="phone" placeholder="(415) 555-0123" autocomplete="tel" maxlength="50" aria-describedby="phone-error">
+                        <p class="field-error" id="phone-error" hidden></p>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group address-group">
                         <label for="building_address">Address</label>
-                        <input type="text" id="building_address" name="building_address" placeholder="123 Main St, San Francisco, CA" autocomplete="street-address" required>
+                        <!-- Plain text until script.js turns on Google's address
+                             suggestions (it then makes this a combobox). The
+                             "Google Maps" line is the attribution Google's
+                             Places policies require when its suggestions are
+                             shown without a map. -->
+                        <input type="text" id="building_address" name="building_address" placeholder="123 Main St, San Francisco, CA" autocomplete="street-address" maxlength="500">
+                        <div id="address-suggestions-panel" class="address-suggestions" hidden>
+                            <ul id="address-suggestions" role="listbox" aria-label="Suggested addresses"></ul>
+                            <p class="address-attribution">Google Maps</p>
+                        </div>
+                        <p id="address-suggestions-status" class="visually-hidden" role="status" aria-live="polite"></p>
                     </div>
 
                     <div class="form-group">
-                        <label for="message">Message (Optional)</label>
-                        <textarea id="message" name="message" rows="4" placeholder="Share your goals or current challenges"></textarea>
+                        <label for="message">Message<span class="required-mark" aria-hidden="true">*</span></label>
+                        <textarea id="message" name="message" rows="4" placeholder="Share your goals or current challenges" maxlength="20000" required aria-describedby="message-error"></textarea>
+                        <p class="field-error" id="message-error" hidden></p>
                     </div>
 
                     <!-- Honeypot. Hidden INLINE, deliberately not via a stylesheet
@@ -728,6 +746,6 @@
         </div>
     </footer>
 
-    <script src="script.js?v=15" defer></script>
+    <script src="script.js?v=16" defer></script>
 </body>
 </html>

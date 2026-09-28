@@ -27,6 +27,9 @@ This handles everything automatically. If you need to manually configure, edit `
 - `REDDIT_PIXEL_ID`: Your Reddit Pixel ID (optional, for ad tracking)
 - `POSTHOG_API_KEY`: Your PostHog API key (starts with `phc_`)
 - `POSTHOG_HOST`: `https://us.i.posthog.com`
+- `GOOGLE_MAPS_API_KEY`: optional, the contact form's address suggestions (the
+  `cohi-website` browser key allows `http://localhost:8001`; left as the
+  placeholder, the address field is plain text)
 
 **Note:** `config.js` is gitignored and will not be committed to the repository.
 
@@ -37,8 +40,9 @@ Secrets are injected at build time in the standalone `cohi-website` repository a
 ### Contact Form
 
 The contact form posts to the app's own API, which stores the submission and
-emails it to us. It needs no configuration here: `navigation.js` resolves the
-app origin at runtime (`https://app.cohi.energy` in production).
+emails it to us. `navigation.js` resolves the app origin at runtime
+(`https://app.cohi.energy` in production); its only setting is the optional
+`GOOGLE_MAPS_API_KEY` for address suggestions.
 
 `POST /api/contact/submissions` persists the submission, emails the whole thing
 to the team with `reply_to` set to the visitor, and sends the visitor a branded
@@ -273,14 +277,18 @@ to the team and the visitor. See [Contact Form](#contact-form) above for how it
 works, or [docs/website-contact-form.md](https://github.com/cohi-energy/cohi/blob/main/docs/website-contact-form.md) for the
 full reference.
 
-Required fields:
+Required fields (marked with a red asterisk):
 - Name
 - Email
-- Phone number
-- Address
-
-Optional field:
 - Message
+
+Optional fields:
+- Phone number (a US number when given)
+- Address (with Google address suggestions; free text is fine too)
+
+Each field is checked when the visitor leaves it and on submit, with its own
+message under it. The rules are in
+[docs/website-contact-form.md](https://github.com/cohi-energy/cohi/blob/main/docs/website-contact-form.md#fields).
 
 There is also a hidden `reference_code` honeypot field (sent to the API as
 `company_website`), named after nothing autofill fills. Real users never see or

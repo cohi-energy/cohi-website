@@ -21,27 +21,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # The contact form needs no secret: it posts to the app's own
-      # /api/contact/submissions endpoint, resolved at runtime by navigation.js.
-      # GOOGLE_APPS_SCRIPT_URL is still written for one reason: config.js is
-      # unversioned, so a visitor whose browser cached the pre-switch page runs
-      # the old script against this config.js, and that script requires the
-      # constant before it posts to the Sheet. The new script never reads it.
-      # It is a cohi-energy organization secret; once it is deleted after the
-      # Apps Script grace period this writes an empty string that nothing reads.
-      # See docs/website-contact-form.md in cohi, "Retiring the Google Sheet".
+      # The contact form posts to the app's own /api/contact/submissions
+      # endpoint, resolved at runtime by navigation.js. Its one setting is
+      # GOOGLE_MAPS_API_KEY, the browser key for its address suggestions (a
+      # cohi-energy organization secret; unset, the field is plain text).
+      # The retired Apps Script's URL is deliberately not written: a page cached
+      # before the switch then shows its "please email us" fallback instead of
+      # posting to the retired script and falsely reporting success. See
+      # docs/website-contact-form.md in cohi, "Retiring the Google Sheet".
       - name: Generate config.js from secrets
         env:
-          GOOGLE_APPS_SCRIPT_URL: ${{ secrets.GOOGLE_APPS_SCRIPT_URL }}
           REDDIT_PIXEL_ID: ${{ secrets.REDDIT_PIXEL_ID }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
           POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
         run: |
           echo "// Configuration file - Generated at build time from GitHub Secrets" > config.js
-          echo "const GOOGLE_APPS_SCRIPT_URL = '$(echo -n "$GOOGLE_APPS_SCRIPT_URL" | tr -d '\n\r')';" >> config.js
           echo "const REDDIT_PIXEL_ID = '$(echo -n "$REDDIT_PIXEL_ID" | tr -d '\n\r')';" >> config.js
           echo "const POSTHOG_API_KEY = '$(echo -n "$POSTHOG_API_KEY" | tr -d '\n\r')';" >> config.js
           echo "const POSTHOG_HOST = '$(echo -n "$POSTHOG_HOST" | tr -d '\n\r')';" >> config.js
+          echo "const GOOGLE_MAPS_API_KEY = '$(echo -n "$GOOGLE_MAPS_API_KEY" | tr -d '\n\r')';" >> config.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

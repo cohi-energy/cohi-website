@@ -520,6 +520,415 @@ function recordContactConversion(email, name) {
     });
 }
 
+// --- field rules ------------------------------------------------------------
+//
+// Name, email and message are required; phone and address are optional (owner
+// decision, 2026-09-27). A phone, when given, must have the shape of a US
+// number. The API applies the same rules (packages/api/src/routers/contact.py);
+// checking here only saves the visitor a round trip and says which field to fix.
+const CONTACT_EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Characters the API refuses in an address (a display-name form such as
+// a<victim@example.com> could reach another inbox), and control characters.
+const EMAIL_REFUSED_CHARACTERS = /[<>,;:"()\\[\]\x00-\x1f\x7f]/;
+// Pasted formatting a phone may carry, the same set the API folds: invisible
+// marks (dropped: soft hyphen, zero-width space and joiners, direction marks,
+// word joiner, byte-order mark), typographic dashes (read as '-') and any
+// space (read as ' ').
+const PHONE_MARKS = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g;
+const PHONE_DASHES = /[\u2010-\u2015\u2212]/g;
+const PHONE_SPACES = /[\s\u0085\u001c-\u001f]/g;
+// Once folded: ASCII digits, spaces and the usual separators, as in the API.
+const US_PHONE_CHARACTERS = /^[0-9 ().+-]+$/;
+
+function foldPhoneFormatting(value) {
+    return value.replace(PHONE_MARKS, '').replace(PHONE_DASHES, '-').replace(PHONE_SPACES, ' ');
+}
+// Ten digits, optionally led by the country code 1; area code and exchange
+// start 2-9 and are not an N11 service code (411, 911, ...).
+const US_PHONE_DIGITS = /^1?([2-9]\d{2})([2-9]\d{2})\d{4}$/;
+
+// With the browser's own email check off (novalidate), empty or hyphen-edged
+// domain labels (two dots in a row, say) are caught here. The page is stricter
+// than the API on this, never looser, so it cannot cause a 400.
+function hasValidDomainLabels(value) {
+    const domain = value.slice(value.lastIndexOf('@') + 1);
+    return domain.split('.').every((label) => label !== '' && !label.startsWith('-') && !label.endsWith('-'));
+}
+
+function isUsPhoneShape(value) {
+    const folded = foldPhoneFormatting(value);
+    if (!US_PHONE_CHARACTERS.test(folded)) {
+        return false;
+    }
+    const match = folded.replace(/[^0-9]/g, '').match(US_PHONE_DIGITS);
+    return Boolean(match) && match[1].slice(1) !== '11' && match[2].slice(1) !== '11';
+}
+
+// In form order, so the first invalid field is the first one on the page.
+const CONTACT_FIELD_RULES = [
+    { id: 'name', message: 'Enter your name.', isValid: (value) => value.length > 0 },
+    { id: 'email', message: 'Enter a valid email address.', isValid: (value) => CONTACT_EMAIL_PATTERN.test(value) && !EMAIL_REFUSED_CHARACTERS.test(value) && hasValidDomainLabels(value) },
+    { id: 'phone', message: 'Enter a 10-digit US phone number.', isValid: (value) => value === '' || isUsPhoneShape(value) },
+    { id: 'message', message: 'Add a short message.', isValid: (value) => value.length > 0 }
+];
+
+function showFieldError(id, text) {
+    const input = document.getElementById(id);
+    const error = document.getElementById(`${id}-error`);
+    if (input) {
+        if (text) {
+            input.setAttribute('aria-invalid', 'true');
+        } else {
+            input.removeAttribute('aria-invalid');
+        }
+    }
+    if (error) {
+        error.textContent = text || '';
+        error.hidden = !text;
+    }
+}
+
+// Whitespace at either end as the API counts it: JavaScript's own plus U+0085
+// and U+001C-U+001F, which Python strips too (the API also strips the
+// byte-order mark, already whitespace here).
+// A loop, not a regex: a pattern anchored only at its end retries an inner
+// run of spaces from every start, which is quadratic on a 20,000-character
+// message and would stall the page.
+const BLANK_CHARACTER = /[\s\u0085\u001c-\u001f]/;
+
+function trimBlank(value) {
+    let start = 0;
+    let end = value.length;
+    while (start < end && BLANK_CHARACTER.test(value[start])) {
+        start += 1;
+    }
+    while (end > start && BLANK_CHARACTER.test(value[end - 1])) {
+        end -= 1;
+    }
+    return value.slice(start, end);
+}
+
+// Checks one field, shows or clears its message, and returns whether it passed.
+function checkContactField(rule, value) {
+    const valid = rule.isValid(trimBlank(value));
+    showFieldError(rule.id, valid ? '' : rule.message);
+    return valid;
+}
+
+// Fields the visitor has typed in since the page loaded or the form reset.
+const touchedContactFields = new Set();
+
+function setupFieldChecks() {
+    CONTACT_FIELD_RULES.forEach((rule) => {
+        const input = document.getElementById(rule.id);
+        if (!input) {
+            return;
+        }
+        // Checked when the visitor leaves a field they have typed in, not
+        // while tabbing through untouched ones; a field already flagged
+        // clears as soon as it is fixed.
+        input.addEventListener('blur', () => {
+            if (touchedContactFields.has(rule.id)) {
+                checkContactField(rule, input.value || '');
+            }
+        });
+        input.addEventListener('input', () => {
+            touchedContactFields.add(rule.id);
+            if (input.getAttribute('aria-invalid') === 'true') {
+                checkContactField(rule, input.value || '');
+            }
+        });
+    });
+}
+
+// After a successful submit resets the form: every field is untouched again
+// and nothing is flagged.
+function resetFieldChecks() {
+    touchedContactFields.clear();
+    CONTACT_FIELD_RULES.forEach((rule) => showFieldError(rule.id, ''));
+}
+
+// --- address lookup -----------------------------------------------------------
+//
+// Google Places (API New, project cohi-website) suggests US addresses as the
+// visitor types. Picking one fills the field with Google's formatted address;
+// typing without picking is fine too, and either way the field is sent as it
+// stands, with nothing recording which. Without a key, or if Google fails or
+// its daily quota is spent, the field is plain text.
+//
+// Programmatic suggestions rather than Google's drop-in widget: the widget
+// replaces the input with its own, which would lose free typing and the form's
+// own field. Billing: one session per address entry, closed by a single
+// formattedAddress lookup when a suggestion is picked. See
+// docs/website-contact-form.md, "Address suggestions".
+const MAPS_KEY_PLACEHOLDER = '__GOOGLE_MAPS_API_KEY__';
+const MAPS_READY_CALLBACK = '__cohiAddressLookupReady';
+const ADDRESS_LOOKUP_MIN_CHARACTERS = 3;
+const ADDRESS_LOOKUP_DELAY_MS = 250;
+const ADDRESS_SUGGESTION_LIMIT = 5;
+// Street addresses and buildings only, not businesses, cities or landmarks.
+const ADDRESS_PRIMARY_TYPES = ['street_address', 'premise', 'subpremise'];
+// Set by setupAddressLookup when suggestions are active; the submit handler
+// closes an open list with it.
+let closeAddressSuggestions = () => {};
+
+function googleMapsApiKey() {
+    if (typeof GOOGLE_MAPS_API_KEY !== 'string') {
+        return '';
+    }
+    const key = GOOGLE_MAPS_API_KEY.trim();
+    return key && key !== MAPS_KEY_PLACEHOLDER ? key : '';
+}
+
+function setupAddressLookup() {
+    const input = document.getElementById('building_address');
+    const panel = document.getElementById('address-suggestions-panel');
+    const list = document.getElementById('address-suggestions');
+    const status = document.getElementById('address-suggestions-status');
+    const key = googleMapsApiKey();
+    if (!input || !panel || !list || !key) {
+        return;
+    }
+    // Only now is the field a combobox; without a key it stays a plain text
+    // field, announced as one. The browser's own address autofill would open
+    // a second list over ours, so it is turned off.
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-expanded', 'false');
+    input.setAttribute('aria-controls', 'address-suggestions');
+    input.setAttribute('autocomplete', 'off');
+
+    let placesReady = null;
+    let unavailable = false;
+    // A press inside the list: some touch browsers blur the field before the
+    // click arrives, and the list must still be there for it.
+    let pressing = false;
+    let sessionToken = null;
+    let suggestions = [];
+    let active = -1;
+    let pending = null;
+    // Bumped by every lookup and every close, so a late answer to an older
+    // lookup never reopens the list.
+    let lookupId = 0;
+
+    function loadPlaces() {
+        if (!placesReady) {
+            placesReady = new Promise((resolve, reject) => {
+                window[MAPS_READY_CALLBACK] = resolve;
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://maps.googleapis.com/maps/api/js'
+                    + `?key=${encodeURIComponent(key)}&libraries=places&loading=async`
+                    + `&callback=${MAPS_READY_CALLBACK}`;
+                script.onerror = () => reject(new Error('Google Maps did not load'));
+                document.head.appendChild(script);
+            }).then(() => {
+                const maps = window.google && window.google.maps;
+                return maps && typeof maps.importLibrary === 'function'
+                    ? maps.importLibrary('places')
+                    : maps && maps.places;
+            }).then((places) => {
+                if (!places || !places.AutocompleteSuggestion) {
+                    throw new Error('Google Places is unavailable');
+                }
+                return places;
+            });
+            // A failed load leaves a plain text field; nothing else waits on it.
+            placesReady.catch((error) => {
+                console.warn('Address suggestions unavailable:', error);
+                giveUp();
+            });
+        }
+        return placesReady;
+    }
+
+    function render() {
+        list.textContent = '';
+        suggestions.forEach((suggestion, index) => {
+            const option = document.createElement('li');
+            option.id = `address-suggestion-${index}`;
+            option.setAttribute('role', 'option');
+            option.setAttribute('aria-selected', index === active ? 'true' : 'false');
+            option.textContent = suggestion.text;
+            // Pressing keeps focus in the field, so the list is still there
+            // for the click that follows; the click picks. An assistive
+            // technology may send only the click.
+            option.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+            });
+            option.addEventListener('click', () => {
+                pressing = false;
+                pick(index);
+            });
+            list.appendChild(option);
+            if (index === active && typeof option.scrollIntoView === 'function') {
+                option.scrollIntoView({ block: 'nearest' });
+            }
+        });
+        const open = suggestions.length > 0;
+        panel.hidden = !open;
+        if (status) {
+            status.textContent = open
+                ? `${suggestions.length} address ${suggestions.length === 1 ? 'suggestion' : 'suggestions'}`
+                : '';
+        }
+        // A field that has gone back to plain text carries no combobox state.
+        if (unavailable) {
+            return;
+        }
+        input.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open && active >= 0) {
+            input.setAttribute('aria-activedescendant', `address-suggestion-${active}`);
+        } else {
+            input.removeAttribute('aria-activedescendant');
+        }
+    }
+
+    // Google failed to load or refused (a spent daily quota, say): the field
+    // goes back to a plain address field for the rest of the visit, announced
+    // as one and with the browser's address autofill back.
+    function giveUp() {
+        if (unavailable) {
+            return;
+        }
+        unavailable = true;
+        close();
+        ['role', 'aria-autocomplete', 'aria-expanded', 'aria-controls', 'aria-activedescendant']
+            .forEach((name) => input.removeAttribute(name));
+        input.setAttribute('autocomplete', 'street-address');
+    }
+
+    function close() {
+        // A lookup still waiting on its delay would reopen the list.
+        clearTimeout(pending);
+        lookupId += 1;
+        suggestions = [];
+        active = -1;
+        render();
+    }
+
+    async function lookup(text) {
+        lookupId += 1;
+        const id = lookupId;
+        try {
+            const places = await loadPlaces();
+            // The visitor may have left or typed on while the script loaded.
+            if (id !== lookupId) {
+                return;
+            }
+            if (!sessionToken) {
+                sessionToken = new places.AutocompleteSessionToken();
+            }
+            const response = await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+                input: text,
+                sessionToken,
+                includedRegionCodes: ['us'],
+                includedPrimaryTypes: ADDRESS_PRIMARY_TYPES
+            });
+            if (id !== lookupId) {
+                return;
+            }
+            suggestions = ((response && response.suggestions) || [])
+                .map((suggestion) => suggestion.placePrediction)
+                .filter(Boolean)
+                .map((prediction) => ({ prediction, text: String(prediction.text || '') }))
+                .filter((suggestion) => suggestion.text)
+                .slice(0, ADDRESS_SUGGESTION_LIMIT);
+            active = -1;
+            render();
+        } catch (error) {
+            // Only the current lookup's failure counts: an older one failing
+            // after a newer one succeeded changes nothing.
+            if (id === lookupId) {
+                giveUp();
+            }
+        }
+    }
+
+    async function pick(index) {
+        const chosen = suggestions[index];
+        close();
+        if (!chosen) {
+            return;
+        }
+        input.value = chosen.text;
+        // The pick ends the billing session: the place carries its session
+        // token (toPlace), and the next entry starts a new one.
+        sessionToken = null;
+        try {
+            const place = chosen.prediction.toPlace();
+            await place.fetchFields({ fields: ['formattedAddress'] });
+            // Only if the visitor has not typed over the pick meanwhile.
+            if (place.formattedAddress && input.value === chosen.text) {
+                input.value = place.formattedAddress;
+            }
+        } catch (error) {
+            // The suggestion's own text stays in the field.
+        }
+    }
+
+    input.addEventListener('focus', () => {
+        if (!unavailable) {
+            loadPlaces();
+        }
+    });
+    input.addEventListener('input', () => {
+        // Any edit retires the shown suggestions at once, so neither Enter nor
+        // a stale option can put an old address back over the edit.
+        close();
+        const text = (input.value || '').trim();
+        // Browser autofill fills the field without focusing it: nobody is
+        // there to see a list, so nothing is looked up.
+        if (unavailable || document.activeElement !== input || text.length < ADDRESS_LOOKUP_MIN_CHARACTERS) {
+            return;
+        }
+        pending = setTimeout(() => lookup(text), ADDRESS_LOOKUP_DELAY_MS);
+    });
+    input.addEventListener('keydown', (event) => {
+        // Escape also cancels a lookup still waiting, with no list open yet.
+        if (event.key === 'Escape') {
+            close();
+            return;
+        }
+        if (!suggestions.length) {
+            return;
+        }
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            const count = suggestions.length;
+            if (event.key === 'ArrowDown') {
+                active = active < 0 ? 0 : (active + 1) % count;
+            } else {
+                active = active < 0 ? count - 1 : (active - 1 + count) % count;
+            }
+            render();
+        } else if (event.key === 'Enter' && active >= 0) {
+            // Picks rather than submitting the form.
+            event.preventDefault();
+            pick(active);
+        }
+    });
+    list.addEventListener('pointerdown', () => {
+        pressing = true;
+    });
+    list.addEventListener('pointercancel', () => {
+        pressing = false;
+    });
+    input.addEventListener('blur', () => {
+        if (pressing) {
+            return;
+        }
+        close();
+        // Leaving without a pick abandons the session; the next entry starts
+        // a new one rather than extending it.
+        sessionToken = null;
+    });
+    closeAddressSuggestions = close;
+}
+
+setupFieldChecks();
+setupAddressLookup();
+
 if (contactForm) {
     contactForm.addEventListener('submit', async function onSubmit(event) {
         event.preventDefault();
@@ -538,14 +947,17 @@ if (contactForm) {
         // API still receives it under its contract key, company_website.
         const companyWebsite = (formData.get('reference_code') || '').toString().trim();
 
-        if (!name || !email || !phone || !buildingAddress) {
-            showMessage('Please complete name, email, phone number, and address.', 'error');
-            return;
-        }
+        closeAddressSuggestions();
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showMessage('Please enter a valid email address.', 'error');
+        // Every field is checked, so each problem shows at once, and focus
+        // goes to the first one. Nothing is sent until they are fixed.
+        const values = { name, email, phone, message };
+        const invalid = CONTACT_FIELD_RULES.filter((rule) => !checkContactField(rule, values[rule.id]));
+        if (invalid.length > 0) {
+            const first = document.getElementById(invalid[0].id);
+            if (first && typeof first.focus === 'function') {
+                first.focus();
+            }
             return;
         }
 
@@ -607,6 +1019,7 @@ if (contactForm) {
             // gets the same message, so a bot learns nothing from it.
             showMessage('Thanks. We received your request and will reach out shortly.', 'success');
             form.reset();
+            resetFieldChecks();
 
             // Analytics gets its own guard: these are globals from other files,
             // and a throw from one reaching the catch below would replace the
