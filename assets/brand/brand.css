@@ -124,6 +124,10 @@
   --chart-plan-em-tou: #9a5b13;
   --chart-savings: #2f9c5a;
   --chart-increase: #d85f3c;
+  --chart-price-low: #087f6d;
+  --chart-price-lower-mid: #76a637;
+  --chart-price-upper-mid: #e18b28;
+  --chart-price-high: #ba3c4b;
 }
 
 html {
