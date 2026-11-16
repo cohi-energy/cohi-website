@@ -6,12 +6,13 @@
 // (https://app.cohi.energy in production). Its only setting is the optional
 // GOOGLE_MAPS_API_KEY below.
 
-// Reddit Pixel ID (optional - for ad conversion tracking)
-const REDDIT_PIXEL_ID = '__REDDIT_PIXEL_ID__';
-
 // PostHog Analytics (for user tracking across cohi.energy and app.cohi.energy)
 const POSTHOG_API_KEY = '__POSTHOG_API_KEY__';
 const POSTHOG_HOST = '__POSTHOG_HOST__';
+
+// PostHog only loads on cohi.energy and www.cohi.energy. Set to true in a local
+// config.js to test analytics locally (events land in the production project).
+const POSTHOG_DEV_ENABLED = false;
 
 // Optional local override for the app origin, e.g. http://127.0.0.1:5174
 const APP_BASE_URL = '';

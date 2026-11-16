@@ -24,7 +24,6 @@ Run the dev script:
 ```
 
 This handles everything automatically. If you need to manually configure, edit `config.js` with:
-- `REDDIT_PIXEL_ID`: Your Reddit Pixel ID (optional, for ad tracking)
 - `POSTHOG_API_KEY`: Your PostHog API key (starts with `phc_`)
 - `POSTHOG_HOST`: `https://us.i.posthog.com`
 - `GOOGLE_MAPS_API_KEY`: optional, the contact form's address suggestions (the
@@ -78,27 +77,16 @@ for any `localhost` origin itself. If your stack serves the frontend over HTTPS
 `APP_BASE_URL = 'https://localhost:5173'` in `config.js`: the page otherwise
 copies its own `http` scheme and posts to a TLS listener over plain HTTP.
 
-### Reddit Ads Integration
-
-The site includes Reddit Pixel tracking for conversion optimization.
-
-#### Setup:
-1. Get your Reddit Pixel ID from [Reddit Ads](https://ads.reddit.com)
-2. For local dev: add to `config.js` as `REDDIT_PIXEL_ID`
-3. For production: add as GitHub Secret `REDDIT_PIXEL_ID`
-
-Pixel tracking works client-side. For server-side conversion tracking via Reddit's Conversion API, you'd need a server-side proxy endpoint due to CORS restrictions.
-
 ### PostHog Analytics
 
 The site includes PostHog analytics for user tracking with cross-subdomain support between cohi.energy and app.cohi.energy.
 
 #### Features:
-- **Cross-subdomain tracking**: Users are tracked as the same person across cohi.energy and app.cohi.energy
+- **Cross-subdomain identity**: PostHog's id cookie is shared on `.cohi.energy`, so a browser the app identified visits the site as that person (one person per browser), and the app links an anonymous visitor's website history to their person when they sign in
 - **Automatic pageviews**: Page visits are captured automatically
-- **Privacy-safe explicit events**: Autocapture and session recording are disabled; CTA and contact events are tracked explicitly
-- **Do Not Track respect**: Honors browser DNT settings
-- **Lead/account correlation**: Contact form submissions set PostHog person email/name properties for operator lookup and call the app's lead-correlation endpoint when available. The endpoint returns `lead_id` and an HMAC email hash; it must not block form submission if unavailable.
+- **Privacy-safe explicit events**: Autocapture and session recording are disabled; heatmaps (clicks, pointer movement and scroll depth) and CTA clicks are on; the contact form's event is recorded by the app server
+- **Privacy signals**: a browser that sends Do Not Track or Global Privacy Control loads no PostHog at all, as in the app; it covers that browser only
+- **Lead/account correlation**: When analytics is allowed, a contact form submission carries the visitor's PostHog ids and then calls the app's lead-correlation endpoint, which returns `lead_id` and an HMAC email hash; the app server, not the browser, sets the email and name on the PostHog person. Correlation must never block the submission.
 
 #### Setup:
 1. Get your PostHog API key from [PostHog](https://posthog.com) (starts with `phc_`)
@@ -114,7 +102,9 @@ Ensure both domains are in the Authorized Domains list:
 
 #### Helper Functions:
 - `trackCTAClick(destination, ctaLocation)` - Track CTA button clicks (for future app.cohi.energy links)
-- `trackPostHogEvent(eventName, properties)` - Track custom events
+- `cohiAnalyticsAllowed()` - False when PostHog is not running on this host (Do Not Track or GPC among the reasons), or the visitor opted out
+
+PostHog loads only on `cohi.energy` and `www.cohi.energy`; set `POSTHOG_DEV_ENABLED = true` in a local `config.js` to test locally (events land in the production project). The contact form's `contact_form_submitted` event is recorded by the app server. Events and privacy rules: `docs/analytics/` in the main repo.
 
 ## Viewing Locally
 
@@ -193,7 +183,6 @@ If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `c
    - Go to the `cohi-website` repository on GitHub
    - Click **Settings** → **Secrets and variables** → **Actions**
    - Add the following secrets:
-     - `REDDIT_PIXEL_ID` - Your Reddit Pixel ID
      - `POSTHOG_API_KEY` - Your PostHog API key (starts with `phc_`)
      - `POSTHOG_HOST` - PostHog host URL (`https://us.i.posthog.com`)
 
@@ -254,7 +243,6 @@ cohi/website/
 ├── styles.css           # Stylesheet (built entirely on assets/brand/brand.css tokens)
 ├── script.js            # Scroll animations, form handling, CTA tracking, mobile nav
 ├── navigation.js        # Auth-aware app links (register vs /app)
-├── reddit-pixel.js      # Reddit Pixel tracking code
 ├── posthog.js           # PostHog analytics tracking
 ├── config.template.js   # Config template with placeholders (committed)
 ├── config.js            # Local generated config with secrets (gitignored)

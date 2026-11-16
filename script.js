@@ -297,10 +297,15 @@
 // opaque and a failed write still showed the visitor a success
 // message. Do not reintroduce a no-cors sink here.
 //
-// External symbols (trackPostHogEvent, setLeadPostHogProperties,
-// getPostHogDistinctId/SessionId, trackRedditConversion,
-// window.cohiNavigation.resolveAppOrigin, APP_BASE_URL) come from
-// posthog.js + reddit-pixel.js + navigation.js.
+// The app records contact_form_submitted itself (the only copy of
+// that event), so the browser adds no event and no person
+// properties. When this browser allows analytics it attaches its
+// PostHog ids and creates the lead correlation; under Do Not Track
+// or an opt-out it sends the enquiry alone.
+//
+// External symbols (cohiAnalyticsAllowed, getPostHogDistinctId/
+// SessionId, window.cohiNavigation.resolveAppOrigin, APP_BASE_URL)
+// come from posthog.js + navigation.js.
 // =============================================================
 
 const contactForm = document.getElementById('contact-form');
@@ -476,45 +481,22 @@ function runAnalytics(label, call) {
     }
 }
 
+function contactAnalyticsAllowed() {
+    return typeof cohiAnalyticsAllowed === 'function' && cohiAnalyticsAllowed();
+}
+
 // Everything a recorded lead reports to analytics, after the visitor has been
-// told it is received. Nothing here may take that confirmation back.
-function recordContactConversion(email, name) {
-    runAnalytics('reddit', () => {
-        if (typeof trackRedditConversion === 'function') {
-            trackRedditConversion('Lead');
-        }
-    });
-
-    // The conversion event fires now, with the confirmation: a visitor who
-    // leaves while correlation is still running would otherwise take it with
-    // them. The server-side event already carries the email hash that joins it
-    // to the lead.
-    runAnalytics('posthog event', () => {
-        if (typeof trackPostHogEvent === 'function') {
-            trackPostHogEvent('contact_form_submitted', {
-                form_type: 'multifamily_consultation'
-            });
-        }
-    });
-
-    // Deliberately not awaited. Correlation is best effort and its result only
-    // decorates the PostHog person properties. It settles later, outside any
-    // try above, so its callback guards itself and a rejection is caught here.
+// told it is received. Nothing here may take that confirmation back. The app
+// records contact_form_submitted from the submission itself, so the browser
+// only links its PostHog ids to the lead, and only when analytics is allowed.
+function recordContactConversion(email) {
+    if (!contactAnalyticsAllowed()) {
+        return;
+    }
+    // Deliberately not awaited: correlation is best effort, and it settles
+    // later, outside any try above, so a rejection is caught here.
     runAnalytics('correlation', () => {
-        createLeadCorrelation(email).then((leadCorrelation) => {
-            runAnalytics('person properties', () => {
-                if (typeof setLeadPostHogProperties === 'function') {
-                    setLeadPostHogProperties({
-                        email,
-                        name,
-                        lead_id: leadCorrelation ? leadCorrelation.lead_id : undefined,
-                        lead_email_hash: leadCorrelation ? leadCorrelation.lead_email_hash : undefined,
-                        lead_source: 'website_contact_form_multifamily',
-                        ...currentUtmProperties()
-                    });
-                }
-            });
-        }).catch((error) => {
+        createLeadCorrelation(email).catch((error) => {
             console.error('Contact analytics error (correlation):', error);
         });
     });
@@ -984,11 +966,13 @@ if (contactForm) {
         // would enter our lead data is gated on that below. The POST still goes
         // out, so the server keeps logging the trap and applying its rate limit.
         try {
-            if (typeof getPostHogDistinctId === 'function') {
-                formSubmission.posthog_distinct_id = getPostHogDistinctId();
-            }
-            if (typeof getPostHogSessionId === 'function') {
-                formSubmission.posthog_session_id = getPostHogSessionId();
+            if (contactAnalyticsAllowed()) {
+                if (typeof getPostHogDistinctId === 'function') {
+                    formSubmission.posthog_distinct_id = getPostHogDistinctId();
+                }
+                if (typeof getPostHogSessionId === 'function') {
+                    formSubmission.posthog_session_id = getPostHogSessionId();
+                }
             }
 
             // The submission goes FIRST. Correlating before it would leave a
@@ -1026,7 +1010,7 @@ if (contactForm) {
             // confirmation with "could not submit" for a stored lead.
             if (recorded) {
                 try {
-                    recordContactConversion(email, name);
+                    recordContactConversion(email);
                 } catch (analyticsError) {
                     console.error('Contact analytics error:', analyticsError);
                 }

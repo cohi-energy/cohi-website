@@ -31,13 +31,11 @@ jobs:
       # docs/website-contact-form.md in cohi, "Retiring the Google Sheet".
       - name: Generate config.js from secrets
         env:
-          REDDIT_PIXEL_ID: ${{ secrets.REDDIT_PIXEL_ID }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
           POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
           GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
         run: |
           echo "// Configuration file - Generated at build time from GitHub Secrets" > config.js
-          echo "const REDDIT_PIXEL_ID = '$(echo -n "$REDDIT_PIXEL_ID" | tr -d '\n\r')';" >> config.js
           echo "const POSTHOG_API_KEY = '$(echo -n "$POSTHOG_API_KEY" | tr -d '\n\r')';" >> config.js
           echo "const POSTHOG_HOST = '$(echo -n "$POSTHOG_HOST" | tr -d '\n\r')';" >> config.js
           echo "const GOOGLE_MAPS_API_KEY = '$(echo -n "$GOOGLE_MAPS_API_KEY" | tr -d '\n\r')';" >> config.js
@@ -55,7 +53,7 @@ jobs:
           rsync -a \
             --exclude '.git' --exclude '.github' --exclude '_site' \
             --exclude 'README.md' --exclude 'dev.sh' \
-            --exclude 'config.template.js' \
+            --exclude 'config.template.js' --exclude 'tests' \
             ./ _site/
           sed -i "s/styles\.css?v=[0-9a-zA-Z-]*/styles.css?v=${GITHUB_SHA:0:8}/" _site/index.html
           sed -i "s/script\.js?v=[0-9a-zA-Z-]*/script.js?v=${GITHUB_SHA:0:8}/" _site/index.html

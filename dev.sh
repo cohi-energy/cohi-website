@@ -25,7 +25,6 @@ if [ ! -f "config.js" ]; then
         echo -e "${RED}⚠️  Please edit config.js and replace the placeholder values with your actual credentials.${NC}"
         echo ""
         echo "Required values:"
-        echo "  - REDDIT_PIXEL_ID: Your Reddit Pixel ID"
         echo "  - POSTHOG_API_KEY: Your PostHog API key (starts with phc_)"
         echo "  - POSTHOG_HOST: https://us.i.posthog.com"
         echo ""
