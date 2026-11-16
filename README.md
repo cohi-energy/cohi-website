@@ -175,7 +175,7 @@ Day-to-day website changes should be made in `cohi/website`, not directly in `co
 3. Let `.github/workflows/sync-website-subtree.yml` mirror the subtree to `cohi-website/master`
 4. Let the standalone `cohi-website` GitHub Pages workflow deploy the updated site
 
-If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `cohi`, still has write access to `cohi-energy/cohi-website`, and carries both the `repo` and `workflow` scopes (the mirror includes `.github/workflows/deploy.yml`, which a token without `workflow` scope cannot push).
+If the subtree sync ever fails, first verify that the `website-sync` environment in `cohi` still holds `SUBREPO_DEPLOY_KEY`, that its public half is still a deploy key with write access on `cohi-energy/cohi-website`, and that deploy keys may bypass the ruleset protecting `master`. A host key error means GitHub rotated its SSH keys: update the keys pinned in the workflow, as the root README's "Website Subtree Sync (GitHub Pages)" setup describes.
 
 ### Initial Setup (One-time)
 
@@ -190,9 +190,8 @@ If the subtree sync ever fails, first verify that `SUBREPO_PAT` is present in `c
    - In `cohi-website`, go to **Settings** → **Pages**
    - Under **Source**, select **GitHub Actions**
 
-3. **Add subtree sync secret**
-   - In `cohi`, go to **Settings** → **Secrets and variables** → **Actions**
-   - Add `SUBREPO_PAT` with push access to `cohi-energy/cohi-website` (`repo` + `workflow` scopes; `workflow` is needed to push the mirrored deploy workflow file)
+3. **Add the subtree sync deploy key**
+   - Follow the root README's "Website Subtree Sync (GitHub Pages)" setup: a deploy key with write access on `cohi-website`, its private half stored as `SUBREPO_DEPLOY_KEY` in the `website-sync` environment of `cohi`
 
 ### Deploying
 
