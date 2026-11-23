@@ -2,6 +2,90 @@
 
 The marketing site for Cohi's bill-optimization app: free rate-plan checking and switching for homes and small businesses, and portfolio-wide energy-spend screening for multifamily owners and operators. Primary conversion is app signup (`app.cohi.energy/register`); secondary is the portfolio-review contact form.
 
+## San Francisco EBO and California AB 802 benchmarking
+
+`benchmarking.html` is the dedicated service page linked from the topbar.
+`benchmarking-brochure.html` and `benchmarking-brochure.css` are the editable
+source for the one-page, US Letter customer brochure at
+`assets/cohi-benchmarking.pdf`. Both direct inquiries to the dedicated form at
+`benchmarking.html#benchmarking-contact`. It reuses the website's validated
+submission flow with `website_contact_form_benchmarking` as its source, so the
+team can distinguish it from homepage inquiries. The benchmarking page's header
+CTA also leads to this form and must not use `data-account-entry-link`, which
+would redirect it to the billing app's account flow. This is a customer-facing marketing brochure, not an internal
+report packet.
+
+The webpage's experience section uses plain-text names based on the user's
+confirmation that Cohi has worked on buildings for these organizations. It does
+not claim endorsements, partnerships or work across their entire portfolios.
+The brochure does not contain company references. Permission to publish these
+references has not been verified.
+
+Name checks: [FirstService Residential](https://www.fsresidential.com/california/)
+(the supplied FSR), [Action Property Management](https://www.actionlife.com/),
+[Associa](https://www.associaonline.com/),
+[Structure Properties](https://structureproperties.com/) and
+[Powerstone Property Management](https://www.powerstonepm.com/).
+The user identified [GLIDE](https://www.glide.org/programs/welcome-center/) and
+confirmed that Cohi's work was on properties GLIDE manages. Use its official
+uppercase spelling. Anvil Property Management remains as supplied by the user;
+its exact entity has not been confirmed. No company links or logos are used.
+Public company sites verify spelling, not Cohi's work or reference permissions.
+
+Content sources, checked November 22, 2026:
+
+- [SF Environment program](https://www.sfenvironment.org/existing-buildings-energy-performance-ordinance)
+  and [benchmarking FAQ](https://www.sfenvironment.org/benchmarking-faq): generally
+  10,000+ sq ft nonresidential and 50,000+ sq ft residential, including qualifying
+  condominiums and mixed-use properties; May 1 annual reporting for the previous
+  calendar year. Use current program guidance, not older April 1 material.
+  Coverage and exemptions require property-specific review.
+- [CEC local programs](https://www.energy.ca.gov/programs-and-topics/programs/building-energy-benchmarking-program/exempted-local-benchmarking):
+  SF is a recognized local reporting program. A city-accepted benchmark fulfills
+  applicable AB 802 reporting; a CEC-only submission does not satisfy SF.
+  Other exempt local programs exist, so not every building outside SF files
+  directly with the CEC.
+- [CEC program FAQ](https://www.energy.ca.gov/programs-and-topics/programs/building-energy-benchmarking-program/building-energy-benchmarking):
+  state reporting is due June 1 for the previous calendar year. It covers
+  buildings strictly **more than 50,000 sq ft** with no residential utility
+  accounts or at least 17 residential units, subject to exemptions. The FAQ
+  counts units even with master metering; the regulation expresses the condition
+  in terms of active residential utility accounts. Statewide condominiums are
+  excluded. Keep these rules separate from SF's local coverage and May 1 date.
+  Missing utility data does not always prevent reporting: the CEC describes
+  limited routes to report without energy data when access cannot be obtained,
+  and extensions when utilities have not provided data in time. The webpage's
+  missing-data FAQ therefore promises review of the applicable reporting options
+  rather than making complete data an absolute prerequisite.
+- [EPA benchmarking metrics](https://www.energystar.gov/buildings/benchmark/understand-metrics):
+  benchmarking and eligible-property scores differ from voluntary certification.
+  The service does not claim certification or fulfillment of a separate audit.
+
+From a named linked worktree, use the existing Docker image without installing
+dependencies. Run `./scripts/dc.sh ensure` first. The browser check covers the
+navigation journey, mobile disclosure, local links, distinct program rules and print layout:
+
+```bash
+./scripts/dc.sh run --rm --no-deps \
+  -v "$PWD/website:/app/website:ro" \
+  frontend node /app/website/tests/benchmarking.cjs
+```
+
+After changing brochure text or styles, regenerate the PDF using the vendored
+brand fonts, then visually inspect the exported PDF before committing it:
+
+```bash
+./scripts/dc.sh run --rm --no-deps \
+  -v "$PWD/website:/app/website" \
+  -v "$PWD/brand/fonts:/app/brand/fonts:ro" \
+  frontend node /app/website/tests/render-brochure.cjs
+```
+
+The exporter refuses a layout taller than one Letter page and requires all
+three brand fonts to load. The PDF contains selectable text and live links.
+It is a web/email/office-print asset, without commercial press bleed or CMYK
+conversion. Stop the owned stack with `./scripts/dc.sh stop` when finished.
+
 ## Repository Ownership
 
 This site is authored in `cohi/website` and mirrored to `cohi-energy/cohi-website` for GitHub Pages deployment.

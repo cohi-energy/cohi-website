@@ -485,9 +485,9 @@ section[id] { scroll-margin-top: 5.5rem; }
 /* Collapse the inline nav into a hamburger-opened panel that drops
    below the fixed header. Non-modal disclosure: Esc and link clicks
    close it (script.js). The breakpoint sits above the expanded
-   header's minimum width (brand + four links + CTA is ~720px), so
+   header's minimum width (brand + five links + CTA), so
    the desktop row never gets clipped. */
-@media (max-width: 760px) {
+@media (max-width: 960px) {
     .site-nav {
         position: absolute;
         top: 100%;
@@ -3462,10 +3462,12 @@ section[id] { scroll-margin-top: 5.5rem; }
 .hero            { position: relative; }
 .case-study      { position: relative; }
 .contact         { position: relative; }
+.section-frost   { position: relative; }
 
 .hero::before,
 .case-study::before,
-.contact::before {
+.contact::before,
+.section-frost::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -3481,7 +3483,8 @@ section[id] { scroll-margin-top: 5.5rem; }
 }
 
 .case-study > *,
-.contact > * {
+.contact > *,
+.section-frost > * {
     position: relative;
     z-index: 1;
 }

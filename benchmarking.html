@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California AB 802 &amp; San Francisco EBO Benchmarking | Cohi</title>
+    <meta name="description" content="Energy benchmarking for California commercial and multifamily buildings. Cohi handles California AB 802 and San Francisco EBO reporting through ENERGY STAR Portfolio Manager.">
+    <link rel="canonical" href="https://cohi.energy/benchmarking.html">
+    <meta name="theme-color" content="#faf8f1">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cohi.energy/benchmarking.html">
+    <meta property="og:site_name" content="Cohi">
+    <meta property="og:title" content="Benchmarking, sorted.">
+    <meta property="og:description" content="California AB 802 and San Francisco EBO reporting for commercial and multifamily buildings. Cohi manages utility-data coordination, submission and follow-up.">
+    <meta property="og:image" content="https://cohi.energy/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Benchmarking, sorted.">
+    <meta name="twitter:description" content="ENERGY STAR Portfolio Manager reporting for California AB 802 and San Francisco EBO.">
+    <meta name="twitter:image" content="https://cohi.energy/assets/og-image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+    <link rel="stylesheet" href="assets/brand/brand.css">
+    <link rel="stylesheet" href="styles.css?v=99">
+    <link rel="stylesheet" href="benchmarking.css?v=22">
+    <script src="config.js" defer></script>
+    <script src="posthog.js" defer></script>
+    <script src="navigation.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "California building energy benchmarking",
+      "description": "California AB 802 and San Francisco EBO reporting through ENERGY STAR Portfolio Manager, including preparation, submission and follow-up for commercial and multifamily buildings.",
+      "url": "https://cohi.energy/benchmarking.html",
+      "areaServed": { "@type": "State", "name": "California" },
+      "provider": {
+        "@type": "Organization",
+        "name": "Cohi",
+        "url": "https://cohi.energy/",
+        "email": "contact@cohi.energy"
+      }
+    }
+    </script>
+</head>
+<body class="benchmark-page">
+    <a class="bm-skip" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="nav-shell">
+            <a href="/" class="brand" aria-label="COHI ENERGY home" data-auth-aware-home-link>
+                <img src="assets/brand/brand-lockup-dark.svg" alt="COHI ENERGY" class="brand-lockup-img">
+            </a>
+            <nav class="site-nav" id="site-nav" aria-label="Primary">
+                <a href="/#bill-story">How it works</a>
+                <a href="/#plans">Who it's for</a>
+                <a href="/#faq">FAQ</a>
+                <a href="#benchmarking-contact">Contact</a>
+                <a href="benchmarking.html" aria-current="page">Benchmarking</a>
+            </nav>
+            <a href="#benchmarking-contact" class="nav-cta"
+               data-cta-destination="contact_form" data-cta-location="sticky_nav">Get Started</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero bm-hero" aria-labelledby="bm-title">
+            <div class="container bm-hero-layout">
+                <div class="bm-hero-copy">
+                    <h1 class="hero-title" id="bm-title">Benchmarking,<br>sorted.</h1>
+                    <p class="hero-copy">Cohi takes care of San Francisco EBO and California AB 802 energy reporting.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#benchmarking-contact"
+                           data-cta-destination="contact_form" data-cta-location="benchmarking_hero">Talk about your building</a>
+                    </div>
+                </div>
+                <figure class="bm-architecture">
+                    <div class="bm-architecture-scene" aria-hidden="true">
+                        <svg class="bm-architecture-background" viewBox="0 0 460 430" focusable="false">
+                            <circle cx="247" cy="202" r="174" fill="var(--secondary)" opacity=".34"/>
+                            <circle cx="365" cy="91" r="30" fill="var(--pastel-yellow)"/>
+                            <path d="M20 354H442M48 374H418" stroke="var(--border-strong)" stroke-width="1.5"/>
+                        </svg>
+                        <div class="plan-card-skyline bm-figure-buildings">
+                            <div class="bldg" data-shape="flat" style="--w:24px;--h:42%;--t:66%"><span class="bldg-fill"></span></div>
+                            <div class="bldg" data-shape="flat" style="--w:44px;--h:48%;--t:64%"><span class="bldg-fill"></span></div>
+                            <div class="bldg" data-shape="pointed" style="--w:22px;--h:58%;--t:62%"><span class="bldg-fill"></span></div>
+                            <div class="bldg" data-shape="flat" style="--w:58px;--h:72%;--t:54%"><span class="bldg-fill"></span></div>
+                            <div class="bldg" data-shape="pointed" style="--w:28px;--h:84%;--t:56%"><span class="bldg-fill"></span></div>
+                            <div class="bldg" data-shape="angle-right" style="--w:36px;--h:66%;--t:52%"><span class="bldg-fill"></span></div>
+                            <div class="bldg" data-shape="stepped-right" style="--w:72px;--h:92%;--t:58%"><span class="bldg-fill"></span></div>
+                        </div>
+                        <svg class="bm-architecture-report" viewBox="0 0 460 430" focusable="false">
+                            <rect x="91" y="45" width="143" height="117" rx="8" fill="var(--surface-strong)" stroke="var(--border)"/>
+                            <path d="M109 70h75M109 83h107" stroke="var(--border-strong)" stroke-width="5" stroke-linecap="round"/>
+                            <path d="M110 110h10v10h-10zM110 133h10v10h-10z" fill="var(--secondary)"/>
+                            <path d="M132 115h82M132 138h64" stroke="var(--primary)" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <figcaption>Buildings. Utility data. Annual reporting.<br><strong>We bring it all together.</strong></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="bm-why bm-section" aria-labelledby="why-title">
+            <div class="bm-explainer container">
+                <div>
+                    <h2 class="process-title" id="why-title">Why benchmark?</h2>
+                </div>
+                <div class="bm-prose">
+                    <p class="process-lead">Annual energy benchmarking is required for buildings covered by San Francisco EBO or California AB 802. Which program applies depends on your building&rsquo;s location, size and use.</p>
+                    <p class="process-lead">Benchmarking records your building&rsquo;s energy use in the EPA&rsquo;s ENERGY STAR Portfolio Manager, giving you a clearer picture of how it performs. You can track changes over time, compare eligible properties with similar buildings and identify opportunities to reduce energy use.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bm-requirements container plans" id="requirements" aria-labelledby="requirements-title">
+            <div class="bm-section-kicker">
+                <h2 class="plans-title" id="requirements-title">Know which reporting program applies.</h2>
+            </div>
+            <div class="plans-grid bm-programs">
+                <section class="plan-card bm-program" aria-labelledby="sf-ebo-title">
+                    <div class="bm-program-heading">
+                        <h3 class="plan-card-title" id="sf-ebo-title">San Francisco EBO</h3>
+                        <p class="bm-deadline">Annual deadline<strong>May 1</strong></p>
+                    </div>
+                    <p class="plan-card-copy bm-program-intro">San Francisco&rsquo;s Existing Buildings Energy Performance Ordinance.</p>
+                    <dl class="bm-facts">
+                        <div><dt>Commercial buildings</dt><dd>10,000<span>+ sq ft</span></dd></div>
+                        <div><dt>Residential buildings</dt><dd>50,000<span>+ sq ft</span></dd></div>
+                    </dl>
+                    <p class="plan-card-copy">Generally covers buildings at or above these sizes, including qualifying condominium and mixed-use buildings. San Francisco&rsquo;s residential rule does not use the statewide 17-unit cutoff.</p>
+                    <a class="bm-text-link" href="https://www.sfenvironment.org/existing-buildings-energy-performance-ordinance">Read the SF requirements</a>
+                </section>
+                <section class="plan-card bm-program" aria-labelledby="ab802-title">
+                    <div class="bm-program-heading">
+                        <h3 class="plan-card-title" id="ab802-title">California AB 802</h3>
+                        <p class="bm-deadline">Annual deadline<strong>June 1</strong></p>
+                    </div>
+                    <p class="plan-card-copy bm-program-intro">State reporting outside CEC-exempt local benchmarking programs.</p>
+                    <dl class="bm-facts bm-state-facts">
+                        <div><dt>Building size</dt><dd><span class="bm-threshold-prefix">More than</span> 50,000<span> sq ft</span></dd></div>
+                    </dl>
+                    <p class="plan-card-copy">Applies to buildings with no residential utility accounts, or 17 or more residential units, including mixed-use buildings. Condominiums are exempt from statewide reporting; other exemptions may apply.</p>
+                    <a class="bm-text-link" href="https://www.energy.ca.gov/programs-and-topics/programs/building-energy-benchmarking-program/building-energy-benchmarking">Read the California requirements</a>
+                </section>
+            </div>
+        </section>
+
+        <section class="bm-service" id="our-process" aria-labelledby="service-title">
+            <div class="container bm-explainer">
+                <div class="bm-service-heading">
+                    <h2 class="process-title" id="service-title">Cohi handles your benchmarking,<br>from start to finish.</h2>
+                </div>
+                <ol class="bm-workflow">
+                    <li class="plan-card"><h3 class="plan-card-title">Confirm the requirement</h3><p class="plan-card-copy">Review the building&rsquo;s location, use, size and reporting history to identify the applicable program and any exemption.</p></li>
+                    <li class="plan-card"><h3 class="plan-card-title">Coordinate the data</h3><p class="plan-card-copy">Help arrange whole-building utility-data access and gather the property details needed for reporting.</p></li>
+                    <li class="plan-card"><h3 class="plan-card-title">Prepare the benchmark</h3><p class="plan-card-copy">Set up or update Portfolio Manager, check the full calendar year and resolve data alerts.</p></li>
+                    <li class="plan-card"><h3 class="plan-card-title">Submit and follow up</h3><p class="plan-card-copy">Submit to SF Environment or the California Energy Commission, as applicable, and follow up on reporting status and any data questions.</p></li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="bm-experience bm-section section-frost" aria-labelledby="experience-title">
+            <div class="container">
+                <h2 class="process-title" id="experience-title">Experience with managed multifamily and commercial buildings.</h2>
+                <p class="process-lead">Our experience includes work on properties managed by:</p>
+                <ul class="bm-company-list">
+                    <li>FirstService Residential</li>
+                    <li>Action Property Management</li>
+                    <li>Anvil Property Management</li>
+                    <li>Structure Properties</li>
+                    <li>Associa</li>
+                    <li>Powerstone Property Management</li>
+                    <li>GLIDE</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="faq container" id="benchmarking-faq" aria-labelledby="faq-title">
+            <div class="faq-layout">
+            <h2 class="faq-title" id="faq-title">Know what you&rsquo;re filing.</h2>
+            <div class="faq-list">
+                <details class="faq-item"><summary class="faq-question">Is benchmarking the same as ENERGY STAR certification?</summary><p class="faq-answer">No. Benchmarking records and reports energy performance. Eligible building types may receive an ENERGY STAR score from 1 to 100, but not every building receives one. Certification is voluntary and requires a separate application and professional verification. Filing a benchmark does not certify a building.</p></details>
+                <details class="faq-item"><summary class="faq-question">Which buildings report under California AB 802?</summary><p class="faq-answer">Outside CEC-exempt local benchmarking programs, statewide reporting generally applies to buildings with more than 50,000 square feet and either no residential utility accounts or 17 or more residential units, including mixed-use buildings. Reports are due June 1 for the previous calendar year. Condominiums are exempt from state reporting, and other property-specific exemptions may apply.</p></details>
+                <details class="faq-item"><summary class="faq-question">Does this apply to condominiums and mixed-use buildings?</summary><p class="faq-answer">The two programs differ. Condominiums are exempt from statewide AB 802 reporting, but San Francisco&rsquo;s residential requirement generally starts at 50,000 square feet and can cover condominiums and mixed-use properties. A statewide exemption does not automatically exempt a building from San Francisco&rsquo;s rules. We review the property&rsquo;s details and reporting status.</p></details>
+                <details class="faq-item"><summary class="faq-question">Does a San Francisco building need a separate state filing?</summary><p class="faq-answer">A benchmark accepted by San Francisco also fulfills the applicable California AB 802 reporting requirement. A separate state filing is not needed. Submitting only to the California Energy Commission does not fulfill San Francisco&rsquo;s requirement. We identify the correct reporting destination before preparing your submission.</p></details>
+                <details class="faq-item"><summary class="faq-question">Is an energy audit included in annual benchmarking?</summary><p class="faq-answer">Energy audits are separate from annual benchmarking. Under San Francisco&rsquo;s ordinance, covered nonresidential buildings generally have a five-year audit obligation, with their own schedule and exemptions. Annual benchmarking does not replace an audit, and this service describes benchmarking preparation and reporting.</p></details>
+                <details class="faq-item"><summary class="faq-question">What if we have an existing Portfolio Manager account or missing data?</summary><p class="faq-answer">We can work with an existing record and review what is already in place. We&rsquo;ll identify missing building details or utility data and coordinate next steps with you. Cohi helps resolve missing data and identify the reporting options available under the applicable program.</p></details>
+            </div>
+            </div>
+        </section>
+
+        <section class="contact" id="benchmarking-contact" aria-labelledby="contact-title">
+            <div class="container contact-layout">
+                <div class="bm-contact-intro">
+                    <h2 class="process-title" id="contact-title">Let&rsquo;s take care of the paperwork.</h2>
+                </div>
+
+                <!-- Shared field IDs let script.js provide the same validation
+                     and confirmed submission flow as home. -->
+                <form id="contact-form" class="contact-form" method="POST" novalidate
+                      aria-labelledby="contact-title" data-contact-source="website_contact_form_benchmarking">
+                    <div class="form-group">
+                        <label for="name">Name<span class="required-mark" aria-hidden="true">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Your full name" autocomplete="name" maxlength="200" required aria-describedby="name-error">
+                        <p class="field-error" id="name-error" hidden></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email<span class="required-mark" aria-hidden="true">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" maxlength="320" required aria-describedby="email-error">
+                        <p class="field-error" id="email-error" hidden></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(415) 555-0123" autocomplete="tel" maxlength="50" aria-describedby="phone-error">
+                        <p class="field-error" id="phone-error" hidden></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Portfolio details<span class="required-mark" aria-hidden="true">*</span></label>
+                        <textarea id="message" name="message" rows="5" placeholder="Number of buildings and property types." maxlength="20000" required aria-describedby="message-error"></textarea>
+                        <p class="field-error" id="message-error" hidden></p>
+                    </div>
+
+                    <!-- Keep the honeypot hidden inline so a stale stylesheet
+                         cannot expose it and discard a real submission. -->
+                    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+                        <label for="reference_code">Reference code</label>
+                        <input type="text" id="reference_code" name="reference_code" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block"
+                            data-cta-destination="contact_form" data-cta-location="benchmarking_submit">
+                        <span>Request benchmarking help</span>
+                    </button>
+
+                    <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+                </form>
+            </div>
+        </section>
+
+        <aside class="bm-sources container" aria-label="Official sources">
+            <p>Last reviewed: November 22, 2026.</p>
+            <ul>
+                <li><a href="https://www.sfenvironment.org/existing-buildings-energy-performance-ordinance">SF Environment: building ordinance</a></li>
+                <li><a href="https://www.sfenvironment.org/benchmarking-faq">SF Environment: benchmarking FAQ</a></li>
+                <li><a href="https://www.energy.ca.gov/programs-and-topics/programs/building-energy-benchmarking-program/building-energy-benchmarking">CEC: California AB 802 requirements</a></li>
+                <li><a href="https://www.energystar.gov/buildings/benchmark/understand-metrics">EPA: understanding benchmarking metrics</a></li>
+                <li><a href="https://www.energy.ca.gov/programs-and-topics/programs/building-energy-benchmarking-program/exempted-local-benchmarking">CEC: local benchmarking programs</a></li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div class="footer-brand-group">
+                <p class="footer-brand"><img src="assets/brand/brand-lockup-light.svg" alt="COHI ENERGY" class="brand-lockup-img"></p>
+            </div>
+            <div class="footer-contact" aria-label="Contact details">
+                <a class="footer-mail" href="mailto:contact@cohi.energy">contact@cohi.energy</a>
+                <a class="footer-legal" href="https://app.cohi.energy/privacy">Privacy policy</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js?v=17" defer></script>
+</body>
+</html>

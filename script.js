@@ -309,6 +309,9 @@
 // =============================================================
 
 const contactForm = document.getElementById('contact-form');
+// Separate service forms share delivery and validation, while retaining their
+// own source in the stored inquiry, team notification and lead correlation.
+const contactSource = contactForm?.dataset?.contactSource || 'website_contact_form_multifamily';
 
 // The app origin for the contact submission and the analytics calls. The
 // submission is the one call that records a lead, so the fallback (used only if
@@ -376,7 +379,7 @@ async function createLeadCorrelation(email) {
                 email,
                 posthog_distinct_id: typeof getPostHogDistinctId === 'function' ? getPostHogDistinctId() : null,
                 posthog_session_id: typeof getPostHogSessionId === 'function' ? getPostHogSessionId() : null,
-                source: 'website_contact_form_multifamily',
+                source: contactSource,
                 utm: currentUtmProperties()
             })
         });
@@ -955,7 +958,7 @@ if (contactForm) {
             building_address: buildingAddress,
             message,
             company_website: companyWebsite,
-            source: 'website_contact_form_multifamily',
+            source: contactSource,
             page_url: trimAttributionUrl(window.location.href),
             referrer: trimAttributionUrl(document.referrer),
             utm: currentUtmProperties()
