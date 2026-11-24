@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
     <link rel="stylesheet" href="assets/brand/brand.css">
-    <link rel="stylesheet" href="styles.css?v=98">
+    <link rel="stylesheet" href="styles.css?v=99">
 
     <script src="config.js" defer></script>
     <script src="posthog.js" defer></script>
@@ -127,9 +127,9 @@
             <nav class="site-nav" id="site-nav" aria-label="Primary">
                 <a href="#bill-story">How it works</a>
                 <a href="#plans">Who it's for</a>
+                <a href="benchmarking.html">Benchmarking</a>
                 <a href="#faq">FAQ</a>
                 <a href="#contact">Contact</a>
-                <a href="benchmarking.html">Benchmarking</a>
             </nav>
             <a href="https://app.cohi.energy/register" class="nav-cta" data-account-entry-link
                data-cta-destination="app_register" data-cta-location="sticky_nav">Get Started</a>
@@ -665,7 +665,8 @@
                      message under it; the browser's bubbles would pre-empt that.
                      The asterisk is decorative (aria-hidden): screen readers
                      hear "required" from the control itself. -->
-                <form id="contact-form" class="contact-form" method="POST" novalidate>
+                <form id="contact-form" class="contact-form" method="POST" novalidate
+                      data-contact-source="website_contact_form_multifamily">
                     <div class="form-group">
                         <label for="name">Name<span class="required-mark" aria-hidden="true">*</span></label>
                         <input type="text" id="name" name="name" placeholder="Your full name" autocomplete="name" maxlength="200" required aria-describedby="name-error">

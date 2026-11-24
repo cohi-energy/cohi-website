@@ -18,8 +18,13 @@
 .benchmark-page .bm-architecture figcaption { text-align: center; font-size: .875rem; color: var(--text-soft); margin-top: -.75rem; }
 .benchmark-page .bm-architecture figcaption strong { color: var(--primary-hover); font-weight: 500; }
 .benchmark-page .bm-section { padding-top: 4rem; padding-bottom: 4.5rem; }
-.benchmark-page .bm-text-link { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
-.benchmark-page .bm-text-link:hover { color: var(--primary-hover); }
+/* --primary-hover is 6.9:1 on the card; --primary sits at the 4.5:1 floor. */
+.benchmark-page .bm-text-link { color: var(--primary-hover); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+.benchmark-page .bm-text-link:hover { color: var(--primary-pressed); }
+/* Keep a last word from sitting alone under a section heading. */
+.benchmark-page .plans-title,
+.benchmark-page .process-title,
+.benchmark-page .faq-title { text-wrap: balance; }
 .benchmark-page .bm-section-kicker { text-align: center; margin-bottom: 2rem; }
 .benchmark-page .bm-section-kicker .plans-title { margin-bottom: 1rem; }
 .benchmark-page .bm-program { min-width: 0; }
@@ -29,14 +34,15 @@
 .benchmark-page .bm-program-intro { margin-top: .75rem; margin-bottom: 0; flex-grow: 0; }
 .benchmark-page .bm-program > .bm-text-link { margin-top: auto; }
 .benchmark-page .bm-facts { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 1.5rem 0; }
-.benchmark-page .bm-facts > div { padding: 1.25rem 0 1.25rem 1.25rem; }
+/* Values sit on one baseline even when a label or a prefix wraps. */
+.benchmark-page .bm-facts > div { display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem 0 1.25rem 1.25rem; }
 .benchmark-page .bm-facts > div:first-child { padding-left: 0; }
 .benchmark-page .bm-facts > div + div { border-left: 1px solid var(--border); }
 .benchmark-page .bm-facts dt { font-size: .875rem; color: var(--text-soft); margin-bottom: .5rem; }
 .benchmark-page .bm-facts dd { font-family: var(--font-data); font-size: 1.9rem; font-weight: 500; line-height: 1.2; letter-spacing: -.04em; }
 .benchmark-page .bm-facts dd span { font-size: .875rem; letter-spacing: 0; white-space: nowrap; }
 .benchmark-page .bm-facts .bm-threshold-prefix { font-family: var(--font-body); font-size: 1rem; margin-right: .3rem; }
-.benchmark-page .bm-state-facts { grid-template-columns: minmax(0, 1fr); }
+.benchmark-page .bm-state-facts { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
 .benchmark-page .bm-why { background: var(--primary-pressed); color: var(--text-inverted); }
 .benchmark-page .bm-explainer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(3rem, 5vw, 6rem); align-items: center; }
 .benchmark-page .bm-explainer .process-title { margin-bottom: 0; }
@@ -45,18 +51,18 @@
 .benchmark-page .bm-why .process-lead,
 .benchmark-page .bm-service-heading .process-title,
 .benchmark-page .bm-service-heading .process-lead { color: var(--text-inverted); }
-.benchmark-page .bm-workflow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; list-style: none; padding: 0; margin: 0; }
+.benchmark-page .bm-workflow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; list-style: none; padding: 0; margin: 0; counter-reset: bm-step; }
+/* The card lifts its children above its grain layer; a pseudo-element needs the same. */
+.benchmark-page .bm-workflow .plan-card::before { counter-increment: bm-step; content: counter(bm-step, decimal-leading-zero); position: relative; z-index: 1; font-family: var(--font-data); font-size: .875rem; font-weight: 500; letter-spacing: .08em; color: var(--primary-hover); margin-bottom: .5rem; }
 .benchmark-page .bm-workflow .plan-card { background: var(--surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
 .benchmark-page .bm-workflow .plan-card-copy { margin-bottom: 0; }
 .benchmark-page .bm-experience .process-title { max-width: 25ch; margin-inline: auto; text-align: center; }
 .benchmark-page .bm-experience .process-lead { margin-inline: auto; text-align: center; text-wrap: balance; }
-.benchmark-page .bm-company-list { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); align-items: center; gap: 1.5rem 2rem; list-style: none; margin: 2rem 0 0; padding: 0; color: var(--text); font-size: 1rem; font-weight: 500; text-align: center; }
-.benchmark-page .bm-company-list li { grid-column: span 2; text-wrap: balance; }
-.benchmark-page .bm-company-list li:nth-child(5) { grid-column: 2 / span 2; }
-.benchmark-page .bm-company-list li:nth-child(6) { grid-column: 4 / span 2; }
-.benchmark-page .bm-company-list li:nth-child(7) { grid-column: 6 / span 2; }
+.benchmark-page .bm-company-list { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.25rem 3rem; list-style: none; max-width: 62rem; margin: 2.25rem auto 0; padding: 0; color: var(--text); font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; letter-spacing: -.01em; text-align: center; }
+.benchmark-page .bm-company-list li { white-space: nowrap; }
 .benchmark-page #benchmarking-faq .faq-title { align-self: center; }
 .benchmark-page .bm-contact-intro { align-self: center; min-width: 0; }
+.benchmark-page .bm-contact-intro .process-lead { margin-bottom: 0; }
 .benchmark-page .bm-sources { padding-top: 2.5rem; padding-bottom: 3.5rem; color: var(--text-soft); font-size: .875rem; text-align: center; }
 .benchmark-page .bm-sources ul { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); list-style: none; gap: 1rem 1.5rem; padding: 0; margin-top: .75rem; }
 .benchmark-page .bm-sources li { grid-column: span 2; }
@@ -78,15 +84,7 @@
     .benchmark-page .bm-hero-layout { grid-template-columns: minmax(0, 1fr); gap: 2.25rem; }
     .benchmark-page .bm-architecture { max-width: 320px; justify-self: center; }
     .benchmark-page .bm-explainer { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-    .benchmark-page .bm-company-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .benchmark-page .bm-company-list li:nth-child(n) { grid-column: span 2; }
-    /* Pair similarly sized names, with Powerstone centered on the final row. */
-    .benchmark-page .bm-company-list li:nth-child(4) { order: 1; }
-    .benchmark-page .bm-company-list li:nth-child(2) { order: 2; }
-    .benchmark-page .bm-company-list li:nth-child(3) { order: 3; }
-    .benchmark-page .bm-company-list li:nth-child(5) { order: 4; }
-    .benchmark-page .bm-company-list li:nth-child(7) { order: 5; }
-    .benchmark-page .bm-company-list li:nth-child(6) { order: 6; grid-column: 2 / span 2; }
+    .benchmark-page .bm-company-list { gap: 1rem 2.25rem; font-size: 1.1rem; }
 }
 
 @media (max-width: 700px) {
@@ -98,8 +96,8 @@
     .benchmark-page .bm-figure-buildings { gap: 5px; }
     .benchmark-page .bm-hero .hero-actions { flex-wrap: wrap; }
     .benchmark-page .bm-section, .benchmark-page .bm-service { padding-top: 3rem; padding-bottom: 3.5rem; }
-    .benchmark-page .bm-company-list { grid-template-columns: minmax(0, 1fr); row-gap: 1rem; }
-    .benchmark-page .bm-company-list li:nth-child(n) { grid-column: auto; order: 0; }
+    .benchmark-page .bm-company-list { flex-direction: column; gap: .85rem; }
+    .benchmark-page .bm-company-list li { white-space: normal; text-wrap: balance; }
 }
 
 @media (max-width: 420px) {

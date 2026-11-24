@@ -25,7 +25,7 @@
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
     <link rel="stylesheet" href="assets/brand/brand.css">
     <link rel="stylesheet" href="styles.css?v=99">
-    <link rel="stylesheet" href="benchmarking.css?v=22">
+    <link rel="stylesheet" href="benchmarking.css?v=23">
     <script src="config.js" defer></script>
     <script src="posthog.js" defer></script>
     <script src="navigation.js" defer></script>
@@ -56,9 +56,9 @@
             <nav class="site-nav" id="site-nav" aria-label="Primary">
                 <a href="/#bill-story">How it works</a>
                 <a href="/#plans">Who it's for</a>
-                <a href="/#faq">FAQ</a>
-                <a href="#benchmarking-contact">Contact</a>
                 <a href="benchmarking.html" aria-current="page">Benchmarking</a>
+                <a href="#benchmarking-faq">FAQ</a>
+                <a href="#benchmarking-contact">Contact</a>
             </nav>
             <a href="#benchmarking-contact" class="nav-cta"
                data-cta-destination="contact_form" data-cta-location="sticky_nav">Get Started</a>
@@ -133,8 +133,8 @@
                     </div>
                     <p class="plan-card-copy bm-program-intro">San Francisco&rsquo;s Existing Buildings Energy Performance Ordinance.</p>
                     <dl class="bm-facts">
-                        <div><dt>Commercial buildings</dt><dd>10,000<span>+ sq ft</span></dd></div>
-                        <div><dt>Residential buildings</dt><dd>50,000<span>+ sq ft</span></dd></div>
+                        <div><dt>Commercial buildings</dt><dd>10,000+<span> sq ft</span></dd></div>
+                        <div><dt>Residential buildings</dt><dd>50,000+<span> sq ft</span></dd></div>
                     </dl>
                     <p class="plan-card-copy">Generally covers buildings at or above these sizes, including qualifying condominium and mixed-use buildings. San Francisco&rsquo;s residential rule does not use the statewide 17-unit cutoff.</p>
                     <a class="bm-text-link" href="https://www.sfenvironment.org/existing-buildings-energy-performance-ordinance">Read the SF requirements</a>
@@ -147,6 +147,7 @@
                     <p class="plan-card-copy bm-program-intro">State reporting outside CEC-exempt local benchmarking programs.</p>
                     <dl class="bm-facts bm-state-facts">
                         <div><dt>Building size</dt><dd><span class="bm-threshold-prefix">More than</span> 50,000<span> sq ft</span></dd></div>
+                        <div><dt>Residential units, if any</dt><dd>17+</dd></div>
                     </dl>
                     <p class="plan-card-copy">Applies to buildings with no residential utility accounts, or 17 or more residential units, including mixed-use buildings. Condominiums are exempt from statewide reporting; other exemptions may apply.</p>
                     <a class="bm-text-link" href="https://www.energy.ca.gov/programs-and-topics/programs/building-energy-benchmarking-program/building-energy-benchmarking">Read the California requirements</a>
@@ -202,6 +203,7 @@
             <div class="container contact-layout">
                 <div class="bm-contact-intro">
                     <h2 class="process-title" id="contact-title">Let&rsquo;s take care of the paperwork.</h2>
+                    <p class="process-lead">Send the address or the number of buildings, the property types and any reporting notice you have received. We reply by email.</p>
                 </div>
 
                 <!-- Shared field IDs let script.js provide the same validation
@@ -227,8 +229,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="message">Portfolio details<span class="required-mark" aria-hidden="true">*</span></label>
-                        <textarea id="message" name="message" rows="5" placeholder="Number of buildings and property types." maxlength="20000" required aria-describedby="message-error"></textarea>
+                        <label for="message">Building or portfolio details<span class="required-mark" aria-hidden="true">*</span></label>
+                        <textarea id="message" name="message" rows="5" placeholder="Address or number of buildings, and property types." maxlength="20000" required aria-describedby="message-error"></textarea>
                         <p class="field-error" id="message-error" hidden></p>
                     </div>
 

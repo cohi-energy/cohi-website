@@ -63,7 +63,11 @@ Content sources, checked November 22, 2026:
 
 From a named linked worktree, use the existing Docker image without installing
 dependencies. Run `./scripts/dc.sh ensure` first. The browser check covers the
-navigation journey, mobile disclosure, local links, distinct program rules and print layout:
+navigation journey, mobile disclosure, local links, distinct program rules and print layout.
+It is a manual check: no test lane runs it. The gated checks are the static
+ones in `scripts/tests/test-website-contact-form.mjs`: every contact form
+declares its own `data-contact-source`, and the pages agree on the
+`styles.css` and `script.js` cache versions and on the primary nav.
 
 ```bash
 ./scripts/dc.sh run --rm --no-deps \

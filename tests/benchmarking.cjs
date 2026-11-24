@@ -100,7 +100,7 @@ const server = http.createServer(async (request, response) => {
     await inquiry.getByRole('textbox', { name: 'Name', exact: true }).fill('Benchmarking Preview');
     await inquiry.getByRole('textbox', { name: 'Email', exact: true }).fill('benchmarking@example.com');
     const portfolioDetails = '3 multifamily buildings and 1 commercial building. We received reporting notices.';
-    await inquiry.getByRole('textbox', { name: 'Portfolio details', exact: true }).fill(portfolioDetails);
+    await inquiry.getByRole('textbox', { name: 'Building or portfolio details', exact: true }).fill(portfolioDetails);
     await submit.click();
     await page.waitForFunction(() => document.getElementById('form-message').classList.contains('error'));
     assert.equal(submissions.length, 1);
